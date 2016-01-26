@@ -1,9 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Procurable", "Procurable\Procurable.csproj", "{EAD6F5A0-795A-464B-87DF-2CA233C5791C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6AA4A9F0-57DB-44C2-97A5-E1E71024F8E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F6C633BF-BFFF-43F5-9301-CACCA00526E6}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Procurable", "src\Procurable\Procurable.xproj", "{5A42D3F3-2C1B-4922-AC7D-79612B845CE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,12 +18,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EAD6F5A0-795A-464B-87DF-2CA233C5791C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EAD6F5A0-795A-464B-87DF-2CA233C5791C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EAD6F5A0-795A-464B-87DF-2CA233C5791C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EAD6F5A0-795A-464B-87DF-2CA233C5791C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A42D3F3-2C1B-4922-AC7D-79612B845CE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A42D3F3-2C1B-4922-AC7D-79612B845CE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A42D3F3-2C1B-4922-AC7D-79612B845CE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A42D3F3-2C1B-4922-AC7D-79612B845CE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5A42D3F3-2C1B-4922-AC7D-79612B845CE5} = {6AA4A9F0-57DB-44C2-97A5-E1E71024F8E5}
 	EndGlobalSection
 EndGlobal
