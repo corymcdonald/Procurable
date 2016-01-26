@@ -3,13 +3,93 @@
 <head>
 	<title>Milestones</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
+
+
+
+	<script src="index.js"></script>
 
 </head>
 <body>
-<h1>hello world</h1>
 <script>
 
+function htmlEncode(value){
+  //create a in-memory div, set it's inner text(which jQuery automatically encodes)
+  //then grab the encoded contents back out.  The div never exists on the page.
+  return $('<div/>').text(value).html();
+}
+function Github() 
+{
+    names = []
+    
+    
+    array = []
+    $.get("https://api.github.com/repos/CoryMcDonald/Procurable/issues?state=all", function(data) 
+    {
+        names["WSTurner"] = "Wilson Turner"
+        names["maluther"] = "Matt Luther"
+        names["lbdorrou"] = "Lucas Dorrough"
+        names["CoryMcDonald"] = "Cory McDonald"
+        for (var i = 0; i < data.length; i++) 
+        {
+            if (array[data[i].milestone.title] == undefined) 
+            {
+                array[data[i].milestone.title] = []
+                array[data[i].milestone.title].push(data[i])
+            } else 
+            {
+                array[data[i].milestone.title].push(data[i])
+            }
+        }
+        console.log(array)
+        outputHtml = ""
+        sorted = keys(array).sort()
+        for(var j=0; j< sorted.length; j++)
+        {
+            var key = sorted[j]
+            outputHtml += '<h3><a href="' + array[key][0].milestone.html_url + '">' + key + '</a></h3>'
+            for (var i = 0; i < array[key].length; i++) 
+            {
+                var a = array[key][i]
+                if (a.state == "closed")
+                    outputHtml += '<span style="color: #999999;"><a href="' + a.html_url + '" style="color: #999999;">' + a.title + '</a>'
+                else
+                    outputHtml += '<a href="' + a.html_url + '">' + a.title + '</a>'
+                
+                if (a.assignee != undefined) 
+                {
+                        outputHtml += ' - ' + names[a.assignee.login]
+                }
+                if (a.state == "closed")
+                    outputHtml += ' - Completed '+  Date.parse(a.closed_at).toString('MM/dd')+ '</span>'
+                else
+                {
+                   outputHtml += ' - TBC on ' + Date.parse(a.milestone.due_on).toString('MM/dd')
+                }
+                outputHtml += '<br/>'
+            }
+        }
+        $("body").html(outputHtml)
+        $("body").append('<br/><br/><h2>Code to copy to Capstone website</h2><code>' + htmlEncode(outputHtml) + '</code>')
+    })
+}
 
+function keys(obj)
+{
+    var keys = [];
+
+    for(var key in obj)
+    {
+        if(obj.hasOwnProperty(key))
+        {
+            keys.push(key);
+        }
+    }
+
+    return keys;
+}
+
+Github()
 
 </script>
 
