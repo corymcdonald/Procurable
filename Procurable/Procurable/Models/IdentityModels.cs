@@ -29,5 +29,21 @@ namespace Procurable.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Procurable.Models.Vendor> Vendors { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.InventoryItem> InventoryItems { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.Inventory> Inventories { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.PurchaseOrder> PurchaseOrders { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.Request> Requests { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.RequestedItem> RequestedItems { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.ProjectTask> ProjectTasks { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.Project> Projects { get; set; }
     }
 }

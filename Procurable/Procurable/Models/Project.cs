@@ -7,7 +7,7 @@ namespace Procurable.Models
 {
     public class Project
     {
-        public int ID { get; set; }
+        public int ProjectID { get; set; }
         public Request Request { get; set; }
         public ProjectPriority Priority { get; set; }
         public ProjectStatus Status { get; set; }

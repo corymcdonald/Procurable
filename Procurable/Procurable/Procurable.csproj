@@ -191,13 +191,42 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
+    <Compile Include="Controllers\ProjectTasksController.cs" />
+    <Compile Include="Controllers\PurchaseOrdersController.cs" />
+    <Compile Include="Controllers\RequestedItemsController.cs" />
+    <Compile Include="Controllers\RequestsController.cs" />
+    <Compile Include="Controllers\VendorsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602030356488_InitialCreate.cs" />
+    <Compile Include="Migrations\201602030356488_InitialCreate.Designer.cs">
+      <DependentUpon>201602030356488_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602061949222_Initial.cs" />
+    <Compile Include="Migrations\201602061949222_Initial.Designer.cs">
+      <DependentUpon>201602061949222_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602061959268_Inventory and InventoryItem.cs" />
+    <Compile Include="Migrations\201602061959268_Inventory and InventoryItem.Designer.cs">
+      <DependentUpon>201602061959268_Inventory and InventoryItem.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602062008580_RequestsRequesteditemProjectTasks.cs" />
+    <Compile Include="Migrations\201602062008580_RequestsRequesteditemProjectTasks.Designer.cs">
+      <DependentUpon>201602062008580_RequestsRequesteditemProjectTasks.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602062010484_Projects.cs" />
+    <Compile Include="Migrations\201602062010484_Projects.Designer.cs">
+      <DependentUpon>201602062010484_Projects.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Controllers\InventoriesController.cs" />
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\InventoryItem.cs" />
+    <Compile Include="Controllers\InventoryItemsController.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectPriority.cs" />
@@ -269,6 +298,46 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Vendors\Create.cshtml" />
+    <Content Include="Views\Vendors\Delete.cshtml" />
+    <Content Include="Views\Vendors\Details.cshtml" />
+    <Content Include="Views\Vendors\Edit.cshtml" />
+    <Content Include="Views\Vendors\Index.cshtml" />
+    <Content Include="Views\InventoryItems\Create.cshtml" />
+    <Content Include="Views\InventoryItems\Delete.cshtml" />
+    <Content Include="Views\InventoryItems\Details.cshtml" />
+    <Content Include="Views\InventoryItems\Edit.cshtml" />
+    <Content Include="Views\InventoryItems\Index.cshtml" />
+    <Content Include="Views\Inventories\Create.cshtml" />
+    <Content Include="Views\Inventories\Delete.cshtml" />
+    <Content Include="Views\Inventories\Details.cshtml" />
+    <Content Include="Views\Inventories\Edit.cshtml" />
+    <Content Include="Views\Inventories\Index.cshtml" />
+    <Content Include="Views\PurchaseOrders\Create.cshtml" />
+    <Content Include="Views\PurchaseOrders\Delete.cshtml" />
+    <Content Include="Views\PurchaseOrders\Details.cshtml" />
+    <Content Include="Views\PurchaseOrders\Edit.cshtml" />
+    <Content Include="Views\PurchaseOrders\Index.cshtml" />
+    <Content Include="Views\Requests\Create.cshtml" />
+    <Content Include="Views\Requests\Delete.cshtml" />
+    <Content Include="Views\Requests\Details.cshtml" />
+    <Content Include="Views\Requests\Edit.cshtml" />
+    <Content Include="Views\Requests\Index.cshtml" />
+    <Content Include="Views\RequestedItems\Create.cshtml" />
+    <Content Include="Views\RequestedItems\Delete.cshtml" />
+    <Content Include="Views\RequestedItems\Details.cshtml" />
+    <Content Include="Views\RequestedItems\Edit.cshtml" />
+    <Content Include="Views\RequestedItems\Index.cshtml" />
+    <Content Include="Views\ProjectTasks\Create.cshtml" />
+    <Content Include="Views\ProjectTasks\Delete.cshtml" />
+    <Content Include="Views\ProjectTasks\Details.cshtml" />
+    <Content Include="Views\ProjectTasks\Edit.cshtml" />
+    <Content Include="Views\ProjectTasks\Index.cshtml" />
+    <Content Include="Views\Projects\Create.cshtml" />
+    <Content Include="Views\Projects\Delete.cshtml" />
+    <Content Include="Views\Projects\Details.cshtml" />
+    <Content Include="Views\Projects\Edit.cshtml" />
+    <Content Include="Views\Projects\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -283,6 +352,23 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201602030356488_InitialCreate.resx">
+      <DependentUpon>201602030356488_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602061949222_Initial.resx">
+      <DependentUpon>201602061949222_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602061959268_Inventory and InventoryItem.resx">
+      <DependentUpon>201602061959268_Inventory and InventoryItem.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602062008580_RequestsRequesteditemProjectTasks.resx">
+      <DependentUpon>201602062008580_RequestsRequesteditemProjectTasks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602062010484_Projects.resx">
+      <DependentUpon>201602062010484_Projects.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
