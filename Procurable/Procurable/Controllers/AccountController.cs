@@ -70,12 +70,30 @@ namespace Procurable.Controllers
         {
             if (!ModelState.IsValid)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                { 
+                    return Json(new { Succeeded = false } );
+                }
                 return View(model);
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return Json(new { Succeeded=true } );
+                    case SignInStatus.LockedOut:
+                        return Json(new { Succeeded = false, Error="Lockout." });
+                    case SignInStatus.Failure:
+                        return Json(new { Succeeded = false, Error = "Invalid email or password." });
+                    default:
+                        return Json(new { Succeeded = false, Error = "Invalid login attempt." });
+                }
+            }
             switch (result)
             {
                 case SignInStatus.Success:
