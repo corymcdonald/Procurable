@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201602062010484_Projects.Designer.cs">
       <DependentUpon>201602062010484_Projects.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602150410368_Initial1.cs" />
+    <Compile Include="Migrations\201602150410368_Initial1.Designer.cs">
+      <DependentUpon>201602150410368_Initial1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -256,6 +260,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Properties\PublishProfiles\Procurable - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ProcurableDev - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -367,6 +372,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602062010484_Projects.resx">
       <DependentUpon>201602062010484_Projects.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602150410368_Initial1.resx">
+      <DependentUpon>201602150410368_Initial1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
