@@ -32,6 +32,10 @@ namespace Procurable.Controllers
             {
                 return HttpNotFound();
             }
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(vendor);
+            }
             return View(vendor);
         }
 
