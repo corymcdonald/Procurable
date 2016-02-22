@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		904B91451C7BC94E008FD32B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904B91441C7BC94E008FD32B /* RegisterViewController.m */; };
 		90E4C8211C6A3F2300E632E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8201C6A3F2300E632E9 /* main.m */; };
 		90E4C8241C6A3F2300E632E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8231C6A3F2300E632E9 /* AppDelegate.m */; };
 		90E4C8271C6A3F2300E632E9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8261C6A3F2300E632E9 /* ViewController.m */; };
@@ -15,6 +16,9 @@
 		90E4C82F1C6A3F2300E632E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90E4C82D1C6A3F2300E632E9 /* LaunchScreen.storyboard */; };
 		90E4C83A1C6A3F2300E632E9 /* ProcurableAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8391C6A3F2300E632E9 /* ProcurableAppTests.m */; };
 		90E4C8451C6A3F2300E632E9 /* ProcurableAppUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8441C6A3F2300E632E9 /* ProcurableAppUITests.m */; };
+		90E4C8541C6A4F3D00E632E9 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8531C6A4F3D00E632E9 /* LoginViewController.m */; };
+		90E4C8571C6A6F0600E632E9 /* NetworkingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8561C6A6F0600E632E9 /* NetworkingController.m */; };
+		EF3304226FEFF30FA27D58FD /* libPods-ProcurableApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4563EC4E9A3C383BFB720748 /* libPods-ProcurableApp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +39,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1C24070DCB24D8EE372546F4 /* Pods-ProcurableApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProcurableApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProcurableApp/Pods-ProcurableApp.debug.xcconfig"; sourceTree = "<group>"; };
+		4563EC4E9A3C383BFB720748 /* libPods-ProcurableApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProcurableApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		904B91431C7BC94E008FD32B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		904B91441C7BC94E008FD32B /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		90E4C81C1C6A3F2300E632E9 /* ProcurableApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProcurableApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90E4C8201C6A3F2300E632E9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		90E4C8221C6A3F2300E632E9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -51,6 +59,11 @@
 		90E4C8401C6A3F2300E632E9 /* ProcurableAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProcurableAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		90E4C8441C6A3F2300E632E9 /* ProcurableAppUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProcurableAppUITests.m; sourceTree = "<group>"; };
 		90E4C8461C6A3F2300E632E9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90E4C8521C6A4F3D00E632E9 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		90E4C8531C6A4F3D00E632E9 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		90E4C8551C6A6F0600E632E9 /* NetworkingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkingController.h; sourceTree = "<group>"; };
+		90E4C8561C6A6F0600E632E9 /* NetworkingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkingController.m; sourceTree = "<group>"; };
+		B36309A42E991D9331606BC2 /* Pods-ProcurableApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProcurableApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProcurableApp/Pods-ProcurableApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF3304226FEFF30FA27D58FD /* libPods-ProcurableApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +92,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3087C115EBF253B338FDA833 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4563EC4E9A3C383BFB720748 /* libPods-ProcurableApp.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		90E4C8131C6A3F2300E632E9 = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +107,8 @@
 				90E4C8381C6A3F2300E632E9 /* ProcurableAppTests */,
 				90E4C8431C6A3F2300E632E9 /* ProcurableAppUITests */,
 				90E4C81D1C6A3F2300E632E9 /* Products */,
+				C2A46A8537CB3D5DB897FA40 /* Pods */,
+				3087C115EBF253B338FDA833 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,10 +129,16 @@
 				90E4C8231C6A3F2300E632E9 /* AppDelegate.m */,
 				90E4C8251C6A3F2300E632E9 /* ViewController.h */,
 				90E4C8261C6A3F2300E632E9 /* ViewController.m */,
+				90E4C8521C6A4F3D00E632E9 /* LoginViewController.h */,
+				90E4C8531C6A4F3D00E632E9 /* LoginViewController.m */,
+				904B91431C7BC94E008FD32B /* RegisterViewController.h */,
+				904B91441C7BC94E008FD32B /* RegisterViewController.m */,
 				90E4C8281C6A3F2300E632E9 /* Main.storyboard */,
 				90E4C82B1C6A3F2300E632E9 /* Assets.xcassets */,
 				90E4C82D1C6A3F2300E632E9 /* LaunchScreen.storyboard */,
 				90E4C8301C6A3F2300E632E9 /* Info.plist */,
+				90E4C8551C6A6F0600E632E9 /* NetworkingController.h */,
+				90E4C8561C6A6F0600E632E9 /* NetworkingController.m */,
 				90E4C81F1C6A3F2300E632E9 /* Supporting Files */,
 			);
 			path = ProcurableApp;
@@ -140,6 +170,15 @@
 			path = ProcurableAppUITests;
 			sourceTree = "<group>";
 		};
+		C2A46A8537CB3D5DB897FA40 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1C24070DCB24D8EE372546F4 /* Pods-ProcurableApp.debug.xcconfig */,
+				B36309A42E991D9331606BC2 /* Pods-ProcurableApp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,9 +186,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 90E4C8491C6A3F2300E632E9 /* Build configuration list for PBXNativeTarget "ProcurableApp" */;
 			buildPhases = (
+				6770D89F0514851C44503A47 /* Check Pods Manifest.lock */,
 				90E4C8181C6A3F2300E632E9 /* Sources */,
 				90E4C8191C6A3F2300E632E9 /* Frameworks */,
 				90E4C81A1C6A3F2300E632E9 /* Resources */,
+				12DCBAC7FDCFF86F5C0AF24E /* Embed Pods Frameworks */,
+				2FFF4ADA718C3937747950B7 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -268,13 +310,64 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		12DCBAC7FDCFF86F5C0AF24E /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ProcurableApp/Pods-ProcurableApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2FFF4ADA718C3937747950B7 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ProcurableApp/Pods-ProcurableApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6770D89F0514851C44503A47 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		90E4C8181C6A3F2300E632E9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90E4C8541C6A4F3D00E632E9 /* LoginViewController.m in Sources */,
+				904B91451C7BC94E008FD32B /* RegisterViewController.m in Sources */,
 				90E4C8271C6A3F2300E632E9 /* ViewController.m in Sources */,
 				90E4C8241C6A3F2300E632E9 /* AppDelegate.m in Sources */,
+				90E4C8571C6A6F0600E632E9 /* NetworkingController.m in Sources */,
 				90E4C8211C6A3F2300E632E9 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,6 +505,7 @@
 		};
 		90E4C84A1C6A3F2300E632E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C24070DCB24D8EE372546F4 /* Pods-ProcurableApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ProcurableApp/Info.plist;
@@ -423,6 +517,7 @@
 		};
 		90E4C84B1C6A3F2300E632E9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B36309A42E991D9331606BC2 /* Pods-ProcurableApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = ProcurableApp/Info.plist;
@@ -499,6 +594,7 @@
 				90E4C84B1C6A3F2300E632E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		90E4C84C1C6A3F2300E632E9 /* Build configuration list for PBXNativeTarget "ProcurableAppTests" */ = {
 			isa = XCConfigurationList;
@@ -507,6 +603,7 @@
 				90E4C84E1C6A3F2300E632E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		90E4C84F1C6A3F2300E632E9 /* Build configuration list for PBXNativeTarget "ProcurableAppUITests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +612,7 @@
 				90E4C8511C6A3F2300E632E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
