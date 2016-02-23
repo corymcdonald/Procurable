@@ -8,12 +8,14 @@
 
 #import "RegisterViewController.h"
 #import "NetworkingController.h"
+#import "MBProgressHUD.h"
 
 @interface RegisterViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) IBOutlet UITextField *confirmPasswordTextField;
+@property (strong, nonatomic) IBOutlet UILabel *errorLabel;
 
 @end
 
@@ -22,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.networkingController = [[NetworkingController alloc] init];
+    [self.errorLabel setHidden:YES];
     // Do any additional setup after loading the view.
 }
 
@@ -31,22 +34,39 @@
 }
 
 - (void)setLabels {
-    NSLog(@"Do The Thing!");
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.errorLabel setHidden:NO];
+        [self.errorLabel setText:@"Registration Successful"];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    });
 }
 
-- (void)setLabelsFailure:(NSString *)error {
-    NSLog(@"The Thing Broke!");
+- (void)resetLabels {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.errorLabel setText:@"An error has occurred"];
+    });
+}
+
+- (void)errorUpdate:(NSString *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.errorLabel setHidden:NO];
+        [self.errorLabel setText:error];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    });
 }
 
 - (IBAction)submitButtonTapped:(id)sender {
     [self.passwordTextField resignFirstResponder];
+    [self.errorLabel setHidden:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+//    hud.opacity = 0.0f;
     __weak __typeof(self) weakSelf = self;
         [self.networkingController registerNewUser:self.emailTextField.text withPassword:self.passwordTextField.text withConfirmPassword:self.confirmPasswordTextField.text completion:^(BOOL value, NSError * __nullable error) {
         if (value && !error)
         {
             [weakSelf setLabels];
         } else {
-            [weakSelf setLabelsFailure:error.domain];
+            [weakSelf errorUpdate:error.domain];
         }
     }];
 }

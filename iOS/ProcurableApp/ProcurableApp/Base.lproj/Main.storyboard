@@ -70,18 +70,28 @@
                                     <segue destination="qgf-7N-MhP" kind="show" id="8Y4-tW-cwY"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="An error has occurred" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gca-Wu-Ava">
+                                <rect key="frame" x="217" y="392" width="168" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="OWC-AJ-LYp" firstAttribute="centerY" secondItem="DYi-oA-gcj" secondAttribute="centerY" id="5Fs-Sf-Cjr"/>
                             <constraint firstItem="qbo-wd-f1k" firstAttribute="centerX" secondItem="OWC-AJ-LYp" secondAttribute="centerX" id="GeO-R5-p5g"/>
                             <constraint firstItem="OWC-AJ-LYp" firstAttribute="centerX" secondItem="DYi-oA-gcj" secondAttribute="centerX" id="O25-Fk-cuO"/>
+                            <constraint firstItem="qbo-wd-f1k" firstAttribute="top" secondItem="Gca-Wu-Ava" secondAttribute="bottom" constant="54" id="RNd-wV-zHT"/>
+                            <constraint firstItem="Gca-Wu-Ava" firstAttribute="centerX" secondItem="qbo-wd-f1k" secondAttribute="centerX" id="aLa-Of-uGN"/>
+                            <constraint firstItem="Gca-Wu-Ava" firstAttribute="top" secondItem="OWC-AJ-LYp" secondAttribute="bottom" constant="42" id="oaq-ne-zMi"/>
                             <constraint firstItem="qbo-wd-f1k" firstAttribute="top" secondItem="OWC-AJ-LYp" secondAttribute="bottom" constant="117" id="skO-yp-k13"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="eXy-9Z-U27"/>
                     <connections>
                         <outlet property="emailTextField" destination="dlQ-Q1-Xtn" id="ADe-GU-ACK"/>
+                        <outlet property="errorLabel" destination="Gca-Wu-Ava" id="XYr-pa-wwb"/>
                         <outlet property="passwordTextField" destination="20V-pB-gJN" id="UjV-mg-tl3"/>
                         <outlet property="submitButton" destination="gRF-sL-LLT" id="8Wx-HA-H12"/>
                     </connections>
@@ -141,16 +151,25 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="An error has occurred" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvd-3j-LBc">
+                                <rect key="frame" x="216" y="457" width="168" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="X2J-hh-ll6" firstAttribute="centerX" secondItem="bpc-rM-QQA" secondAttribute="centerX" id="5Ab-6c-AWj"/>
+                            <constraint firstItem="fvd-3j-LBc" firstAttribute="centerX" secondItem="X2J-hh-ll6" secondAttribute="centerX" id="BGd-3S-0Fu"/>
                             <constraint firstItem="X2J-hh-ll6" firstAttribute="centerY" secondItem="bpc-rM-QQA" secondAttribute="centerY" id="KV4-lt-QxD"/>
+                            <constraint firstItem="fvd-3j-LBc" firstAttribute="top" secondItem="X2J-hh-ll6" secondAttribute="bottom" constant="87" id="ZRw-4Z-Ynd"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="confirmPasswordTextField" destination="U0u-e8-qH4" id="aP6-e1-I8w"/>
                         <outlet property="emailTextField" destination="9nz-9N-8gQ" id="ptX-iw-gSd"/>
+                        <outlet property="errorLabel" destination="fvd-3j-LBc" id="NDR-Gj-ATB"/>
                         <outlet property="passwordTextField" destination="Yz8-7t-f5E" id="LPk-WW-nPT"/>
                     </connections>
                 </viewController>
