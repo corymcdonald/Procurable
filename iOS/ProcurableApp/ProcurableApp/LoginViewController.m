@@ -25,6 +25,7 @@
     [super viewDidLoad];
     self.networkingController = [[NetworkingController alloc] init];
     [self.errorLabel setHidden:YES];
+    [self.submitButton setEnabled:NO];
     // Do any additional setup after loading the view.
 }
 
@@ -53,6 +54,14 @@
         [self.errorLabel setText:error];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     });
+}
+
+- (IBAction)editText:(id)sender {
+    if (self.passwordTextField.text.length > 0 && self.emailTextField.text.length > 0) {
+        [self.submitButton setEnabled:YES];
+    } else {
+        [self.submitButton setEnabled:NO];
+    }
 }
 
 - (IBAction)submitButtonTapped:(id)sender {

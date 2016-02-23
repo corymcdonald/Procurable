@@ -107,8 +107,11 @@ static NSString *const kAPIKey = @"a108606a-2ac7-4df5-ab4e-8304690632dc";
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
                 if ([dictionary objectForKey:@"Succeeded"] && [[dictionary objectForKey:@"Succeeded"] boolValue]) {
                     completionHandler(YES, parseError);
-                } else if ([dictionary objectForKey:@"Errors"]) {
+                } else if ([[dictionary objectForKey:@"Errors"] count]) {
                     NSError *err = [NSError errorWithDomain:[[dictionary objectForKey:@"Errors"] objectAtIndex:0] code:-1 userInfo:nil];
+                    completionHandler(NO, err);
+                } else {
+                    NSError *err = [NSError errorWithDomain:@"An unspecified error has occoured" code:-1 userInfo:nil];
                     completionHandler(NO, err);
                 }
             } else if (error) {

@@ -46,11 +46,17 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                <connections>
+                                                    <action selector="editText:" destination="Di4-Yk-S3Z" eventType="editingChanged" id="4Fk-ld-dzW"/>
+                                                </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="20V-pB-gJN">
                                                 <rect key="frame" x="0.0" y="40" width="140" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
+                                                <connections>
+                                                    <action selector="editText:" destination="Di4-Yk-S3Z" eventType="editingChanged" id="XMm-23-Jqt"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                     </stackView>
@@ -77,7 +83,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="OWC-AJ-LYp" firstAttribute="centerY" secondItem="DYi-oA-gcj" secondAttribute="centerY" id="5Fs-Sf-Cjr"/>
                             <constraint firstItem="qbo-wd-f1k" firstAttribute="centerX" secondItem="OWC-AJ-LYp" secondAttribute="centerX" id="GeO-R5-p5g"/>
@@ -125,16 +131,25 @@
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                                <connections>
+                                                    <action selector="editText:" destination="qgf-7N-MhP" eventType="editingChanged" id="0CW-c2-Dlw"/>
+                                                </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Yz8-7t-f5E">
                                                 <rect key="frame" x="1" y="40" width="139" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
+                                                <connections>
+                                                    <action selector="editText:" destination="qgf-7N-MhP" eventType="editingChanged" id="DDg-HD-adO"/>
+                                                </connections>
                                             </textField>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U0u-e8-qH4">
                                                 <rect key="frame" x="1" y="80" width="139" height="30"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
+                                                <connections>
+                                                    <action selector="editText:" destination="qgf-7N-MhP" eventType="editingChanged" id="zEC-rY-oeR"/>
+                                                </connections>
                                             </textField>
                                         </subviews>
                                         <constraints>
@@ -158,7 +173,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="X2J-hh-ll6" firstAttribute="centerX" secondItem="bpc-rM-QQA" secondAttribute="centerX" id="5Ab-6c-AWj"/>
                             <constraint firstItem="fvd-3j-LBc" firstAttribute="centerX" secondItem="X2J-hh-ll6" secondAttribute="centerX" id="BGd-3S-0Fu"/>
@@ -171,6 +186,7 @@
                         <outlet property="emailTextField" destination="9nz-9N-8gQ" id="ptX-iw-gSd"/>
                         <outlet property="errorLabel" destination="fvd-3j-LBc" id="NDR-Gj-ATB"/>
                         <outlet property="passwordTextField" destination="Yz8-7t-f5E" id="LPk-WW-nPT"/>
+                        <outlet property="submitButton" destination="OQV-bR-vtY" id="GUR-cz-EmD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f62-3p-J4N" userLabel="First Responder" sceneMemberID="firstResponder"/>
