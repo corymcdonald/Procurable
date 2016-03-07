@@ -37,11 +37,21 @@ import com.procurable.capstone.R;
 import com.procurable.constants.Constants;
 import com.procurable.domain.request.LoginRequest;
 import com.procurable.domain.response.GenericResponse;
+import com.procurable.domain.response.Inventory;
+import com.procurable.domain.response.Project;
 import com.procurable.service.ProcurableService;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.Cookie;
+import okhttp3.CookieJar;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,9 +75,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Constants.client = new OkHttpClient.Builder()
+                .cookieJar(new CookieJar() {
+                    private final HashMap<String, List<Cookie>> cookieStore = new HashMap<>();
+
+                    @Override
+                    public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+                        cookieStore.put(url.host(), cookies);
+                    }
+
+                    @Override
+                    public List<Cookie> loadForRequest(HttpUrl url) {
+                        List<Cookie> cookies = cookieStore.get(url.host());
+                        return cookies != null ? cookies : new ArrayList<Cookie>();
+                    }
+                })
+                .build();
+
+        Constants.retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(Constants.client)
+                .build();
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -195,37 +228,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            ProcurableService procurableService = retrofit.create(ProcurableService.class);
+
+
+            final ProcurableService procurableService = Constants.retrofit.create(ProcurableService.class);
             LoginRequest loginRequest = new LoginRequest(email,password);
             Call<GenericResponse> call = procurableService.login(loginRequest);
             call.enqueue(new Callback<GenericResponse>() {
                 @Override
                 public void onResponse(Call<GenericResponse> call, Response<GenericResponse> response) {
-                    if(response.body().getSucceeded())
-                    {
+                    if (response.body().getSucceeded()) {
                         Intent intent = new Intent(LoginActivity.this, SearchActivity.class);
                         startActivity(intent);
-                    }
-                    else
-                    {
+                    } else {
                         showProgress(false);
                         //TODO: Decide if I want this to be a factory
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                            context);
-                    alertDialogBuilder.setTitle("Error ");
-                    alertDialogBuilder
-                            .setMessage(response.body().getErrors().length > 0 ? response.body().getErrors()[0]:"Login failed")
-                            .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                }
-                            });
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                                context);
+                        alertDialogBuilder.setTitle("Error ");
+                        alertDialogBuilder
+                                .setMessage(response.body().getErrors().length > 0 ? response.body().getErrors()[0] : "Login failed")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                    }
+                                });
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
                     }
                 }
 
@@ -235,8 +263,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 }
             });
+
+
         }
-    }
+
+                System.out.println();
+            }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic

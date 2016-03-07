@@ -109,11 +109,7 @@ public class RegisterActivity extends AppCompatActivity {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-            ProcurableService procurableService = retrofit.create(ProcurableService.class);
+            ProcurableService procurableService = Constants.retrofit.create(ProcurableService.class);
             RegisterRequest registerRequest = new RegisterRequest(email,password,confirmPassword);
             Call<GenericResponse> call = procurableService.register(registerRequest);
             call.enqueue(new Callback<GenericResponse>() {
