@@ -108,6 +108,28 @@ namespace Procurable.Controllers
             return View(vendor);
         }
 
+        public ActionResult Search(string query)
+        {
+            var asResult = new VendorSearch();
+            if (query != null)
+            {
+                var temp = from a in db.Vendors
+                           where a.Name.Contains(query)
+                           select a;
+
+                asResult.Results =  temp.ToList();
+                //asResult.SearchString = query;
+            }
+            if (Request.AcceptTypes.Contains("application/json"))
+                return Json(asResult);
+             return PartialView("VendorSearch", asResult);
+        }
+        public ActionResult HelloWorld()
+        {
+            ViewData["Message"] = "Hello World!";
+            return View();
+        }
+
         // POST: Vendors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
