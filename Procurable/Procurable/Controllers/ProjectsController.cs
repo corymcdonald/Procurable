@@ -17,6 +17,10 @@ namespace Procurable.Controllers
         // GET: Projects
         public ActionResult Index()
         {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.Projects.ToList(), JsonRequestBehavior.AllowGet);
+            }
             return View(db.Projects.ToList());
         }
 
@@ -25,12 +29,24 @@ namespace Procurable.Controllers
         {
             if (id == null)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Error = "BadRequest" }, JsonRequestBehavior.AllowGet);
+                }
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Error = "NotFound" }, JsonRequestBehavior.AllowGet);
+                }
                 return HttpNotFound();
+            }
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(project, JsonRequestBehavior.AllowGet);
             }
             return View(project);
         }
@@ -45,13 +61,16 @@ namespace Procurable.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ProjectID,Priority,Status,CreatedDate,LastModified")] Project project)
         {
             if (ModelState.IsValid)
             {
                 db.Projects.Add(project);
                 db.SaveChanges();
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Succeeded = true });
+                }
                 return RedirectToAction("Index");
             }
 
@@ -63,11 +82,13 @@ namespace Procurable.Controllers
         {
             if (id == null)
             {
+             
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
+               
                 return HttpNotFound();
             }
             return View(project);
@@ -77,13 +98,16 @@ namespace Procurable.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ProjectID,Priority,Status,CreatedDate,LastModified")] Project project)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Succeeded = true });
+                }
                 return RedirectToAction("Index");
             }
             return View(project);
@@ -94,11 +118,13 @@ namespace Procurable.Controllers
         {
             if (id == null)
             {
+               
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Project project = db.Projects.Find(id);
             if (project == null)
             {
+                
                 return HttpNotFound();
             }
             return View(project);
@@ -106,12 +132,15 @@ namespace Procurable.Controllers
 
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);
             db.Projects.Remove(project);
             db.SaveChanges();
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(new { Succeeded = true });
+            }
             return RedirectToAction("Index");
         }
 

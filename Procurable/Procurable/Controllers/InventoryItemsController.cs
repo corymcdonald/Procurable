@@ -14,6 +14,7 @@ namespace Procurable.Models
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: InventoryItems
+        [Authorize]
         public ActionResult Index()
         {
             return View(db.InventoryItems.ToList());
