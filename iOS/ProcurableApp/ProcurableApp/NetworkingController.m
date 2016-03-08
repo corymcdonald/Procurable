@@ -32,60 +32,8 @@ static NSString *const kAPIKey = @"a108606a-2ac7-4df5-ab4e-8304690632dc";
     return self;
 }
 
-- (void)fetchRandomNumbers2:(NSString *)cookie completion:(DataControllerCompletionHandler)completionHandler {
-    NSURL *url = [NSURL URLWithString:@"https://procurabledev.azurewebsites.net/Account/Register/"];
-//    NSURL *url = [NSURL URLWithString:@"https://procurabledev.azurewebsites.net/Account/Login"];
-
-//    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-//    config.HTTPAdditionalHeaders = @{
-//                                     @"Cookie": cookie
-//                                     };
-//    self.session = [NSURLSession sessionWithConfiguration:config delegate:nil delegateQueue:self.sessionParseQueue];
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    request.HTTPMethod = @"POST";
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    
-        NSDictionary *dictionary = @{
-                                     @"Email": @"bobTommm8mm@gmail.com",
-                                     @"Password": @"Abcd1234$",
-                                     @"ConfirmPassword": @"Abcd1234$"
-                                     };
-
-    NSError *error = nil;
-        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
-    
-    if (!error) {
-        NSURLSessionDataTask *uploadTask = [self.session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-            if (data) {
-                NSError *parseError;
-//                NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-//                NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[httpResp allHeaderFields] forURL:[response URL]];
-//                [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[response URL] mainDocumentURL:nil];
-                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
-                if ([dictionary objectForKey:@"result"]) {
-                    NSArray *array = [[[dictionary objectForKey:@"result"] objectForKey:@"random"] objectForKey:@"data"];
-                    completionHandler([self calculateValues:array], parseError);
-                } else {
-                    completionHandler(nil, [dictionary objectForKey:@"error"]);
-                }
-            } else if (error) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    completionHandler(nil, error);
-                }];
-            } else {
-                NSError *error = [NSError errorWithDomain:@"com.bottlerocketstudios.forecast.unspecified" code:-1000 userInfo:@{NSLocalizedDescriptionKey : @"Unspecified error fetching forecast"}];
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    completionHandler(nil, error);
-                }];
-            }
-        }];
-        [uploadTask resume];
-    }
-}
-
 - (void)registerNewUser:(NSString *)user withPassword:(NSString *)password withConfirmPassword:(NSString *)confirmPassword completion:(NetworkingControllerCompletionHandler)completionHandler {
-    NSURL *url = [NSURL URLWithString:@"https://procurabledev.azurewebsites.net/Account/Register/"];
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Account/Register/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = @"POST";
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -129,7 +77,7 @@ static NSString *const kAPIKey = @"a108606a-2ac7-4df5-ab4e-8304690632dc";
 }
 
 - (void)loginUser:(NSString *)user withPassword:(NSString *)password completion:(NetworkingControllerCompletionHandler)completionHandler {
-    NSURL *url = [NSURL URLWithString:@"https://procurabledev.azurewebsites.net/Account/Login/"];
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Account/Login/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = @"POST";
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -149,6 +97,22 @@ static NSString *const kAPIKey = @"a108606a-2ac7-4df5-ab4e-8304690632dc";
                 NSError *parseError;
                 NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
                 if ([dictionary objectForKey:@"Succeeded"] && [[dictionary objectForKey:@"Succeeded"] boolValue]) {
+                    NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[(NSHTTPURLResponse *) response allHeaderFields] forURL:[response URL]];
+                    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[response URL] mainDocumentURL:nil];
+                    for (NSHTTPCookie *cookie in cookies) {
+                        NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+                        [cookieProperties setObject:cookie.name forKey:NSHTTPCookieName];
+                        [cookieProperties setObject:cookie.value forKey:NSHTTPCookieValue];
+                        [cookieProperties setObject:cookie.domain forKey:NSHTTPCookieDomain];
+                        [cookieProperties setObject:cookie.path forKey:NSHTTPCookiePath];
+                        [cookieProperties setObject:[NSNumber numberWithInteger:cookie.version] forKey:NSHTTPCookieVersion];
+                        
+                        [cookieProperties setObject:[[NSDate date] dateByAddingTimeInterval:31536000] forKey:NSHTTPCookieExpires];
+                        
+                        NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
+                        [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+                        NSLog(@"name:%@ value:%@", cookie.name, cookie.value);
+                    }
                     completionHandler(YES, parseError);
                 } else if ([dictionary objectForKey:@"Error"]) {
                     NSError *err = [NSError errorWithDomain:[dictionary objectForKey:@"Error"] code:-1 userInfo:nil];
@@ -168,55 +132,49 @@ static NSString *const kAPIKey = @"a108606a-2ac7-4df5-ab4e-8304690632dc";
     }
 }
 
-- (void)fetchRandomNumbers:(NSInteger)integer completion:(DataControllerCompletionHandler)completionHandler {
-    NSURL *url = [NSURL URLWithString:@"https://procurabledev.azurewebsites.net/Account/Register/"];
+- (void)cookieTestWithCompletion:(NetworkingControllerCompletionHandler)completionHandler {
     
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSHTTPCookie *appCookie;
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.name isEqualToString:@".AspNet.ApplicationCookie"]) {
+            appCookie = cookie;
+        }
+    }
+    
+    NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Inventories"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    request.HTTPMethod = @"GET";
-    //
-    //    NSDictionary *dictionary = @{
-    //                                 @"jsonrpc": @"2.0",
-    //                                 @"method": @"generateIntegers",
-    //                                 @"params": @{
-    //                                         @"apiKey": kAPIKey,
-    //                                         @"n": [NSNumber numberWithInteger:integer],
-    //                                         @"min": @1,
-    //                                         @"max": @6,
-    //                                         @"replacement": @YES,
-    //                                         @"base": @10
-    //                                         },
-    //                                 @"id": @898
-    //                                 };
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
     
-    NSError *error = nil;
-    //    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
-    
-    if (!error) {
-        NSURLSessionDataTask *uploadTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
-            if (data) {
-                NSError *parseError;
-                NSHTTPURLResponse *httpResp = (NSHTTPURLResponse*) response;
-                NSArray *cookies = [NSHTTPCookie cookiesWithResponseHeaderFields:[httpResp allHeaderFields] forURL:[response URL]];
-                [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookies:cookies forURL:[response URL] mainDocumentURL:nil];
-                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
-                if ([cookies count] == 2) {
-                    NSString *string = [[cookies objectAtIndex:0] value];
-                    [self fetchRandomNumbers2:string completion:completionHandler];
-                } else {
-                    completionHandler(nil, [dictionary objectForKey:@"error"]);
-                }
-            } else if (error) {
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    completionHandler(nil, error);
-                }];
+    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+        if (data) {
+            NSError *parseError;
+            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
+            if (dictionary) {
+                completionHandler(YES, parseError);
             } else {
-                NSError *error = [NSError errorWithDomain:@"com.bottlerocketstudios.forecast.unspecified" code:-1000 userInfo:@{NSLocalizedDescriptionKey : @"Unspecified error fetching forecast"}];
-                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                    completionHandler(nil, error);
-                }];
+                NSError *err = [NSError errorWithDomain:@"An unknown error has occurred" code:-1 userInfo:nil];
+                completionHandler(NO, err);
             }
-        }];
-        [uploadTask resume];
+        } else if (error) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(NO, error);
+            }];
+        } else {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(NO, nil);
+            }];
+        }
+    }];
+    [dataTask resume];
+}
+
+- (void)logout {
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *each in cookieStorage.cookies) {
+        [cookieStorage deleteCookie:each];
     }
 }
 

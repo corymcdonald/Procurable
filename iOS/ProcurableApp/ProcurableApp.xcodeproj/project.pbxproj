@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		904B91451C7BC94E008FD32B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904B91441C7BC94E008FD32B /* RegisterViewController.m */; };
+		904B91481C7F5BC0008FD32B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904B91471C7F5BC0008FD32B /* SearchViewController.m */; };
 		90E4C8211C6A3F2300E632E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8201C6A3F2300E632E9 /* main.m */; };
 		90E4C8241C6A3F2300E632E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8231C6A3F2300E632E9 /* AppDelegate.m */; };
 		90E4C8271C6A3F2300E632E9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8261C6A3F2300E632E9 /* ViewController.m */; };
@@ -43,6 +44,8 @@
 		4563EC4E9A3C383BFB720748 /* libPods-ProcurableApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProcurableApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		904B91431C7BC94E008FD32B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		904B91441C7BC94E008FD32B /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		904B91461C7F5BC0008FD32B /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
+		904B91471C7F5BC0008FD32B /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewController.m; sourceTree = "<group>"; };
 		90E4C81C1C6A3F2300E632E9 /* ProcurableApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProcurableApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90E4C8201C6A3F2300E632E9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		90E4C8221C6A3F2300E632E9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -133,6 +136,8 @@
 				90E4C8531C6A4F3D00E632E9 /* LoginViewController.m */,
 				904B91431C7BC94E008FD32B /* RegisterViewController.h */,
 				904B91441C7BC94E008FD32B /* RegisterViewController.m */,
+				904B91461C7F5BC0008FD32B /* SearchViewController.h */,
+				904B91471C7F5BC0008FD32B /* SearchViewController.m */,
 				90E4C8281C6A3F2300E632E9 /* Main.storyboard */,
 				90E4C82B1C6A3F2300E632E9 /* Assets.xcassets */,
 				90E4C82D1C6A3F2300E632E9 /* LaunchScreen.storyboard */,
@@ -369,6 +374,7 @@
 				90E4C8241C6A3F2300E632E9 /* AppDelegate.m in Sources */,
 				90E4C8571C6A6F0600E632E9 /* NetworkingController.m in Sources */,
 				90E4C8211C6A3F2300E632E9 /* main.m in Sources */,
+				904B91481C7F5BC0008FD32B /* SearchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

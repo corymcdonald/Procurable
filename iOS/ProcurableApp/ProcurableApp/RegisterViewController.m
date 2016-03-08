@@ -9,6 +9,7 @@
 #import "RegisterViewController.h"
 #import "NetworkingController.h"
 #import "MBProgressHUD.h"
+#import "SearchViewController.h"
 
 @interface RegisterViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -27,12 +28,21 @@
     self.networkingController = [[NetworkingController alloc] init];
     [self.errorLabel setHidden:YES];
     [self.submitButton setEnabled:NO];
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideInput)];
+    tapGesture.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGesture];
     // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)hideInput {
+    [self.emailTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+    [self.confirmPasswordTextField resignFirstResponder];
 }
 
 - (void)setLabels {
@@ -66,7 +76,7 @@
 }
 
 - (IBAction)submitButtonTapped:(id)sender {
-    [self.passwordTextField resignFirstResponder];
+    [self hideInput];
     [self.errorLabel setHidden:YES];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //    hud.opacity = 0.0f;
@@ -74,6 +84,8 @@
         [self.networkingController registerNewUser:self.emailTextField.text withPassword:self.passwordTextField.text withConfirmPassword:self.confirmPasswordTextField.text completion:^(BOOL value, NSError * __nullable error) {
         if (value && !error)
         {
+//            SearchViewController *viewController = [[SearchViewController alloc] init];
+//            [weakSelf.navigationController pushViewController:viewController animated:YES];
             [weakSelf setLabels];
         } else {
             [weakSelf errorUpdate:error.domain];
