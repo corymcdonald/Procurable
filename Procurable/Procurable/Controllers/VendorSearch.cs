@@ -10,6 +10,7 @@ namespace Procurable.Controllers
 
         public VendorSearch()
         {
+            
         }
     }
 }

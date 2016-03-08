@@ -189,6 +189,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
+    <Compile Include="App_Start\TypeaheadBundleConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -261,6 +262,8 @@
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\bloodhound.js" />
+    <Content Include="Scripts\bloodhound.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Metadata\deploymentTemplates\apiappconfig.azureresource.json" />
@@ -274,18 +277,102 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="Content\font-awesome.scss" />
-    <Content Include="Content\_bordered-pulled.scss" />
-    <Content Include="Content\_core.scss" />
-    <Content Include="Content\_fixed-width.scss" />
-    <Content Include="Content\_icons.scss" />
-    <Content Include="Content\_larger.scss" />
-    <Content Include="Content\_list.scss" />
-    <Content Include="Content\_mixins.scss" />
-    <Content Include="Content\_path.scss" />
-    <Content Include="Content\_rotated-flipped.scss" />
-    <Content Include="Content\_spinning.scss" />
-    <Content Include="Content\_stacked.scss" />
-    <Content Include="Content\_variables.scss" />
+    <Content Include="Content\_bordered-pulled.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_core.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_fixed-width.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_icons.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_larger.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_list.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_mixins.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_path.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_rotated-flipped.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_spinning.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_stacked.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
+    <Content Include="Content\_variables.scss">
+      <Compile>False</Compile>
+      <Minify>True</Minify>
+      <IgnoreWarnings>False</IgnoreWarnings>
+      <IgnoreErrors>False</IgnoreErrors>
+      <CompileStyle>Nested</CompileStyle>
+      <DebugInfo>False</DebugInfo>
+    </Content>
     <None Include="Properties\PublishProfiles\Procurable - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\ProcurableDev - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
@@ -297,7 +384,12 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\typeahead.bundle.js" />
+    <Content Include="Scripts\typeahead.bundle.min.js" />
+    <Content Include="Scripts\typeahead.jquery.js" />
+    <Content Include="Scripts\typeahead.jquery.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Vendors\VendorSearch.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -374,7 +466,6 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Vendor.cshtml" />
-    <Content Include="Views\Vendors\VendorSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

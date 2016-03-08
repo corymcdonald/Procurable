@@ -16,16 +16,80 @@
         </div>
     </div>
 }*@
-@Html.TextBox("query", "", new { @class = "form-control", id= "Vendor_query", placeholder = "Search vendors" })
-<div id="result"></div>
-
+<div id="bloodhound">
+    @Html.TextBox("typeahead", "", new { @class = "form-control typeahead", id = "Vendor_query", placeholder = "Search vendors" })
+</div>
 <script>
+    $(document).ready(function () {
+
+        @*var countries = new Bloodhound({
+            datumTokenizer: Bloodhound.tokenizers.whitespace,
+            queryTokenizer: Bloodhound.tokenizers.whitespace,
+            // url points to a json file that contains an array of country names, see
+
+            // https://github.com/twitter/typeahead.js/blob/gh-pages/data/countries.json
+            prefetch: {
+                url: '@this.Url.Action("Index", "Vendors")',
+                prepare: function (query, settings) {
+                    settings.type = "POST";
+                    settings.accept = "application/json";
+                    settings.contentType = "application/json";
+                    settings.data = JSON.stringify(query);
+
+                    return settings;
+                }
+
+            }
+        });
+        console.log(countries)
+
+        // passing in `null` for the `options` arguments will result in the default
+        // options being used
+        $('#prefetch .typeahead').typeahead(null, {
+            name: 'countries',
+            source: countries
+        });*@
     
-    
-    $('#Vendor_query').keyup(function () {
+
+        $.ajax({
+            url: 'http://localhost:55504/Vendors',
+            method: 'GET',
+            headers: {
+                Accept: "application/json"
+            },
+            success: function (result) {
+                states = []
+                console.log(result)
+
+                for (i in result) {
+                    states.push(result[i]["Name"]);
+                }
+                console.log(states)
+
+                var states = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.whitespace,
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    // `states` is an array of state names defined in "The Basics"
+                    local: states
+                });
+                $('#bloodhound .typeahead').typeahead({
+                    hint: true,
+                    highlight: true,
+                    minLength: 1
+                },
+                {
+                    name: 'states',
+                    source: states
+                });
+            }
+        });
+
+    })
+
+    @*$('#Vendor_query').keyup(function () {
         $("#results").html('<span class="fa fa-2x fa-spin fa-refresh"></span>')
         $.ajax({
-            url: '@this.Url.Action("Search", "Vendors")',
+            url: '@this.Url.Action("Vendors")',
             method: "POST",
             data: { query: $('#Vendor_query').val() },
             success: function (result) {
@@ -38,7 +102,7 @@
             }
         });
         return false;
-    });
+    });*@
 
 
 </script>
