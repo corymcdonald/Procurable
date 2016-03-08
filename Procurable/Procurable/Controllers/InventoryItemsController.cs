@@ -14,27 +14,46 @@ namespace Procurable.Models
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: InventoryItems
+        [Authorize]
         public ActionResult Index()
         {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.InventoryItems.ToList(), JsonRequestBehavior.AllowGet);
+            }
             return View(db.InventoryItems.ToList());
         }
 
         // GET: InventoryItems/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Error = "BadRequest" }, JsonRequestBehavior.AllowGet);
+                }
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             InventoryItem inventoryItem = db.InventoryItems.Find(id);
             if (inventoryItem == null)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Error = "NotFound" }, JsonRequestBehavior.AllowGet);
+                }
                 return HttpNotFound();
+            }
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(inventoryItem, JsonRequestBehavior.AllowGet);
             }
             return View(inventoryItem);
         }
 
         // GET: InventoryItems/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -44,13 +63,17 @@ namespace Procurable.Models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "ID,Name,Price,Comments,PartNumber,Location,Status")] InventoryItem inventoryItem)
         {
             if (ModelState.IsValid)
             {
                 db.InventoryItems.Add(inventoryItem);
                 db.SaveChanges();
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Succeeded = true });
+                }
                 return RedirectToAction("Index");
             }
 
@@ -58,6 +81,7 @@ namespace Procurable.Models
         }
 
         // GET: InventoryItems/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -76,19 +100,24 @@ namespace Procurable.Models
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "ID,Name,Price,Comments,PartNumber,Location,Status")] InventoryItem inventoryItem)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(inventoryItem).State = EntityState.Modified;
                 db.SaveChanges();
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Succeeded = true });
+                }
                 return RedirectToAction("Index");
             }
             return View(inventoryItem);
         }
 
         // GET: InventoryItems/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,12 +134,16 @@ namespace Procurable.Models
 
         // POST: InventoryItems/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             InventoryItem inventoryItem = db.InventoryItems.Find(id);
             db.InventoryItems.Remove(inventoryItem);
             db.SaveChanges();
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(new { Succeeded = true });
+            }
             return RedirectToAction("Index");
         }
 

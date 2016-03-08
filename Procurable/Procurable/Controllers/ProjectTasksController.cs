@@ -15,27 +15,46 @@ namespace Procurable.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: ProjectTasks
+        [Authorize]
         public ActionResult Index()
         {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.ProjectTasks.ToList(), JsonRequestBehavior.AllowGet);
+            }
             return View(db.ProjectTasks.ToList());
         }
 
         // GET: ProjectTasks/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Error = "BadRequest" }, JsonRequestBehavior.AllowGet);
+                }
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ProjectTask projectTask = db.ProjectTasks.Find(id);
             if (projectTask == null)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Error = "NotFound" }, JsonRequestBehavior.AllowGet);
+                }
                 return HttpNotFound();
+            }
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(projectTask, JsonRequestBehavior.AllowGet);
             }
             return View(projectTask);
         }
 
         // GET: ProjectTasks/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -45,13 +64,17 @@ namespace Procurable.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "ID,ProjectID,Comments,DateNeeded")] ProjectTask projectTask)
         {
             if (ModelState.IsValid)
             {
                 db.ProjectTasks.Add(projectTask);
                 db.SaveChanges();
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Succeeded = true });
+                }
                 return RedirectToAction("Index");
             }
 
@@ -59,6 +82,7 @@ namespace Procurable.Controllers
         }
 
         // GET: ProjectTasks/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -77,19 +101,24 @@ namespace Procurable.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "ID,ProjectID,Comments,DateNeeded")] ProjectTask projectTask)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(projectTask).State = EntityState.Modified;
                 db.SaveChanges();
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Succeeded = true });
+                }
                 return RedirectToAction("Index");
             }
             return View(projectTask);
         }
 
         // GET: ProjectTasks/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -106,12 +135,16 @@ namespace Procurable.Controllers
 
         // POST: ProjectTasks/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             ProjectTask projectTask = db.ProjectTasks.Find(id);
             db.ProjectTasks.Remove(projectTask);
             db.SaveChanges();
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(new { Succeeded = true });
+            }
             return RedirectToAction("Index");
         }
 

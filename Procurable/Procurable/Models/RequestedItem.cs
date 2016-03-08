@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Procurable.Models
 {
-    public class RequestedItem
+    public class RequestedItem 
     {
         public int ID { get; set; }
         public bool InInventory { get; set; }
