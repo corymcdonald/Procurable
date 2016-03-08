@@ -58,7 +58,7 @@ namespace Procurable.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View("Login","_LoginLayout");
         }
 
         //
@@ -157,7 +157,7 @@ namespace Procurable.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            return View("Register", "_LoginLayout");
         }
 
         //

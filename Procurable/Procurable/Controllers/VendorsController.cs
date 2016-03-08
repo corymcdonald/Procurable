@@ -15,31 +15,50 @@ namespace Procurable.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Vendors
+        [Authorize]
         public ActionResult Index()
         {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.Vendors.ToList(), JsonRequestBehavior.AllowGet);
+            }
             return View(db.Vendors.ToList());
         }
 
         // GET: Vendors/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Error = "BadRequest" }, JsonRequestBehavior.AllowGet);
+                }
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Vendor vendor = db.Vendors.Find(id);
             if (vendor == null)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Error = "NotFound" }, JsonRequestBehavior.AllowGet);
+                }
                 return HttpNotFound();
             }
             if (Request.AcceptTypes.Contains("application/json"))
             {
                 return Json(vendor);
             }
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(vendor, JsonRequestBehavior.AllowGet);
+            }
             return View(vendor);
         }
 
         // GET: Vendors/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -49,13 +68,17 @@ namespace Procurable.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Create([Bind(Include = "ID,Name,Description,Website,Contact")] Vendor vendor)
         {
             if (ModelState.IsValid)
             {
                 db.Vendors.Add(vendor);
                 db.SaveChanges();
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Succeeded = true });
+                }
                 return RedirectToAction("Index");
             }
 
@@ -63,6 +86,7 @@ namespace Procurable.Controllers
         }
 
         // GET: Vendors/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -81,19 +105,24 @@ namespace Procurable.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "ID,Name,Description,Website,Contact")] Vendor vendor)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(vendor).State = EntityState.Modified;
                 db.SaveChanges();
+                if (Request.AcceptTypes.Contains("application/json"))
+                {
+                    return Json(new { Succeeded = true });
+                }
                 return RedirectToAction("Index");
             }
             return View(vendor);
         }
 
         // GET: Vendors/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -108,14 +137,40 @@ namespace Procurable.Controllers
             return View(vendor);
         }
 
+        public ActionResult Search(string query)
+        {
+            var asResult = new VendorSearch();
+            if (query != null)
+            {
+                var temp = from a in db.Vendors
+                           where a.Name.Contains(query)
+                           select a;
+
+                asResult.Results =  temp.ToList();
+                //asResult.SearchString = query;
+            }
+            if (Request.AcceptTypes.Contains("application/json"))
+                return Json(asResult);
+             return PartialView("VendorSearch", asResult);
+        }
+        public ActionResult HelloWorld()
+        {
+            ViewData["Message"] = "Hello World!";
+            return View();
+        }
+
         // POST: Vendors/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             Vendor vendor = db.Vendors.Find(id);
             db.Vendors.Remove(vendor);
             db.SaveChanges();
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(new { Succeeded = true });
+            }
             return RedirectToAction("Index");
         }
 

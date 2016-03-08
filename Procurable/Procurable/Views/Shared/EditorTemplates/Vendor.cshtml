@@ -1,0 +1,44 @@
+﻿@model Procurable.Models.Vendor
+
+@Scripts.Render("~/bundles/jquery")
+
+
+
+
+
+
+@*@using (Ajax.BeginForm("Search", "Vendor", new AjaxOptions { UpdateTargetId = "result" }))
+{
+    <div class="input-group">
+        @Html.TextBox("query", "", new { @class = "form-control", placeholder = "Search vendors" })
+        <div class="input-group-btn">
+            <input type="submit" name="Send" value="Search" class="btn btn-primary btn-iconed btn-lg" />
+        </div>
+    </div>
+}*@
+@Html.TextBox("query", "", new { @class = "form-control", id= "Vendor_query", placeholder = "Search vendors" })
+<div id="result"></div>
+
+<script>
+    
+    
+    $('#Vendor_query').keyup(function () {
+        $("#results").html('<span class="fa fa-2x fa-spin fa-refresh"></span>')
+        $.ajax({
+            url: '@this.Url.Action("Search", "Vendors")',
+            method: "POST",
+            data: { query: $('#Vendor_query').val() },
+            success: function (result) {
+                console.log(result)
+                if (result.replace(/(\r\n|\n|\r)/gm, "") == "<table></table>")
+                {
+                    result = "No results found"
+                }
+                $('#result').html(result);
+            }
+        });
+        return false;
+    });
+
+
+</script>
