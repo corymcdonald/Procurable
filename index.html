@@ -31,7 +31,7 @@ function Github()
         names["lbdorrou"] = "Lucas Dorrough"
         names["CoryMcDonald"] = "Cory McDonald"
         for (var i = 0; i < data.length; i++) 
-        {
+        { if(array[i].milestone != undefined){
             if (array[data[i].milestone.title] == undefined) 
             {
                 array[data[i].milestone.title] = []
@@ -40,6 +40,7 @@ function Github()
             {
                 array[data[i].milestone.title].push(data[i])
             }
+        	}
         }
         console.log(array)
         outputHtml = ""
