@@ -1,8 +1,12 @@
-package com.procurable.capstone;
+package com.procurable.activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -13,12 +17,12 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,8 +33,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.procurable.capstone.R;
+import com.procurable.constants.Constants;
+import com.procurable.domain.request.LoginRequest;
+import com.procurable.domain.response.GenericResponse;
+import com.procurable.service.ProcurableService;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -43,15 +59,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-
+    final Context context = this;
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
@@ -83,6 +91,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        Button mNewUser = (Button) findViewById(R.id.new_user);
+        mNewUser.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -178,7 +195,46 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            //TODO MAKE LOGIN CALL
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl(Constants.BASE_URL)
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            ProcurableService procurableService = retrofit.create(ProcurableService.class);
+            LoginRequest loginRequest = new LoginRequest(email,password);
+            Call<GenericResponse> call = procurableService.login(loginRequest);
+            call.enqueue(new Callback<GenericResponse>() {
+                @Override
+                public void onResponse(Call<GenericResponse> call, Response<GenericResponse> response) {
+                    if(response.body().getSucceeded())
+                    {
+                        Intent intent = new Intent(LoginActivity.this, SearchActivity.class);
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        showProgress(false);
+                        //TODO: Decide if I want this to be a factory
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                            context);
+                    alertDialogBuilder.setTitle("Error ");
+                    alertDialogBuilder
+                            .setMessage(response.body().getErrors().length > 0 ? response.body().getErrors()[0]:"Login failed")
+                            .setCancelable(false)
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                }
+                            });
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<GenericResponse> call, Throwable t) {
+                    showProgress(false);
+
+                }
+            });
         }
     }
 
