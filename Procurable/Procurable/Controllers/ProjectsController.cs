@@ -15,6 +15,7 @@ namespace Procurable.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Projects
+        [Authorize]
         public ActionResult Index()
         {
             if (Request.AcceptTypes.Contains("application/json"))
@@ -25,6 +26,7 @@ namespace Procurable.Controllers
         }
 
         // GET: Projects/Details/5
+        [Authorize]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -52,6 +54,7 @@ namespace Procurable.Controllers
         }
 
         // GET: Projects/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -61,6 +64,7 @@ namespace Procurable.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         public ActionResult Create([Bind(Include = "ProjectID,Priority,Status,CreatedDate,LastModified")] Project project)
         {
             if (ModelState.IsValid)
@@ -78,6 +82,7 @@ namespace Procurable.Controllers
         }
 
         // GET: Projects/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -98,6 +103,7 @@ namespace Procurable.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "ProjectID,Priority,Status,CreatedDate,LastModified")] Project project)
         {
             if (ModelState.IsValid)
@@ -114,6 +120,7 @@ namespace Procurable.Controllers
         }
 
         // GET: Projects/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -132,6 +139,7 @@ namespace Procurable.Controllers
 
         // POST: Projects/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             Project project = db.Projects.Find(id);
