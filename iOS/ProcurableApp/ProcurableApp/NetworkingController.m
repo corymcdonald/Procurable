@@ -8,7 +8,7 @@
 
 #import "NetworkingController.h"
 
-static NSString *const kAPIKey = @"a108606a-2ac7-4df5-ab4e-8304690632dc";
+static NSString *const kURL = @"https://procurable.azurewebsites.net";
 
 @interface NetworkingController ()
 
@@ -76,7 +76,69 @@ static NSString *const kAPIKey = @"a108606a-2ac7-4df5-ab4e-8304690632dc";
     }
 }
 
+- (void)temporaryCreateItemWithCompletion:(NetworkingControllerCompletionHandler)completionHandler {
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSHTTPCookie *appCookie;
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.name isEqualToString:@".AspNet.ApplicationCookie"]) {
+            appCookie = cookie;
+        }
+    }
+    NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
+    
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Projects/Create/"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    request.HTTPMethod = @"POST";
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
+    
+    NSDate *date = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"];
+    NSString *dateString = [dateFormatter stringFromDate:date];
+    
+    NSDictionary *dictionary = @{
+                                 @"Prioity": @0,
+                                 @"Status": @0,
+                                 @"CreatedDate": dateString,
+                                 @"LastModified": dateString
+                                 };
+    
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
+    
+    if (!error) {
+        NSURLSessionDataTask *uploadTask = [self.session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+            if (data) {
+                NSError *parseError;
+                NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
+                if ([dictionary objectForKey:@"Succeeded"] && [[dictionary objectForKey:@"Succeeded"] boolValue]) {
+                    completionHandler(YES, parseError);
+                } else if ([[dictionary objectForKey:@"Errors"] count]) {
+                    NSError *err = [NSError errorWithDomain:[[dictionary objectForKey:@"Errors"] objectAtIndex:0] code:-1 userInfo:nil];
+                    completionHandler(NO, err);
+                } else {
+                    NSError *err = [NSError errorWithDomain:@"An unspecified error has occoured" code:-1 userInfo:nil];
+                    completionHandler(NO, err);
+                }
+            } else if (error) {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    completionHandler(NO, error);
+                }];
+            } else {
+                [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                    completionHandler(NO, nil);
+                }];
+            }
+        }];
+        [uploadTask resume];
+    }
+}
+
 - (void)loginUser:(NSString *)user withPassword:(NSString *)password completion:(NetworkingControllerCompletionHandler)completionHandler {
+    
+    
     NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Account/Login/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = @"POST";

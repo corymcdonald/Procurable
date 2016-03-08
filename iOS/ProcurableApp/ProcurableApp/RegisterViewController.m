@@ -18,6 +18,8 @@
 @property (strong, nonatomic) IBOutlet UITextField *confirmPasswordTextField;
 @property (strong, nonatomic) IBOutlet UILabel *errorLabel;
 @property (strong, nonatomic) IBOutlet UIButton *submitButton;
+@property (strong, nonatomic) IBOutlet UIButton *loginRegisterButton;
+@property (assign, nonatomic) BOOL isRegister;
 
 @end
 
@@ -28,6 +30,9 @@
     self.networkingController = [[NetworkingController alloc] init];
     [self.errorLabel setHidden:YES];
     [self.submitButton setEnabled:NO];
+    self.isRegister = NO;
+    [self.confirmPasswordTextField setHidden:YES];
+    [self.loginRegisterButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideInput)];
     tapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGesture];
@@ -49,6 +54,14 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.errorLabel setHidden:NO];
         [self.errorLabel setText:@"Registration Successful"];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    });
+}
+
+- (void)setLabels3 {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.errorLabel setHidden:NO];
+        [self.errorLabel setText:@"Set Successful"];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     });
 }
@@ -91,6 +104,40 @@
             [weakSelf errorUpdate:error.domain];
         }
     }];
+}
+
+//TODO: TEMPORARY
+- (IBAction)loginRegisterButtonTapped:(id)sender {
+    [self hideInput];
+    [self.errorLabel setHidden:YES];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //    hud.opacity = 0.0f;
+    __weak __typeof(self) weakSelf = self;
+    [self.networkingController temporaryCreateItemWithCompletion:^(BOOL value, NSError * __nullable error) {
+        if (value && !error)
+        {
+            //            SearchViewController *viewController = [[SearchViewController alloc] init];
+            //            [weakSelf.navigationController pushViewController:viewController animated:YES];
+            [weakSelf setLabels3];
+        } else {
+            [weakSelf errorUpdate:error.domain];
+        }
+    }];
+    
+    
+    
+//    self.isRegister = !self.isRegister;
+//    if (self.isRegister) {
+//        [self.confirmPasswordTextField setHidden:NO];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.loginRegisterButton.titleLabel setText:@"Login"];
+//        });
+//    } else {
+//        [self.confirmPasswordTextField setHidden:YES];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.loginRegisterButton.titleLabel setText:@"Register"];
+//        });
+//    }
 }
 
 @end

@@ -172,19 +172,35 @@
                                 <color key="textColor" red="0.99815660715103149" green="0.057412639260292053" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FO2-Dd-oqW">
+                                <rect key="frame" x="272" y="540" width="57" height="30"/>
+                                <state key="normal" title="Register"/>
+                                <connections>
+                                    <action selector="loginRegisterButtonTapped:" destination="qgf-7N-MhP" eventType="touchUpInside" id="xXk-Mu-6ps"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="X2J-hh-ll6" firstAttribute="centerX" secondItem="bpc-rM-QQA" secondAttribute="centerX" id="5Ab-6c-AWj"/>
                             <constraint firstItem="fvd-3j-LBc" firstAttribute="centerX" secondItem="X2J-hh-ll6" secondAttribute="centerX" id="BGd-3S-0Fu"/>
+                            <constraint firstItem="FO2-Dd-oqW" firstAttribute="centerX" secondItem="bpc-rM-QQA" secondAttribute="centerX" id="I4l-he-yPY"/>
                             <constraint firstItem="X2J-hh-ll6" firstAttribute="centerY" secondItem="bpc-rM-QQA" secondAttribute="centerY" id="KV4-lt-QxD"/>
                             <constraint firstItem="fvd-3j-LBc" firstAttribute="top" secondItem="X2J-hh-ll6" secondAttribute="bottom" constant="87" id="ZRw-4Z-Ynd"/>
+                            <constraint firstItem="FO2-Dd-oqW" firstAttribute="top" secondItem="X2J-hh-ll6" secondAttribute="bottom" constant="117" id="cM2-Xo-Kh1"/>
+                            <constraint firstItem="Q7S-NW-05a" firstAttribute="top" secondItem="FO2-Dd-oqW" secondAttribute="bottom" constant="30" id="uT7-kw-Vm9"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="cM2-Xo-Kh1"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="confirmPasswordTextField" destination="U0u-e8-qH4" id="aP6-e1-I8w"/>
                         <outlet property="emailTextField" destination="9nz-9N-8gQ" id="ptX-iw-gSd"/>
                         <outlet property="errorLabel" destination="fvd-3j-LBc" id="NDR-Gj-ATB"/>
+                        <outlet property="loginRegisterButton" destination="FO2-Dd-oqW" id="3Ix-N9-HGE"/>
                         <outlet property="passwordTextField" destination="Yz8-7t-f5E" id="LPk-WW-nPT"/>
                         <outlet property="submitButton" destination="OQV-bR-vtY" id="GUR-cz-EmD"/>
                     </connections>
