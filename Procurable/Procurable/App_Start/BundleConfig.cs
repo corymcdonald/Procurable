@@ -25,8 +25,10 @@ namespace Procurable
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/font-awesome.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/sb-admin.css",
+                      "~/Content/font-awesome.css"
+                      ));
         }
     }
 }
