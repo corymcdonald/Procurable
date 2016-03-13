@@ -13,9 +13,11 @@ typedef void(^DataControllerCompletionHandler)(NSArray * __nullable values, NSEr
 typedef void(^NetworkingControllerCompletionHandler)(BOOL value, NSError * __nullable error);
 
 @interface NetworkingController : NSObject
-- (void)fetchRandomNumbers:(NSInteger)integer completion:(DataControllerCompletionHandler)completionHandler;
-- (void)fetchRandomNumbers2:(NSString *)string completion:(DataControllerCompletionHandler)completionHandler;
+//- (void)fetchRandomNumbers:(NSInteger)integer completion:(DataControllerCompletionHandler)completionHandler;
+//- (void)fetchRandomNumbers2:(NSString *)string completion:(DataControllerCompletionHandler)completionHandler;
 - (void)registerNewUser:(NSString *)user withPassword:(NSString *)password withConfirmPassword:(NSString *)confirmPassword completion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)loginUser:(NSString *)user withPassword:(NSString *)password completion:(NetworkingControllerCompletionHandler)completionHandler;
+- (void)cookieTestWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
+- (void)temporaryCreateItemWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
 @end
 NS_ASSUME_NONNULL_END

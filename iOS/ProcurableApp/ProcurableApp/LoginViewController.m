@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "NetworkingController.h"
 #import "MBProgressHUD.h"
+#import "SearchViewController.h"
 
 @interface LoginViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -26,6 +27,9 @@
     self.networkingController = [[NetworkingController alloc] init];
     [self.errorLabel setHidden:YES];
     [self.submitButton setEnabled:NO];
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideInput)];
+    tapGesture.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGesture];
     // Do any additional setup after loading the view.
 }
 
@@ -34,10 +38,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)hideInput {
+    [self.emailTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+}
+
 - (void)setLabels {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.errorLabel setHidden:NO];
         [self.errorLabel setText:@"Login Successful"];
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+    });
+}
+
+- (void)setLabels2 {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.errorLabel setHidden:NO];
+        [self.errorLabel setText:@"CookieTest Successful"];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
     });
 }
@@ -64,8 +81,24 @@
     }
 }
 
+- (void)cookieTest {
+    __weak __typeof(self) weakSelf = self;
+    [self.networkingController cookieTestWithCompletion: ^(BOOL value, NSError * __nullable error) {
+        if (value && !error)
+        {
+            [weakSelf setLabels2];
+            //            dispatch_async(dispatch_get_main_queue(), ^{
+            //                SearchViewController *viewController = [[SearchViewController alloc] init];
+            //                [weakSelf.navigationController pushViewController:viewController animated:YES];
+            //            });
+        } else {
+            [weakSelf errorUpdate:error.domain];
+        }
+    }];
+}
+
 - (IBAction)submitButtonTapped:(id)sender {
-    [self.passwordTextField resignFirstResponder];
+    [self hideInput];
     [self.errorLabel setHidden:YES];
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 //    hud.opacity = 0.0f;
@@ -74,6 +107,11 @@
         if (value && !error)
         {
             [weakSelf setLabels];
+            [weakSelf cookieTest];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                SearchViewController *viewController = [[SearchViewController alloc] init];
+//                [weakSelf.navigationController pushViewController:viewController animated:YES];
+//            });
         } else {
             [weakSelf errorUpdate:error.domain];
         }
