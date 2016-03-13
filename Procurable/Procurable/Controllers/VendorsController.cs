@@ -137,7 +137,7 @@ namespace Procurable.Controllers
             return View(vendor);
         }
 
-        public ActionResult Search(string query)
+        public  VendorSearch SearchInternal(string query)
         {
             var asResult = new VendorSearch();
             if (query != null)
@@ -146,12 +146,15 @@ namespace Procurable.Controllers
                            where a.Name.Contains(query)
                            select a;
 
-                asResult.Results =  temp.ToList();
-                //asResult.SearchString = query;
+                asResult.Results = temp.ToList();
             }
-            if (Request.AcceptTypes.Contains("application/json"))
-                return Json(asResult);
-             return PartialView("VendorSearch", asResult);
+            return asResult;
+        }
+        public ActionResult Search(string query)
+        {
+            if ( Request.AcceptTypes.Contains("application/json"))
+                return Json(SearchInternal(query));
+             return PartialView("VendorSearch", SearchInternal(query));
         }
         public ActionResult HelloWorld()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Procurable.Controllers;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -64,7 +65,7 @@ namespace Procurable.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ID,Name,Price,Comments,PartNumber,Location,Status")] InventoryItem inventoryItem)
+        public ActionResult Create([Bind(Include = "ID,Name,Price,Comments,PartNumber,Location,Status, VendorID")] InventoryItem inventoryItem)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +102,7 @@ namespace Procurable.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ID,Name,Price,Comments,PartNumber,Location,Status")] InventoryItem inventoryItem)
+        public ActionResult Edit([Bind(Include = "ID,Name,Price,Comments,PartNumber,Location,Status,VendorID")] InventoryItem inventoryItem)
         {
             if (ModelState.IsValid)
             {
