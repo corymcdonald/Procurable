@@ -3,8 +3,14 @@
 @{
     ViewBag.Title = "Create";
 }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
 
 <h2>Create</h2>
+
 
 
 @using (Html.BeginForm()) 
@@ -30,6 +36,7 @@
                 @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
             </div>
         </div>
+        <div id="example"></div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -43,6 +50,22 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+
+
+<script>
+            $(document).ready(function () {
+
+              var data = [
+                ["", "Kia", "Nissan", "Toyota", "Honda"],
+                ["2008", 10, 11, 12, 13],
+                ["2009", 20, 11, 14, 13],
+                ["2010", 30, 15, 12, 13]
+              ];
+
+            var container = document.getElementById('example');
+            var hot = new Handsontable(container,
+             {
+               data: data
+              });
+            })
+</script>

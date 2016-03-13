@@ -27,8 +27,13 @@ namespace Procurable
                       "~/Content/bootstrap.css",
                       "~/Content/sb-admin.css",
                       "~/Content/font-awesome.css",
+                      "~/Content/handsontable/handsontable.full.css",
                       "~/Content/site.css"
                       ));
+            bundles.Add(new ScriptBundle("~/bundles/handsontable").Include(
+                       "~/Scripts/handsontable/handsontable.full.js"));
+
+            
         }
     }
 }

@@ -258,6 +258,10 @@
     <Content Include="Content\font-awesome.css">
       <DependentUpon>font-awesome.scss</DependentUpon>
     </Content>
+    <Content Include="Content\handsontable\handsontable.css" />
+    <Content Include="Content\handsontable\handsontable.full.css" />
+    <Content Include="Content\handsontable\handsontable.full.min.css" />
+    <Content Include="Content\handsontable\handsontable.min.css" />
     <Content Include="Content\sb-admin.css" />
     <Content Include="Content\site.css">
       <DependentUpon>site.scss</DependentUpon>
@@ -381,6 +385,10 @@
     <None Include="Properties\PublishProfiles\ProcurableDev - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\handsontable\handsontable.full.js" />
+    <Content Include="Scripts\handsontable\handsontable.full.min.js" />
+    <Content Include="Scripts\handsontable\handsontable.js" />
+    <Content Include="Scripts\handsontable\handsontable.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
