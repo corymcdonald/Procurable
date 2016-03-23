@@ -11,7 +11,7 @@ namespace Procurable.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "Procurable.Models.ApplicationDbContext";
         }
 
