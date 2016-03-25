@@ -1,11 +1,13 @@
 $red: #F44336;
 $dark-red: #7c1f1f;
 $light-red: #FF8F86;
-$black: #232323;
+$black: #121314;
+$grey: #222326;
 $white: #F4F4F4;
 
 body{
     background-color: $white;
+  
 }
 
 #page-wrapper {
@@ -23,6 +25,53 @@ body{
         color: $white;
     }
 }
+
+//TESTING
+body{
+  margin-top: 100px;
+}
+
+.navbar-lower{
+    background-color: $grey;
+    position: fixed;
+    top: 50px;
+}
+
+.divide-nav{
+  height: 50px;
+  background-color: #3498db;
+}
+
+.divide-text{
+    color:#fff;
+    line-height: 20px;
+    font-size:20px;
+    padding: 15px 0;
+}
+
+.navbar-form {
+    padding: 10px 0;
+}
+
+.navbar-collapse{
+   padding-left:0; 
+}
+
+//Bootstrap mods
+.nav-pills > li > a {
+    border-radius: 0px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    background-color: $red;
+}
+
+.nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    background-color: $light-red;
+}
+
+//TypeHead
 span.twitter-typeahead .tt-menu,
 span.twitter-typeahead .tt-dropdown-menu {
   position: absolute;

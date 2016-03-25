@@ -25,7 +25,7 @@ namespace Procurable
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/sb-admin.css",
+                     
                       "~/Content/font-awesome.css",
                       "~/Content/handsontable/handsontable.full.css",
                       "~/Content/site.css"
