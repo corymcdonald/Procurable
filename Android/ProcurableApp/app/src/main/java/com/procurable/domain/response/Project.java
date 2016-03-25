@@ -1,15 +1,25 @@
 package com.procurable.domain.response;
 
+import com.procurable.domain.enums.ProjectPriority;
+import com.procurable.domain.enums.ProjectStatus;
+
+import java.util.Date;
+
 /**
  * Created by Matt on 3/6/2016.
  */
 public class Project {
+
+    public Project() {
+        this.Priority = 0;
+        this.Status = 0;
+    }
     String[] Items;
     String Request;
     Integer Priority;
     Integer Status;
-    String CreatedDate;
-    String LastModified;
+    Date CreatedDate;
+    Date LastModified;
     Integer ProjectID;
 
     public Integer getProjectID() {
@@ -52,19 +62,19 @@ public class Project {
         Status = status;
     }
 
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return CreatedDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Date createdDate) {
         CreatedDate = createdDate;
     }
 
-    public String getLastModified() {
+    public Date getLastModified() {
         return LastModified;
     }
 
-    public void setLastModified(String lastModified) {
+    public void setLastModified(Date lastModified) {
         LastModified = lastModified;
     }
 
