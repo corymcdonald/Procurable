@@ -16,6 +16,10 @@ namespace Procurable.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        // Your Extended Properties
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -29,6 +33,8 @@ namespace Procurable.Models
         {
             return new ApplicationDbContext();
         }
+
+
 
         public System.Data.Entity.DbSet<Procurable.Models.Vendor> Vendors { get; set; }
 

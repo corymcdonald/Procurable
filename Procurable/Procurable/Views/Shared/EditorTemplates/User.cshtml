@@ -1,0 +1,46 @@
+﻿@model Procurable.Models.ApplicationUser
+
+@Scripts.Render("~/bundles/jquery")
+
+
+
+<div id="bloodhound">
+    @Html.TextBox("typeahead", "", new { @class = "form-control typeahead", id = "User_query", placeholder = "Search Users", required = "required" })
+
+</div>
+<input type="hidden" id="UserID" name="UserID" />
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: 'http://localhost:55504/Account',
+            method: 'GET',
+            headers: {
+                Accept: "application/json"
+            },
+            success: function (result) {
+                var data = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("UserName"),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    local: result
+                });
+                console.log('running typeahead')
+                $('#bloodhound .typeahead').typeahead({
+                    hint: true,
+                    highlight: true,
+                    minLength: 1
+                },
+                {
+                    displayKey: 'UserName',
+                    source: data
+                });
+            }
+        });
+        $('.typeahead').on('typeahead:selected', function (evt, item) {
+            $("#UserID").val(item.ID)
+        })
+
+    })
+
+
+</script>

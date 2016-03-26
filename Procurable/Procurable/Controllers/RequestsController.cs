@@ -7,12 +7,15 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Procurable.Models;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.Identity;
 
 namespace Procurable.Controllers
 {
     public class RequestsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+         
 
         // GET: Requests
         [Authorize]
@@ -65,10 +68,20 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ID,Name,Comments,CreatedDate,LastModified")] Request request)
+        public ActionResult Create([Bind(Include = "ID,Name,Comments,UserID")] Request request)
         {
             if (ModelState.IsValid)
             {
+                request.CreatedDate = DateTime.Now;
+                request.LastModified = DateTime.Now;
+                //////
+                
+                
+                ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
+                request.RequestedBy = currentUser;
+          
+                System.Diagnostics.Debug.WriteLine(currentUser);
+
                 db.Requests.Add(request);
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
@@ -102,11 +115,22 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ID,Name,Comments,CreatedDate,LastModified")] Request request)
+        public ActionResult Edit([Bind(Include = "ID,Name,Comments")] Request request)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(request).State = EntityState.Modified;
+
+                var dbPost = db.Requests.FirstOrDefault(p => p.ID == request.ID);
+                if (dbPost == null)
+                {
+                    return HttpNotFound();
+                }
+
+                dbPost.Name = request.Name;
+                dbPost.Comments = request.Comments;
+         
+                dbPost.LastModified = DateTime.Now;
+                
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
