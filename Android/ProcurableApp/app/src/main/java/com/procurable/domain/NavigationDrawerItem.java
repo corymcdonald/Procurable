@@ -52,7 +52,7 @@ public class NavigationDrawerItem {
 	private static String[] getTitles() {
 
 		return new String[] {
-				"Birds", "Animals", "Forest", "Ocean", "Planets", "Landscape"
+				"Birds", "Animals", "Forest", "Ocean", "Planets", "RequestRow"
 		};
 	}
 }

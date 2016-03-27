@@ -1,6 +1,7 @@
 package com.procurable.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.procurable.activity.ManageRequest;
+import com.procurable.activity.SearchActivity;
 import com.procurable.capstone.R;
 import com.procurable.domain.NavigationDrawerItem;
 
@@ -43,7 +46,14 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-		        Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                switch (holder.title.getText().toString())
+                {
+                    case "RequestRow" :
+                        Intent intent = new Intent(context, ManageRequest.class);
+                        context.startActivity(intent);
+                    default: Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+
 	        }
         });
     }

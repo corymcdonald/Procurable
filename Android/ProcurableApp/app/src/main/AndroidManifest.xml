@@ -33,7 +33,9 @@
         <activity
             android:name="com.procurable.activity.RegisterActivity"
             android:label="@string/title_activity_register"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.procurable.activity.ManageRequest" />
+        <activity android:name="com.procurable.activity.RequestDetails"></activity>
     </application>
 
 </manifest>

@@ -111,8 +111,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         setUpToolbar();
 
-        setUpDrawer();
-
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -380,16 +378,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void setUpToolbar() {
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Login");
-    }
-
-    private void setUpDrawer() {
-
-        NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerFragment.setUpDrawer(R.id.nav_drwr_fragment, drawerLayout, toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Login");
     }
 
 }
