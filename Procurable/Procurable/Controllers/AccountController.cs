@@ -15,6 +15,8 @@ namespace Procurable.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -51,6 +53,19 @@ namespace Procurable.Controllers
                 _userManager = value;
             }
         }
+
+        //
+        // GET: /Account/
+        [AllowAnonymous]
+        public ActionResult Index(string returnUrl)
+        {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.Users.ToList(), JsonRequestBehavior.AllowGet);
+            }
+            return View(db.Users.ToList());
+        }
+
 
         //
         // GET: /Account/Login
