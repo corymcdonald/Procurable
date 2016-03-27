@@ -478,6 +478,7 @@
     <Content Include="Views\Projects\Index.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Vendor.cshtml" />
+    <Content Include="Views\Shared\PurchaseOrderCreateEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

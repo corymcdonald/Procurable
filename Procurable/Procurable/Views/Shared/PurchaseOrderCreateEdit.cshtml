@@ -1,0 +1,124 @@
+﻿@model Procurable.Models.PurchaseOrder
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>PurchaseOrder</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @Value = ("Purchase Order - " + DateTime.Now.ToShortDateString()) } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group ">
+            <label class="control-label col-md-2">Items</label>
+            <div class="col-md-10">
+                <div id="example"></div>
+            </div>
+        </div>
+        @Html.Hidden("InventoryItems");
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-lg pull-right btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+<script>
+    $(document).ready(function () {
+
+
+        @if(Model.RequestedItems.Count != 0)
+        {
+            <text>
+        var data = [["", "", "", ""]]
+        </text>
+        }
+        else
+        {
+            <text>
+        var data = [
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ];
+            </text>
+        }
+
+        @foreach(var item in Model.RequestedItems)
+        {
+            <text>
+            data.unshift(["@item.Vendor.Name", "@item.Name", @item.Price, "@item.Comments"]);
+            </text>
+        }
+        $(document).keyup(function (e) {
+            if (e.keyCode == 45) {
+                var rowIndex = $('.currentRow').parent().index();
+
+                hot.alter("insert_row", rowIndex);
+            }
+        });
+        var container = document.getElementById('example');
+        var hot = new Handsontable(container,
+        {
+            data: data,
+            stretchH: "all",
+            rowHeaders: true,
+            columns: [
+              { type: "text" },
+              { type: "text" },
+              { type: 'numeric', format: '$0,0.00' },
+              { type: "text" }
+            ],
+
+            colHeaders: [
+               "Vendor",
+               "Name",
+               "Price",
+               "Comments",
+            ]
+        });
+        hot.updateSettings({
+            afterChange: function (changes, source) {
+                console.log('changed')
+                var sourceData = hot.getSourceData();
+                console.log(JSON.stringify(sourceData))
+                $("#InventoryItems").val(JSON.stringify(sourceData));
+                sum = 0;
+                for (var i = 0; i < sourceData.length; i++) {
+                    sum += (sourceData[i][2]);
+                }
+                $("#Price").val(sum)
+            },
+        })
+    })
+</script>

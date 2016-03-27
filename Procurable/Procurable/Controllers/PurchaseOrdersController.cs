@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Procurable.Models;
+using Newtonsoft.Json;
 
 namespace Procurable.Controllers
 {
@@ -67,10 +68,42 @@ namespace Procurable.Controllers
         [Authorize]
         public ActionResult Create([Bind(Include = "ID,Name,Price")] PurchaseOrder purchaseOrder)
         {
+            
+            dynamic InventoryItemsJSON = JsonConvert.DeserializeObject(Request.Form.Get("InventoryItems"));
+            List<InventoryItem> inventoryItems = new List<InventoryItem>();
             if (ModelState.IsValid)
             {
+                if(InventoryItemsJSON != null)
+                {
+                    foreach (var item in InventoryItemsJSON)
+                    {
+                        if (!String.IsNullOrEmpty(item[0].ToString()))
+                        {
+                            VendorSearch VendorSearch = new VendorsController().SearchInternal(item[0].ToString());
+                            var Vendor = VendorSearch.Results.FirstOrDefault();
+                            var inventoryItem = new InventoryItem()
+                            {
+                                Vendor = Vendor,
+                                Name = item[1],
+                                Price = item[2],
+                                Comments = item[3],
+                            };
+                            db.InventoryItems.Add(inventoryItem);
+                            db.SaveChanges();
+                            inventoryItems.Add(inventoryItem);
+                        }
+                    }
+                }
+                purchaseOrder.RequestedItems = inventoryItems;
                 db.PurchaseOrders.Add(purchaseOrder);
                 db.SaveChanges();
+                
+                foreach(var inventoryItem in inventoryItems)
+                {
+                    inventoryItem.PurchaseOrder = purchaseOrder;
+                    db.Entry(inventoryItem).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
                     return Json(new { Succeeded = true });
