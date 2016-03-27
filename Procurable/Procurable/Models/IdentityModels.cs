@@ -17,7 +17,7 @@ namespace Procurable.Models
             return userIdentity;
         }
 
-        // Your Extended Properties
+        // Extended Properties
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

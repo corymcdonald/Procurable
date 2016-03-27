@@ -21,11 +21,15 @@ namespace Procurable.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            
+            var uId = User.Identity.GetUserId();
+
             if (Request.AcceptTypes.Contains("application/json"))
             {
-                return Json(db.Requests.ToList(), JsonRequestBehavior.AllowGet);
+                
+                return Json(db.Requests.Where(x => x.RequestedBy.Id.Equals(User.Identity.GetUserId())).ToList(), JsonRequestBehavior.AllowGet);
             }
-            return View(db.Requests.ToList());
+            return View(db.Requests.Where(x => x.RequestedBy.Id.Equals(uId)).ToList());
         }
 
         // GET: Requests/Details/5
@@ -60,6 +64,7 @@ namespace Procurable.Controllers
         [Authorize]
         public ActionResult Create()
         {
+            ViewBag.users = new SelectList(db.Users.ToList(), "users", "users");
             return View();
         }
 

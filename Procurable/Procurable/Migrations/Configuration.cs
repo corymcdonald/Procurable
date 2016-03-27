@@ -1,5 +1,7 @@
 namespace Procurable.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -172,6 +174,49 @@ namespace Procurable.Migrations
             vendors.ForEach(s => context.Vendors.AddOrUpdate(p => p.ID, s));
 
             context.InventoryItems.AddOrUpdate(x => x.ID, new InventoryItem() { ID =5, VendorID=1, Comments = "This is a comment", Name = "Computer", Price = new decimal(143.33), PartNumber = "12030201", Status = InventoryStatus.Unallocated });
+
+
+            context.Roles.AddOrUpdate(r => r.Name,
+                new IdentityRole { Name = "Admin" },
+                new IdentityRole { Name = "Reviewer" },
+                new IdentityRole { Name = "User" });
+
+
+
+
+           
+            var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            if (!(context.Users.Any(u => u.UserName == "admin@test.com")))
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                var userToInsert = new ApplicationUser { UserName = "admin@test.com", Email = "admin@test.com", FirstName = "Admin", LastName = "Test" };
+                userManager.Create(userToInsert, "password");
+                UserManager.AddToRole(userToInsert.Id,"Admin");
+            }
+
+            if (!(context.Users.Any(u => u.UserName == "reviewer@test.com")))
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                var userToInsert = new ApplicationUser { UserName = "reviewer@test.com", Email = "reviewer@test.com", FirstName = "Reviewer", LastName = "Test" };
+                userManager.Create(userToInsert, "password");
+                UserManager.AddToRole(userToInsert.Id, "Reviewer");
+            }
+
+            if (!(context.Users.Any(u => u.UserName == "user@test.com")))
+            {
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+                var userToInsert = new ApplicationUser { UserName = "user@test.com", Email = "user@test.com", FirstName = "User", LastName = "Test" };
+                userManager.Create(userToInsert, "password");
+                UserManager.AddToRole(userToInsert.Id, "User");
+            }
+
+
+
+
         }
     }
 }
