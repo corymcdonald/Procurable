@@ -17,6 +17,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    if ([self isLoggedIn]) {
+        [self presentMainInterface];
+    } else {
+        [self presentWelcomeInterface];
+    }
     return YES;
 }
 
@@ -40,6 +45,28 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)isLoggedIn {
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSHTTPCookie *appCookie;
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.name isEqualToString:@".AspNet.ApplicationCookie"]) {
+            appCookie = cookie;
+        }
+    }
+    return [appCookie.value length] != 0;
+}
+
+- (void)presentMainInterface {
+    self.window.rootViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+}
+
+- (void)presentWelcomeInterface {
+    UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"loginScreen"];
+    
+    UINavigationController* navigation = [[UINavigationController alloc] initWithRootViewController:rootController];
+    self.window.rootViewController = navigation;
 }
 
 @end

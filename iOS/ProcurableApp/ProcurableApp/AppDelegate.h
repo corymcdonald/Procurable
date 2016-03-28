@@ -10,6 +10,8 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+- (void)presentMainInterface;
+- (void)presentWelcomeInterface;
 @property (strong, nonatomic) UIWindow *window;
 
 
