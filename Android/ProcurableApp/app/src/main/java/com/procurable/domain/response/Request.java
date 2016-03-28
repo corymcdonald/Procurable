@@ -3,38 +3,71 @@ package com.procurable.domain.response;
 /**
  * Created by Matt on 3/23/2016.
  */
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Request {
+public class Request implements Serializable {
 
-    private List<Object> Approvers = new ArrayList<Object>();
-    private List<Item> Items = new ArrayList<Item>();
+    private List<RequestItem> Items = new ArrayList<RequestItem>();
+    private Person RequestedBy;
+
+    public Person getRequestedBy() {
+        return RequestedBy;
+    }
+
+    public void setRequestedBy(Person requestedBy) {
+        RequestedBy = requestedBy;
+    }
+
+    public Person getRequestedFor() {
+        return requestItems;
+    }
+
+    public void setRequestedFor(Person requestedFor) {
+        requestItems = requestedFor;
+    }
+
+    private Person requestItems;
     private Integer ID;
+
+
     private String Name;
     private String Comments;
-    private String RequestedFor;
-    private String RequestedBy;
+
     private String CreatedDate;
+    private Date CreatedDateDisplay;
     private String LastModified;
+    private Date LastModifiedDisplay;
+    private Integer Status;
+    private String StatusDisplay;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
-    public List<Object> getApprovers() {
-        return Approvers;
+    public String getComments() {
+        return Comments;
     }
 
-    public void setApprovers(List<Object> Approvers) {
-        this.Approvers = Approvers;
+    public void setComments(String comments) {
+        Comments = comments;
     }
 
-    public List<Item> getItems() {
-        return Items;
+    public String getCreatedDate() {
+        return CreatedDate;
     }
 
-    public void setItems(List<Item> Items) {
-        this.Items = Items;
+    public void setCreatedDate(String createdDate) {
+        CreatedDate = createdDate;
+    }
+
+    public Date getCreatedDateDisplay() {
+        return CreatedDateDisplay;
+    }
+
+    public void setCreatedDateDisplay(Date createdDateDisplay) {
+        CreatedDateDisplay = createdDateDisplay;
     }
 
     public Integer getID() {
@@ -45,60 +78,59 @@ public class Request {
         this.ID = ID;
     }
 
-    public String getName() {
-        return Name;
+    public List<RequestItem> getRequestItems() {
+        return Items;
     }
 
-    public void setName(String Name) {
-        this.Name = Name;
-    }
-
-    public String getComments() {
-        return Comments;
-    }
-
-    public void setComments(String Comments) {
-        this.Comments = Comments;
-    }
-
-    public Object getRequestedFor() {
-        return RequestedFor;
-    }
-
-    public void setRequestedFor(String RequestedFor) {
-        this.RequestedFor = RequestedFor;
-    }
-
-    public Object getRequestedBy() {
-        return RequestedBy;
-    }
-
-    public void setRequestedBy(String RequestedBy) {
-        this.RequestedBy = RequestedBy;
-    }
-
-    public String getCreatedDate() {
-        return CreatedDate;
-    }
-
-    public void setCreatedDate(String CreatedDate) {
-        this.CreatedDate = CreatedDate;
+    public void setRequestItems(List<RequestItem> requestItems) {
+        Items = requestItems;
     }
 
     public String getLastModified() {
         return LastModified;
     }
 
-    public void setLastModified(String LastModified) {
-        this.LastModified = LastModified;
+    public void setLastModified(String lastModified) {
+        LastModified = lastModified;
+    }
+
+    public Date getLastModifiedDisplay() {
+        return LastModifiedDisplay;
+    }
+
+    public void setLastModifiedDisplay(Date lastModifiedDisplay) {
+        LastModifiedDisplay = lastModifiedDisplay;
+    }
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public Integer getStatus() {
+        return Status;
+    }
+
+    public void setStatus(Integer status) {
+        Status = status;
+    }
+
+    public String getStatusDisplay() {
+        return StatusDisplay;
+    }
+
+    public void setStatusDisplay(String statusDisplay) {
+        StatusDisplay = statusDisplay;
     }
 
     public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+        return additionalProperties;
     }
 
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
+    public void setAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
     }
-
 }
