@@ -43,11 +43,14 @@ public class RegisterActivity extends AppCompatActivity {
     private View mRegisterFormView;
     private Context context = this;
     private TextView mEmailView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        setUpToolbar();
         // Set up the login form.
         mEmailView = (TextView) findViewById(R.id.register_email);
 
@@ -178,5 +181,10 @@ public class RegisterActivity extends AppCompatActivity {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+    private void setUpToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Register");
     }
 }

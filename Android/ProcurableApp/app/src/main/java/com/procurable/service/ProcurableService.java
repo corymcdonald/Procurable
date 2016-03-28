@@ -5,6 +5,7 @@ import com.procurable.domain.request.RegisterRequest;
 import com.procurable.domain.response.GenericResponse;
 import com.procurable.domain.response.Inventory;
 import com.procurable.domain.response.Project;
+import com.procurable.domain.response.Request;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -32,4 +33,12 @@ public interface ProcurableService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET("Projects")
     Call<Project[]> projects();
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("Projects/Create")
+    Call<GenericResponse> projectCreate(@Body Project project);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("requests")
+    Call<Request[]> requests();
 }
