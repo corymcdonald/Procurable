@@ -18,6 +18,7 @@ typedef void(^NetworkingControllerCompletionHandler)(BOOL value, NSError * __nul
 - (void)registerNewUser:(NSString *)user withPassword:(NSString *)password withConfirmPassword:(NSString *)confirmPassword completion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)loginUser:(NSString *)user withPassword:(NSString *)password completion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)cookieTestWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
+- (void)listAllRequests:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)temporaryCreateItemWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
 @end
 NS_ASSUME_NONNULL_END

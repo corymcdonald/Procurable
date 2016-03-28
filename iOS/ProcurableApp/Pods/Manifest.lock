@@ -1,10 +1,13 @@
 PODS:
+  - FastEasyMapping (1.0.2)
   - MBProgressHUD (0.9.2)
 
 DEPENDENCIES:
+  - FastEasyMapping (~> 1.0)
   - MBProgressHUD (~> 0.9.2)
 
 SPEC CHECKSUMS:
+  FastEasyMapping: 77d566a817ca73304af3e7fbed130850238f1cb4
   MBProgressHUD: 1569cf7ace17a8bac47aabfbb8580a49690386d1
 
 COCOAPODS: 0.39.0

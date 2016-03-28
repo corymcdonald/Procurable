@@ -32,17 +32,72 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     return self;
 }
 
-- (void)registerNewUser:(NSString *)user withPassword:(NSString *)password withConfirmPassword:(NSString *)confirmPassword completion:(NetworkingControllerCompletionHandler)completionHandler {
-    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Account/Register/"];
+- (void)cookieTestWithCompletion:(NetworkingControllerCompletionHandler)completionHandler {
+    
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSHTTPCookie *appCookie;
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.name isEqualToString:@".AspNet.ApplicationCookie"]) {
+            appCookie = cookie;
+        }
+    }
+    
+    NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/InventoryItems"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
+    
+    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+        if (data) {
+            NSError *parseError;
+            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
+            if (dictionary) {
+                completionHandler(YES, parseError);
+            } else {
+                NSError *err = [NSError errorWithDomain:@"An unknown error has occurred" code:-1 userInfo:nil];
+                completionHandler(NO, err);
+            }
+        } else if (error) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(NO, error);
+            }];
+        } else {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(NO, nil);
+            }];
+        }
+    }];
+    [dataTask resume];
+}
+
+- (void)temporaryCreateItemWithCompletion:(NetworkingControllerCompletionHandler)completionHandler {
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSHTTPCookie *appCookie;
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.name isEqualToString:@".AspNet.ApplicationCookie"]) {
+            appCookie = cookie;
+        }
+    }
+    NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
+    
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Projects/Create/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = @"POST";
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
+    
+    NSDate *date = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+    [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"];
+    NSString *dateString = [dateFormatter stringFromDate:date];
     
     NSDictionary *dictionary = @{
-                                 @"Email": user,
-                                 @"Password": password,
-                                 @"ConfirmPassword": confirmPassword
+                                 @"Prioity": @0,
+                                 @"Status": @0,
+                                 @"CreatedDate": dateString,
+                                 @"LastModified": dateString
                                  };
     
     NSError *error = nil;
@@ -76,33 +131,19 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     }
 }
 
-- (void)temporaryCreateItemWithCompletion:(NetworkingControllerCompletionHandler)completionHandler {
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
-    NSHTTPCookie *appCookie;
-    for (NSHTTPCookie *cookie in cookies) {
-        if ([cookie.name isEqualToString:@".AspNet.ApplicationCookie"]) {
-            appCookie = cookie;
-        }
-    }
-    NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
-    
-    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Projects/Create/"];
+#pragma User State
+
+- (void)registerNewUser:(NSString *)user withPassword:(NSString *)password withConfirmPassword:(NSString *)confirmPassword completion:(NetworkingControllerCompletionHandler)completionHandler {
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Account/Register/"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     request.HTTPMethod = @"POST";
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
-    
-    NSDate *date = [NSDate date];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
-    [dateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'SSS'Z'"];
-    NSString *dateString = [dateFormatter stringFromDate:date];
     
     NSDictionary *dictionary = @{
-                                 @"Prioity": @0,
-                                 @"Status": @0,
-                                 @"CreatedDate": dateString,
-                                 @"LastModified": dateString
+                                 @"Email": user,
+                                 @"Password": password,
+                                 @"ConfirmPassword": confirmPassword
                                  };
     
     NSError *error = nil;
@@ -194,8 +235,16 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     }
 }
 
-- (void)cookieTestWithCompletion:(NetworkingControllerCompletionHandler)completionHandler {
-    
+- (void)logout {
+    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    for (NSHTTPCookie *each in cookieStorage.cookies) {
+        [cookieStorage deleteCookie:each];
+    }
+}
+
+#pragma Requests
+
+- (void)listAllRequests:(NetworkingControllerCompletionHandler)completionHandler {
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     NSHTTPCookie *appCookie;
     for (NSHTTPCookie *cookie in cookies) {
@@ -205,9 +254,11 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     }
     
     NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
-    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Inventories"];
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/requests"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+//    request.HTTPMethod = @"GET";
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
     
     NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
@@ -233,16 +284,33 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     [dataTask resume];
 }
 
-- (void)logout {
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    for (NSHTTPCookie *each in cookieStorage.cookies) {
-        [cookieStorage deleteCookie:each];
-    }
+- (void)requestDetail:(NetworkingControllerCompletionHandler)completionHandler {
 }
 
-- (NSArray *)calculateValues:(NSArray *)array {
-    NSCountedSet *set = [[NSCountedSet alloc] initWithArray:array];
-    return [NSArray arrayWithObjects:@([set countForObject:@1]), @([set countForObject:@2]), @([set countForObject:@3]), @([set countForObject:@4]), @([set countForObject:@5]), @([set countForObject:@6]), nil];
+- (void)createRequest:(NetworkingControllerCompletionHandler)completionHandler {
+}
+
+- (void)editRequest:(NetworkingControllerCompletionHandler)completionHandler {
+}
+
+- (void)deleteRequest:(NetworkingControllerCompletionHandler)completionHandler {
+}
+
+#pragma Inventory
+
+- (void)listAllInventoryItems:(NetworkingControllerCompletionHandler)completionHandler {
+}
+
+- (void)inventoryItemDetail:(NetworkingControllerCompletionHandler)completionHandler {
+}
+
+- (void)createInventoryItem:(NetworkingControllerCompletionHandler)completionHandler {
+}
+
+- (void)editInventoryItem:(NetworkingControllerCompletionHandler)completionHandler {
+}
+
+- (void)deleteInventoryItem:(NetworkingControllerCompletionHandler)completionHandler {
 }
 
 @end

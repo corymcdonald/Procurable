@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>FastEasyMapping.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -17,7 +22,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>4448B3EABB5427751C12EC67AB453707</key>
+		<key>A8A6ED05B2CE2ADDF25D3D06392EE3F6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B4FF1166E8EC193C18EC48F34318E0D9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
