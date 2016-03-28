@@ -199,12 +199,18 @@ namespace Procurable.Controllers
         // POST: Requests/UpdateStatus/5
         [HttpPost]
         [Authorize]
-        public void UpdateStatus(int id)
+        public void UpdateStatus(int id, RequestStatus status)
         {
 
             //TODO: check to see if they are in that department
+            var dbPost = db.Requests.FirstOrDefault(p => p.ID == id);
 
+            dbPost.Status = status;
+   
+            dbPost.LastModified = DateTime.Now;
 
+            db.SaveChanges();
+            
         }
     }
 }
