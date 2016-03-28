@@ -44,7 +44,7 @@
         case 0:
             return @"Main";
         case 1:
-            return @"ManageRequestsViewController";
+            return @"MyRequestsViewController";
         case 2:
             return @"MyRequestsViewController";
         case 3:
@@ -64,21 +64,19 @@
     NSString *destination = [self navigationDestination:button.buttonValue];
     if ([destination length] > 0) {
         UIViewController* centerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:destination];
-        UIViewController* navigationDrawerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"NavDrawerViewController"];
         UINavigationController * centerNavigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
         MMDrawerBarButtonItem * rightButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightPress:)];
         [centerViewController.navigationItem setRightBarButtonItem:rightButton animated:YES];
         [centerViewController.navigationItem setHidesBackButton:YES];
-        MMDrawerController *drawerController;
-        drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerNavigationController rightDrawerViewController:navigationDrawerViewController];
-        
-        drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeBezelPanningCenterView;
-        drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModePanningCenterView;
-        [drawerController setShowsShadow:NO];
+//        MMDrawerController *drawerController;
+//        drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerNavigationController rightDrawerViewController:navigationDrawerViewController];
+//
+//        drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeBezelPanningCenterView;
+//        drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModePanningCenterView;
+//        [drawerController setShowsShadow:NO];
         
         MMDrawerController *root = (MMDrawerController *)[[[UIApplication sharedApplication] delegate] window].rootViewController;
-        
-        [root setCenterViewController:drawerController];
+        [root setCenterViewController:centerNavigationController];
     }
 }
 
