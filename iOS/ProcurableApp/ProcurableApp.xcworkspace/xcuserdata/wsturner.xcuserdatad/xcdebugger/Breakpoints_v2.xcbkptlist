@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProcurableApp/LoginViewController.m"
-            timestampString = "480839922.244654"
+            timestampString = "480887351.909206"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "106"
+            endingLineNumber = "106"
             landmarkName = "-submitButtonTapped:"
             landmarkType = "5">
          </BreakpointContent>
@@ -228,7 +228,7 @@
                   moduleName = "ProcurableApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wsturner/Procurable/iOS/ProcurableApp/ProcurableApp/MyRequestsViewController.m"
-                  timestampString = "480886375.215405"
+                  timestampString = "480887565.318755"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "48"
@@ -243,7 +243,7 @@
                   moduleName = "ProcurableApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wsturner/Procurable/iOS/ProcurableApp/ProcurableApp/MyRequestsViewController.m"
-                  timestampString = "480886375.21558"
+                  timestampString = "480887565.318884"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -258,7 +258,7 @@
                   moduleName = "ProcurableApp"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wsturner/Procurable/iOS/ProcurableApp/ProcurableApp/MyRequestsViewController.m"
-                  timestampString = "480886375.21574"
+                  timestampString = "480887565.319007"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -281,22 +281,6 @@
             startingLineNumber = "76"
             endingLineNumber = "76"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ProcurableApp/MyRequestsViewController.m"
-            timestampString = "480886156.876679"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "-tableView:didDeselectRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

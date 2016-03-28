@@ -236,6 +236,10 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     }
 }
 
+/*
+ http://stackoverflow.com/questions/1852515/how-to-clear-cookies-from-nshttpcookiestorage-more-then-once
+ */
+
 - (void)logout {
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *each in cookieStorage.cookies) {

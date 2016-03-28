@@ -24,8 +24,8 @@
     [super viewDidLoad];
     self.networkingController = [[NetworkingController alloc] init];
 
-    MMDrawerBarButtonItem * leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftPress:)];
-    [self.navigationItem setLeftBarButtonItem:leftButton animated:YES];
+    MMDrawerBarButtonItem * rightButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightPress:)];
+    [self.navigationItem setRightBarButtonItem:rightButton animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -53,19 +53,8 @@
     }];
 }
 
-//-(MMDrawerController*)mm_drawerController{
-//    UIViewController *parentViewController = self.parentViewController;
-//    while (parentViewController != nil) {
-//        if([parentViewController isKindOfClass:[MMDrawerController class]]){
-//            return (MMDrawerController *)parentViewController;
-//        }
-//        parentViewController = parentViewController.parentViewController;
-//    }
-//    return nil;
-//}
-
-- (void)leftPress:(id)stuff {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+- (void)rightPress:(id)stuff {
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 @end

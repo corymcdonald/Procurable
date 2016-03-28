@@ -10,6 +10,7 @@
 #import "MMDrawerController.h"
 #import "NavButton.h"
 #import "MMDrawerBarButtonItem.h"
+#import "UIViewController+MMDrawerController.h"
 
 @interface NavDrawerViewController ()
 
@@ -34,19 +35,8 @@
     }
 }
 
--(MMDrawerController*)mm_drawerController{
-    UIViewController *parentViewController = self.parentViewController;
-    while (parentViewController != nil) {
-        if([parentViewController isKindOfClass:[MMDrawerController class]]){
-            return (MMDrawerController *)parentViewController;
-        }
-        parentViewController = parentViewController.parentViewController;
-    }
-    return nil;
-}
-
 - (void)closeDrawer {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 - (NSString *)navigationDestination:(NSNumber *)num {
@@ -76,11 +66,11 @@
         UIViewController* centerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:destination];
         UIViewController* navigationDrawerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"NavDrawerViewController"];
         UINavigationController * centerNavigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
-        MMDrawerBarButtonItem * leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftPress:)];
-        [centerViewController.navigationItem setLeftBarButtonItem:leftButton animated:YES];
+        MMDrawerBarButtonItem * rightButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightPress:)];
+        [centerViewController.navigationItem setRightBarButtonItem:rightButton animated:YES];
         [centerViewController.navigationItem setHidesBackButton:YES];
         MMDrawerController *drawerController;
-        drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerNavigationController leftDrawerViewController:navigationDrawerViewController];
+        drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerNavigationController rightDrawerViewController:navigationDrawerViewController];
         
         drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeBezelPanningCenterView;
         drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModePanningCenterView;
@@ -92,8 +82,8 @@
     }
 }
 
-- (void)leftPress:(id)stuff {
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+- (void)rightPress:(id)stuff {
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 @end
