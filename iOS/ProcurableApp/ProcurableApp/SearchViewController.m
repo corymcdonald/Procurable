@@ -9,6 +9,9 @@
 #import "SearchViewController.h"
 #import "NetworkingController.h"
 #import "MBProgressHUD.h"
+#import "NavDrawerViewController.h"
+#import "MMDrawerBarButtonItem.h"
+#import "MMDrawerController.h"
 
 @interface SearchViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -19,7 +22,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.networkingController = [[NetworkingController alloc] init];
-    // Do any additional setup after loading the view.
+
+    MMDrawerBarButtonItem * leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftPress:)];
+    [self.navigationItem setLeftBarButtonItem:leftButton animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -45,6 +50,21 @@
             ;
         }
     }];
+}
+
+-(MMDrawerController*)mm_drawerController{
+    UIViewController *parentViewController = self.parentViewController;
+    while (parentViewController != nil) {
+        if([parentViewController isKindOfClass:[MMDrawerController class]]){
+            return (MMDrawerController *)parentViewController;
+        }
+        parentViewController = parentViewController.parentViewController;
+    }
+    return nil;
+}
+
+- (void)leftPress:(id)stuff {
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
 @end

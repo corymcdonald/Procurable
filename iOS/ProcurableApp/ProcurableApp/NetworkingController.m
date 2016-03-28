@@ -256,9 +256,7 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
     NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/requests"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-//    request.HTTPMethod = @"GET";
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-//    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
     
     NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {

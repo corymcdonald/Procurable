@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProcurableApp/LoginViewController.m"
-            timestampString = "480813892.010201"
+            timestampString = "480839922.244654"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
             landmarkName = "-submitButtonTapped:"
             landmarkType = "5">
          </BreakpointContent>
@@ -132,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProcurableApp/NetworkingController.m"
-            timestampString = "480816138.889394"
+            timestampString = "480820576.969669"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
             landmarkName = "-listAllRequests:"
             landmarkType = "5">
          </BreakpointContent>
@@ -163,29 +163,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ProcurableApp/LoginViewController.m"
-            timestampString = "480813892.010201"
+            filePath = "ProcurableApp/NavDrawerViewController.m"
+            timestampString = "480839942.640762"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
-            landmarkName = "-submitButtonTapped:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ProcurableApp/SearchViewController.m"
-            timestampString = "480814181.561108"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "-fetchShit:"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "-searchPressed:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

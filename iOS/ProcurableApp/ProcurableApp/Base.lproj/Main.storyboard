@@ -3,11 +3,13 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="7Mq-td-Gh7">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4b2-1r-hQB" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="dGw-Sq-Vpx" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bbl-lg-JDw">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -17,7 +19,6 @@
                         <segue destination="fOo-B4-MLU" kind="relationship" relationship="rootViewController" id="XJA-yY-9pi"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4b2-1r-hQB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1140" y="-251"/>
         </scene>
@@ -285,6 +286,65 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EH1-Un-eS9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2628" y="365"/>
+        </scene>
+        <!--Nav Drawer View Controller-->
+        <scene sceneID="4VY-Ja-hVz">
+            <objects>
+                <viewController storyboardIdentifier="NavDrawerViewController" id="3AG-hh-RkV" customClass="NavDrawerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2Oa-WB-YNF"/>
+                        <viewControllerLayoutGuide type="bottom" id="CFO-T1-gei"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bGh-Dr-z92">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gdr-4h-LjR">
+                                <rect key="frame" x="40" y="40" width="123" height="180"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Stc-L0-ocb">
+                                        <rect key="frame" x="38" y="0.0" width="48" height="30"/>
+                                        <state key="normal" title="Search"/>
+                                        <connections>
+                                            <action selector="searchPressed:" destination="3AG-hh-RkV" eventType="touchUpInside" id="sln-WD-UGU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mEo-8T-IsL">
+                                        <rect key="frame" x="0.0" y="30" width="123" height="30"/>
+                                        <state key="normal" title="Manage Requests"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OlR-GI-19x">
+                                        <rect key="frame" x="17" y="60" width="89" height="30"/>
+                                        <state key="normal" title="My Requests"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l93-Kf-lOG">
+                                        <rect key="frame" x="7" y="90" width="110" height="30"/>
+                                        <state key="normal" title="Saved Requests"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7SA-Io-PXc">
+                                        <rect key="frame" x="16" y="120" width="91" height="30"/>
+                                        <state key="normal" title="View Reports"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kzx-fD-y2A">
+                                        <rect key="frame" x="34" y="150" width="55" height="30"/>
+                                        <state key="normal" title="Log Out"/>
+                                        <connections>
+                                            <action selector="logoutPressed:" destination="3AG-hh-RkV" eventType="touchUpInside" id="llN-oA-knc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="gdr-4h-LjR" firstAttribute="top" secondItem="2Oa-WB-YNF" secondAttribute="bottom" constant="20" id="LP7-bq-Q2z"/>
+                            <constraint firstItem="gdr-4h-LjR" firstAttribute="leading" secondItem="bGh-Dr-z92" secondAttribute="leadingMargin" constant="20" id="gob-Zr-zEY"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="s6b-sb-wAd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3394" y="-923"/>
         </scene>
     </scenes>
 </document>

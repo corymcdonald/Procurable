@@ -10,6 +10,8 @@
 #import "NetworkingController.h"
 #import "MBProgressHUD.h"
 #import "SearchViewController.h"
+#import "MMDrawerController.h"
+#import "MMDrawerBarButtonItem.h"
 
 @interface LoginViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -48,8 +50,22 @@
         [self.errorLabel setHidden:NO];
         [self.errorLabel setText:@"Login Successful"];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [[[[UIApplication sharedApplication] delegate] window] setRootViewController: [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController]];
+        [self presentMainInterface];
     });
+}
+
+- (void)presentMainInterface {
+    UIViewController* centerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    UIViewController* navigationDrawerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"NavDrawerViewController"];
+    MMDrawerBarButtonItem * leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftPress:)];
+    [centerViewController.navigationItem setLeftBarButtonItem:leftButton animated:YES];
+    MMDrawerController *drawerController;
+    drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerViewController leftDrawerViewController:navigationDrawerViewController];
+    
+    drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeBezelPanningCenterView;
+    drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModePanningCenterView;
+    [drawerController setShowsShadow:NO];
+    [[[[UIApplication sharedApplication] delegate] window] setRootViewController:drawerController];
 }
 
 - (void)setLabels2 {
