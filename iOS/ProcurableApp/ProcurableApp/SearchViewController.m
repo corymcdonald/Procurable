@@ -12,6 +12,7 @@
 #import "NavDrawerViewController.h"
 #import "MMDrawerBarButtonItem.h"
 #import "MMDrawerController.h"
+#import "UIViewController+MMDrawerController.h"
 
 @interface SearchViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -52,16 +53,16 @@
     }];
 }
 
--(MMDrawerController*)mm_drawerController{
-    UIViewController *parentViewController = self.parentViewController;
-    while (parentViewController != nil) {
-        if([parentViewController isKindOfClass:[MMDrawerController class]]){
-            return (MMDrawerController *)parentViewController;
-        }
-        parentViewController = parentViewController.parentViewController;
-    }
-    return nil;
-}
+//-(MMDrawerController*)mm_drawerController{
+//    UIViewController *parentViewController = self.parentViewController;
+//    while (parentViewController != nil) {
+//        if([parentViewController isKindOfClass:[MMDrawerController class]]){
+//            return (MMDrawerController *)parentViewController;
+//        }
+//        parentViewController = parentViewController.parentViewController;
+//    }
+//    return nil;
+//}
 
 - (void)leftPress:(id)stuff {
     [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];

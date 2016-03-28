@@ -8,6 +8,8 @@
 
 #import "NavDrawerViewController.h"
 #import "MMDrawerController.h"
+#import "NavButton.h"
+#import "MMDrawerBarButtonItem.h"
 
 @interface NavDrawerViewController ()
 
@@ -25,29 +27,71 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)logoutPressed:(id)sender {
+- (void)logoutPressed {
     NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
     for (NSHTTPCookie *each in cookieStorage.cookies) {
         [cookieStorage deleteCookie:each];
     }
 }
 
-- (IBAction)searchPressed:(id)sender {
-    [[self navigationController] popToRootViewControllerAnimated:YES];
+-(MMDrawerController*)mm_drawerController{
+    UIViewController *parentViewController = self.parentViewController;
+    while (parentViewController != nil) {
+        if([parentViewController isKindOfClass:[MMDrawerController class]]){
+            return (MMDrawerController *)parentViewController;
+        }
+        parentViewController = parentViewController.parentViewController;
+    }
+    return nil;
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([segue.identifier isEqualToString:@"DRAWER_SEGUE"]) {
-//        MMDrawerController *destinationViewController = (MMDrawerController *)segue.destinationViewController;
-//        
-//        // Instantitate and set the center view controller.
-//        UIViewController *centerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"FIRST_TOP_VIEW_CONTROLLER"];
-//        [destinationViewController setCenterViewController: centerViewController];
-//        
-//        // Instantiate and set the left drawer controller.
-//        UIViewController *leftDrawerViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"SIDE_DRAWER_CONTROLLER"];
-//        [destinationViewController setLeftDrawerViewController: leftDrawerViewController];
-//    }
+- (void)closeDrawer {
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+}
+
+- (NSString *)navigationDestination:(NSNumber *)num {
+    switch (num.intValue) {
+        case 0:
+            return @"Main";
+        case 1:
+            return @"ManageRequestsViewController";
+        case 2:
+            return @"MyRequestsViewController";
+        case 3:
+            return @"SavedRequestsViewController";
+        case 4:
+            return @"ViewReportsViewController";
+        default:
+            break;
+    }
+    [self logoutPressed];
+    return nil;
+}
+
+- (IBAction)navigate:(id)sender {
+    [self closeDrawer];
+    NavButton *button = (NavButton *)sender;
+    NSString *destination = [self navigationDestination:button.buttonValue];
+    if ([destination length] > 0) {
+        UIViewController* centerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:destination];
+        UIViewController* navigationDrawerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"NavDrawerViewController"];
+        UINavigationController * centerNavigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
+        MMDrawerBarButtonItem * leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftPress:)];
+        [centerViewController.navigationItem setLeftBarButtonItem:leftButton animated:YES];
+        MMDrawerController *drawerController;
+        drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerNavigationController leftDrawerViewController:navigationDrawerViewController];
+        
+        drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeBezelPanningCenterView;
+        drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModePanningCenterView;
+        [drawerController setShowsShadow:NO];
+        
+        MMDrawerController *root = (MMDrawerController *)[[[UIApplication sharedApplication] delegate] window].rootViewController;
+        [root setCenterViewController:drawerController];
+    }
+}
+
+- (void)leftPress:(id)stuff {
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
 @end
