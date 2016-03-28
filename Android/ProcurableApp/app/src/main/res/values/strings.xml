@@ -1,4 +1,9 @@
 <resources>
+    <string-array name="priority">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
     <string name="app_name">Capstone</string>
 
     <!-- Strings related to login -->
@@ -15,8 +20,23 @@
         completions."
     </string>
     <string name="title_activity_search">SearchActivity</string>
-    <string name="title_activity_register">Sign in</string>
+    <string name="title_activity_register">Register</string>
     <string name="error_confirm_password_empty">Confirm Password is Empty</string>
     <string name="error_password_empty">Password is empty</string>
     <string name="error_password_mismatch">Passwords do not match</string>
+
+    <string-array name="nav_drawer_labels">
+        <item>Birds</item>
+        <item>Animal</item>
+        <item>Forest</item>
+        <item>Ocean</item>
+        <item>Planets</item>
+        <item>Landscape</item>
+    </string-array>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="thumbnail">thumbnail</string>
 </resources>

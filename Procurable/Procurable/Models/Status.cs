@@ -17,4 +17,14 @@ namespace Procurable.Models
         New,
         Completed
     }
+
+    public enum RequestStatus
+    {
+        Opened,
+        Reopened,
+        Approved,
+        Denyed,
+        InProgress,
+        Completed
+    }
 }

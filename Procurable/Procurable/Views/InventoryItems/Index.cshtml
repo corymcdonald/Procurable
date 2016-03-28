@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Procurable.Models.InventoryItem>
+﻿@model IEnumerable<Procurable.Models.InventoryItemIndex>
 
 @{
     ViewBag.Title = "Index";
@@ -9,61 +9,98 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table class="table" id="accordion">
     <tr>
+        <th></th>
         <th>
-            @Html.DisplayNameFor(model => model.Vendor)
+            Vendor
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Item
+        </th>
+        <th>Count</th>
+        <th>
+            Price
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            Comments
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Comments)
+            Part Number
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.PartNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Location)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
+            Status
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Vendor.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PartNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Location)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @for (int i = 0; i < Model.Count(); i++)
+    {
+        var itemIndex = Model.ElementAt(i);
+        if (itemIndex.Count > 1)
+        {
+            <tr data-toggle="collapse" data-target=".row@(i)" data-parent="#accordion" class="accordion-toggle">
+                <td >
+                    <i class="fa fa-lg fa-fw fa-chevron-right"></i>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemIndex.Item.First().Vendor.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => itemIndex.Item.First().Name)
+                </td>
+                <td>@itemIndex.Count</td>
+                <td>
+                    $@Math.Round(itemIndex.Item.Average(x => x.Price),2)
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        }
+        foreach (var inventoryItem in itemIndex.Item)
+        {
+            <tr class="@(itemIndex.Count > 1 ? "hiddenRow accordion-body collapse active subLevel row" + i : "" )">
+
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => inventoryItem.Vendor.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => inventoryItem.Name)
+                </td>
+                <td>1</td>
+                <td>
+                    $@Html.DisplayFor(modelItem => inventoryItem.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => inventoryItem.Comments)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => inventoryItem.PartNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => inventoryItem.Status)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = inventoryItem.ID }) |
+                    @Html.ActionLink("Details", "Details", new { id = inventoryItem.ID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = inventoryItem.ID })
+                </td>
+            </tr>
+        }
+    }
 
 </table>
+<script>
+    function toggleChevron(e) {
+        console.log('yes')
+        $(e.target)
+            .prev('.accordion-toggle')
+            .find("i.fa")
+            .toggleClass('fa-chevron-right fa-chevron-down');
+    }
+    $('#accordion').on('hidden.bs.collapse', toggleChevron);
+    $('#accordion').on('shown.bs.collapse', toggleChevron);
+</script>

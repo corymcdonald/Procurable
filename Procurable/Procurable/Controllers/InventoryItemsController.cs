@@ -22,7 +22,8 @@ namespace Procurable.Models
             {
                 return Json(db.InventoryItems.ToList(), JsonRequestBehavior.AllowGet);
             }
-            return View(db.InventoryItems.ToList());
+            var inventoryCount = db.InventoryItems.ToList().GroupBy(x => new { x.Name }).Select(group => new InventoryItemIndex() { Item= group.ToList<InventoryItem>(), Count = group.Count() }).ToList();
+            return View(inventoryCount);
         }
 
         // GET: InventoryItems/Details/5

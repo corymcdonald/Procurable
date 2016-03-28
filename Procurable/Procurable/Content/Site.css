@@ -140,4 +140,7 @@ span.twitter-typeahead {
 .input-group.input-group-lg span.twitter-typeahead .tt-dropdown-menu {
   top: 46px !important; }
 
+.subLevel > td {
+  background-color: #e4e4e4 !important; }
+
 /*# sourceMappingURL=site.css.map */

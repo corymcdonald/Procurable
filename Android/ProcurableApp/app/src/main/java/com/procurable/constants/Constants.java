@@ -1,5 +1,9 @@
 package com.procurable.constants;
 
+import android.support.v7.widget.RecyclerView;
+
+import com.procurable.adapter.RecyclerAdapter;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
