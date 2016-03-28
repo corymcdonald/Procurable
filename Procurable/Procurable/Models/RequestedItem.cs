@@ -8,6 +8,7 @@ namespace Procurable.Models
     public class RequestedItem 
     {
         public int ID { get; set; }
+        //TODO: set up dynamic
         public bool InInventory { get; set; }
         public string Name { get; set; }
         public string Comments { get; set; }

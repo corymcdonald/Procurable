@@ -17,19 +17,29 @@ namespace Procurable.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
          
 
-        // GET: Requests
+        // GET: My Requests
         [Authorize]
         public ActionResult Index()
-        {
-            
+        {  
             var uId = User.Identity.GetUserId();
-
+          
             if (Request.AcceptTypes.Contains("application/json"))
             {
-                
-                return Json(db.Requests.Where(x => x.RequestedBy.Id.Equals(User.Identity.GetUserId())).ToList(), JsonRequestBehavior.AllowGet);
+                return Json(db.Requests.Where(x => x.RequestedBy.Id.Equals(uId)).ToList(), JsonRequestBehavior.AllowGet);
             }
             return View(db.Requests.Where(x => x.RequestedBy.Id.Equals(uId)).ToList());
+        }
+
+        // GET: Requests for Approval
+        [Authorize(Roles = "Admin, Reviewer")]
+        public ActionResult Approve()
+        {
+          //MAKE BY DEPARTMENT
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.Requests.ToList(), JsonRequestBehavior.AllowGet);
+            }
+            return View(db.Requests.ToList());
         }
 
         // GET: Requests/Details/5
@@ -79,13 +89,13 @@ namespace Procurable.Controllers
             {
                 request.CreatedDate = DateTime.Now;
                 request.LastModified = DateTime.Now;
-                //////
-                
+                               
                 
                 ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
                 request.RequestedBy = currentUser;
           
-                System.Diagnostics.Debug.WriteLine(currentUser);
+                //System.Diagnostics.Debug.WriteLine(currentUser);
+                
 
                 db.Requests.Add(request);
                 db.SaveChanges();
@@ -184,6 +194,17 @@ namespace Procurable.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        // POST: Requests/UpdateStatus/5
+        [HttpPost]
+        [Authorize]
+        public void UpdateStatus(int id)
+        {
+
+            //TODO: check to see if they are in that department
+
+
         }
     }
 }

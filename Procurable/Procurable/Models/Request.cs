@@ -15,9 +15,33 @@ namespace Procurable.Models
         public virtual ApplicationUser RequestedFor { get; set; }
         [UIHint("User")]
         public virtual ApplicationUser RequestedBy { get; set; }
+
         public DateTime CreatedDate { get; set; }
+        public string   CreatedDateDisplay {
+            get
+            {
+                return CreatedDate.ToString("s") + "Z";
+            }
+
+        }
         public DateTime LastModified { get; set; }
-        public virtual ICollection<ApplicationUser> Approvers { get; set; }
+        public string   LastModifiedDisplay
+        {
+            get
+            {
+                return LastModified.ToString("s") + "Z";
+            }
+        }
+
         public virtual ICollection<RequestedItem> Items { get; set; }
+
+        public RequestStatus Status { get; set; }
+        public string StatusDisplay
+        {
+            get
+            {
+                return Status.ToString();
+            }
+        }
     }
 }
