@@ -51,7 +51,7 @@
                 </td>
                 <td>@itemIndex.Count</td>
                 <td>
-                    @itemIndex.Item.Average(x => x.Price)
+                    $@Math.Round(itemIndex.Item.Average(x => x.Price),2)
                 </td>
                 <td></td>
                 <td></td>
@@ -61,7 +61,7 @@
         }
         foreach (var inventoryItem in itemIndex.Item)
         {
-            <tr class="@(itemIndex.Count > 1 ? "hiddenRow accordion-body collapse active row" + i : "" )">
+            <tr class="@(itemIndex.Count > 1 ? "hiddenRow accordion-body collapse active subLevel row" + i : "" )">
 
                 <td></td>
                 <td>
@@ -70,9 +70,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => inventoryItem.Name)
                 </td>
-                <td>@itemIndex.Count</td>
+                <td>1</td>
                 <td>
-                    @Html.DisplayFor(modelItem => inventoryItem.Price)
+                    $@Html.DisplayFor(modelItem => inventoryItem.Price)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => inventoryItem.Comments)
