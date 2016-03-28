@@ -62,18 +62,13 @@
 - (void)presentMainInterface {
     UIViewController* centerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
     UIViewController* navigationDrawerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"NavDrawerViewController"];
-    MMDrawerBarButtonItem * leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftPress:)];
-    [centerViewController.navigationItem setLeftBarButtonItem:leftButton animated:YES];
-    self.drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerViewController leftDrawerViewController:navigationDrawerViewController];
+    self.drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerViewController rightDrawerViewController:navigationDrawerViewController];
 
     self.drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeBezelPanningCenterView;
     self.drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModePanningCenterView;
     [self.drawerController setShowsShadow:NO];
     
     self.window.rootViewController = self.drawerController;
-}
-- (void)leftPress:(id)stuff {
-    [self.drawerController toggleDrawerSide:MMDrawerSideRight animated:YES completion:nil];
 }
 
 - (void)presentWelcomeInterface {

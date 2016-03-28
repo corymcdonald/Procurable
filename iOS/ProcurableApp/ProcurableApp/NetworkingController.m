@@ -7,6 +7,7 @@
 //
 
 #import "NetworkingController.h"
+#import "Request.h"
 
 static NSString *const kURL = @"https://procurable.azurewebsites.net";
 
@@ -282,6 +283,45 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     [dataTask resume];
 }
 
+- (void)listAllRequestsToBeApproved:(RequestsCompletionHandler)completionHandler {
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSHTTPCookie *appCookie;
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.name isEqualToString:@".AspNet.ApplicationCookie"]) {
+            appCookie = cookie;
+        }
+    }
+    
+    NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/requests/approve"];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
+    
+    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+        if (data) {
+            NSError *parseError;
+            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
+            if (dictionary) {
+                NSArray *arr = [self requestArray:dictionary];
+                completionHandler(arr, parseError);
+            } else {
+                NSError *err = [NSError errorWithDomain:@"An unknown error has occurred" code:-1 userInfo:nil];
+                completionHandler([[NSArray alloc] init], err);
+            }
+        } else if (error) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler([[NSArray alloc] init], error);
+            }];
+        } else {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler([[NSArray alloc] init], nil);
+            }];
+        }
+    }];
+    [dataTask resume];
+}
+
 - (void)requestDetail:(NetworkingControllerCompletionHandler)completionHandler {
 }
 
@@ -292,6 +332,15 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
 }
 
 - (void)deleteRequest:(NetworkingControllerCompletionHandler)completionHandler {
+}
+
+- (NSArray *)requestArray:(NSDictionary *)dict {
+    NSArray *array = (NSArray *)dict;
+    NSMutableArray *output = [[NSMutableArray alloc] init];
+    for (NSDictionary *dictionary in array) {
+        [output addObject:[[Request alloc] initWithDictionary:dictionary]];
+    }
+    return output;
 }
 
 #pragma Inventory

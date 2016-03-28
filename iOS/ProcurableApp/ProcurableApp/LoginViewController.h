@@ -6,8 +6,8 @@
 //  Copyright © 2016 Wilson Turner. All rights reserved.
 //
 
-#import "ViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface LoginViewController : ViewController
+@interface LoginViewController : UIViewController
 
 @end

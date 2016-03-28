@@ -12,9 +12,10 @@
 		908C68841CA8C02F002A5C39 /* NavDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 908C68831CA8C02F002A5C39 /* NavDrawerViewController.m */; };
 		908C688D1CA90E0B002A5C39 /* MyRequestsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 908C688C1CA90E0B002A5C39 /* MyRequestsViewController.m */; };
 		908C68901CA91D0D002A5C39 /* NavButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 908C688F1CA91D0D002A5C39 /* NavButton.m */; };
+		908C68951CA97E38002A5C39 /* Request.m in Sources */ = {isa = PBXBuildFile; fileRef = 908C68941CA97E38002A5C39 /* Request.m */; };
+		908C689B1CA9BC34002A5C39 /* RequestDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 908C689A1CA9BC34002A5C39 /* RequestDetailViewController.m */; };
 		90E4C8211C6A3F2300E632E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8201C6A3F2300E632E9 /* main.m */; };
 		90E4C8241C6A3F2300E632E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8231C6A3F2300E632E9 /* AppDelegate.m */; };
-		90E4C8271C6A3F2300E632E9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90E4C8261C6A3F2300E632E9 /* ViewController.m */; };
 		90E4C82A1C6A3F2300E632E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90E4C8281C6A3F2300E632E9 /* Main.storyboard */; };
 		90E4C82C1C6A3F2300E632E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 90E4C82B1C6A3F2300E632E9 /* Assets.xcassets */; };
 		90E4C82F1C6A3F2300E632E9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90E4C82D1C6A3F2300E632E9 /* LaunchScreen.storyboard */; };
@@ -55,12 +56,14 @@
 		908C688C1CA90E0B002A5C39 /* MyRequestsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRequestsViewController.m; sourceTree = "<group>"; };
 		908C688E1CA91D0D002A5C39 /* NavButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NavButton.h; sourceTree = "<group>"; };
 		908C688F1CA91D0D002A5C39 /* NavButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavButton.m; sourceTree = "<group>"; };
+		908C68931CA97E38002A5C39 /* Request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Request.h; sourceTree = "<group>"; };
+		908C68941CA97E38002A5C39 /* Request.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Request.m; sourceTree = "<group>"; };
+		908C68991CA9BC34002A5C39 /* RequestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestDetailViewController.h; sourceTree = "<group>"; };
+		908C689A1CA9BC34002A5C39 /* RequestDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestDetailViewController.m; sourceTree = "<group>"; };
 		90E4C81C1C6A3F2300E632E9 /* ProcurableApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProcurableApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		90E4C8201C6A3F2300E632E9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		90E4C8221C6A3F2300E632E9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		90E4C8231C6A3F2300E632E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		90E4C8251C6A3F2300E632E9 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		90E4C8261C6A3F2300E632E9 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		90E4C8291C6A3F2300E632E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		90E4C82B1C6A3F2300E632E9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		90E4C82E1C6A3F2300E632E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -112,6 +115,34 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		908C68911CA97680002A5C39 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				90E4C8521C6A4F3D00E632E9 /* LoginViewController.h */,
+				90E4C8531C6A4F3D00E632E9 /* LoginViewController.m */,
+				904B91431C7BC94E008FD32B /* RegisterViewController.h */,
+				904B91441C7BC94E008FD32B /* RegisterViewController.m */,
+				904B91461C7F5BC0008FD32B /* SearchViewController.h */,
+				904B91471C7F5BC0008FD32B /* SearchViewController.m */,
+				908C688B1CA90E0B002A5C39 /* MyRequestsViewController.h */,
+				908C688C1CA90E0B002A5C39 /* MyRequestsViewController.m */,
+				908C68991CA9BC34002A5C39 /* RequestDetailViewController.h */,
+				908C689A1CA9BC34002A5C39 /* RequestDetailViewController.m */,
+				908C68821CA8C02F002A5C39 /* NavDrawerViewController.h */,
+				908C68831CA8C02F002A5C39 /* NavDrawerViewController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		908C68921CA9768E002A5C39 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				908C68931CA97E38002A5C39 /* Request.h */,
+				908C68941CA97E38002A5C39 /* Request.m */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
 		90E4C8131C6A3F2300E632E9 = {
 			isa = PBXGroup;
 			children = (
@@ -137,29 +168,19 @@
 		90E4C81E1C6A3F2300E632E9 /* ProcurableApp */ = {
 			isa = PBXGroup;
 			children = (
+				908C68921CA9768E002A5C39 /* Models */,
+				908C68911CA97680002A5C39 /* ViewControllers */,
 				90E4C8221C6A3F2300E632E9 /* AppDelegate.h */,
 				90E4C8231C6A3F2300E632E9 /* AppDelegate.m */,
-				90E4C8251C6A3F2300E632E9 /* ViewController.h */,
-				90E4C8261C6A3F2300E632E9 /* ViewController.m */,
-				90E4C8521C6A4F3D00E632E9 /* LoginViewController.h */,
-				90E4C8531C6A4F3D00E632E9 /* LoginViewController.m */,
-				904B91431C7BC94E008FD32B /* RegisterViewController.h */,
-				904B91441C7BC94E008FD32B /* RegisterViewController.m */,
-				904B91461C7F5BC0008FD32B /* SearchViewController.h */,
-				904B91471C7F5BC0008FD32B /* SearchViewController.m */,
 				90E4C8281C6A3F2300E632E9 /* Main.storyboard */,
-				908C68821CA8C02F002A5C39 /* NavDrawerViewController.h */,
-				908C68831CA8C02F002A5C39 /* NavDrawerViewController.m */,
 				90E4C82B1C6A3F2300E632E9 /* Assets.xcassets */,
 				90E4C82D1C6A3F2300E632E9 /* LaunchScreen.storyboard */,
 				90E4C8301C6A3F2300E632E9 /* Info.plist */,
 				90E4C8551C6A6F0600E632E9 /* NetworkingController.h */,
 				90E4C8561C6A6F0600E632E9 /* NetworkingController.m */,
-				90E4C81F1C6A3F2300E632E9 /* Supporting Files */,
-				908C688B1CA90E0B002A5C39 /* MyRequestsViewController.h */,
-				908C688C1CA90E0B002A5C39 /* MyRequestsViewController.m */,
 				908C688E1CA91D0D002A5C39 /* NavButton.h */,
 				908C688F1CA91D0D002A5C39 /* NavButton.m */,
+				90E4C81F1C6A3F2300E632E9 /* Supporting Files */,
 			);
 			path = ProcurableApp;
 			sourceTree = "<group>";
@@ -383,12 +404,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				908C68951CA97E38002A5C39 /* Request.m in Sources */,
 				90E4C8541C6A4F3D00E632E9 /* LoginViewController.m in Sources */,
 				908C68841CA8C02F002A5C39 /* NavDrawerViewController.m in Sources */,
 				904B91451C7BC94E008FD32B /* RegisterViewController.m in Sources */,
 				908C688D1CA90E0B002A5C39 /* MyRequestsViewController.m in Sources */,
-				90E4C8271C6A3F2300E632E9 /* ViewController.m in Sources */,
 				90E4C8241C6A3F2300E632E9 /* AppDelegate.m in Sources */,
+				908C689B1CA9BC34002A5C39 /* RequestDetailViewController.m in Sources */,
 				90E4C8571C6A6F0600E632E9 /* NetworkingController.m in Sources */,
 				90E4C8211C6A3F2300E632E9 /* main.m in Sources */,
 				904B91481C7F5BC0008FD32B /* SearchViewController.m in Sources */,

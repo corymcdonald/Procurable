@@ -1,5 +1,5 @@
 //
-//  MyRequestsViewController.h
+//  RequestDetailViewController.h
 //  ProcurableApp
 //
 //  Created by Will Turner on 3/28/16.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyRequestsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface RequestDetailViewController : UIViewController
 
 @end

@@ -78,6 +78,7 @@
         UINavigationController * centerNavigationController = [[UINavigationController alloc] initWithRootViewController:centerViewController];
         MMDrawerBarButtonItem * leftButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(leftPress:)];
         [centerViewController.navigationItem setLeftBarButtonItem:leftButton animated:YES];
+        [centerViewController.navigationItem setHidesBackButton:YES];
         MMDrawerController *drawerController;
         drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerNavigationController leftDrawerViewController:navigationDrawerViewController];
         
@@ -86,6 +87,7 @@
         [drawerController setShowsShadow:NO];
         
         MMDrawerController *root = (MMDrawerController *)[[[UIApplication sharedApplication] delegate] window].rootViewController;
+        
         [root setCenterViewController:drawerController];
     }
 }
