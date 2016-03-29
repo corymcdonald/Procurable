@@ -29,5 +29,11 @@ namespace Procurable.Controllers
 
             return View();
         }
+
+        [Authorize]
+        public ActionResult Mobile()
+        {
+            return View();
+        }
     }
 }

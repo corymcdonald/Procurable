@@ -260,10 +260,14 @@
     <Content Include="Content\font-awesome.css">
       <DependentUpon>font-awesome.scss</DependentUpon>
     </Content>
+    <Content Include="Content\Images\androidRequest.PNG" />
+    <Content Include="Content\Images\androidViewRequest.PNG" />
     <Content Include="Content\handsontable\handsontable.css" />
     <Content Include="Content\handsontable\handsontable.full.css" />
     <Content Include="Content\handsontable\handsontable.full.min.css" />
     <Content Include="Content\handsontable\handsontable.min.css" />
+    <Content Include="Content\Images\androidlogin.PNG" />
+    <Content Include="Content\Images\androidNavigation.PNG" />
     <Content Include="Content\Images\noise.png" />
     <Content Include="Content\Images\ProcurablePlus.png" />
     <Content Include="Content\Images\ProcurableRed.png" />
@@ -485,6 +489,7 @@
     <Content Include="Views\Shared\EditorTemplates\Vendor.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\User.cshtml" />
     <Content Include="Views\Shared\PurchaseOrderCreateEdit.cshtml" />
+    <Content Include="Views\Home\Mobile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
