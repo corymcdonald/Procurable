@@ -268,6 +268,11 @@
     <Content Include="Content\handsontable\handsontable.min.css" />
     <Content Include="Content\Images\androidlogin.PNG" />
     <Content Include="Content\Images\androidNavigation.PNG" />
+    <Content Include="Content\Images\iOSLogin.PNG" />
+    <Content Include="Content\Images\iOSManageRequests.PNG" />
+    <Content Include="Content\Images\iOSNavigation.PNG" />
+    <Content Include="Content\Images\iOSRegister.PNG" />
+    <Content Include="Content\Images\iOSViewRequest.PNG" />
     <Content Include="Content\Images\noise.png" />
     <Content Include="Content\Images\ProcurablePlus.png" />
     <Content Include="Content\Images\ProcurableRed.png" />
