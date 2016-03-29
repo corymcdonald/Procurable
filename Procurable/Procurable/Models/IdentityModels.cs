@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Procurable.Models
 {
@@ -20,6 +22,15 @@ namespace Procurable.Models
         // Extended Properties
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string GravatarHash
+        {
+            get
+            {
+                MD5 md5 = System.Security.Cryptography.MD5.Create();
+                byte[] toBytes = md5.ComputeHash(Encoding.ASCII.GetBytes(Email.Trim().ToLower()));
+                return Encoding.ASCII.GetString(toBytes);
+            }
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

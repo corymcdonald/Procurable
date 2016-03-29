@@ -201,7 +201,7 @@ namespace Procurable.Controllers
                     {
                         return Json(new { Succeeded=true });
                     }
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Requests");
                 }
                 AddErrors(result);
             }
@@ -433,7 +433,7 @@ namespace Procurable.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Requests");
         }
 
         //
@@ -490,7 +490,7 @@ namespace Procurable.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Requests");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

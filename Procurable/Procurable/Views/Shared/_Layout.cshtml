@@ -33,7 +33,8 @@
     <nav class="navbar navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-               @Html.ActionLink("Procurable", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+               <img src="@Url.Content("~/Content/Images/ProcurableRed.png")" class="navbar-brand" />
+              
             </div>
 
             <ul class="nav navbar-right top-nav">
@@ -45,14 +46,10 @@
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav nav-pills">
-                    <li class="@if (Vendors == Controller) { Write("active"); }">@Html.ActionLink("Vendors", "", "Vendors")</li>
-                    <li class="@if (Inventories == Controller) { Write("active"); }">@Html.ActionLink("Inventories", "", "Inventories")</li>
-                    <li class="@if (InventoryItems == Controller) { Write("active"); }">@Html.ActionLink("Inventory Items", "", "InventoryItems")</li>
-                    <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Purchase Order", "", "PurchaseOrders")</li>
-                    <li class="@if (RequestedItems == Controller) { Write("active"); }">@Html.ActionLink("Requested Items", "", "RequestedItems")</li>
-                    <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Requests", "", "Requests")</li>
-                    <li class="@if (ProjectTasks == Controller) { Write("active"); }">@Html.ActionLink("Tasks", "", "ProjectTasks")</li>
-                    <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Projects", "", "Projects")</li>
+                    <li class="@if (RequestedItems == Controller) { Write("active"); }">@Html.ActionLink("Requests", "", "RequestedItems")</li>
+                    <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Inventory", "", "Requests")</li>
+                    <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Projects", "", "Requests")</li>
+                    <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Administration", "", "Account/Register")</li>
 
                 </ul>
             </div>
@@ -63,8 +60,15 @@
         <div class="container">
             <div class="collapse navbar-collapse collapse-buttons">
                 <ul class="nav navbar-nav nav-pills">
+                    
+                    <li class="@if (Vendors == Controller) { Write("active"); }">@Html.ActionLink("Vendors", "", "Vendors")</li>
+                    <li class="@if (Inventories == Controller) { Write("active"); }">@Html.ActionLink("Inventories", "", "Inventories")</li>
+                    <li class="@if (InventoryItems == Controller) { Write("active"); }">@Html.ActionLink("Inventory Items", "", "InventoryItems")</li>
+                    <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Purchase Order", "", "PurchaseOrders")</li>
                     <li class="@if (RequestedItems == Controller) { Write("active"); }">@Html.ActionLink("Requested Items", "", "RequestedItems")</li>
                     <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Requests", "", "Requests")</li>
+                    <li class="@if (ProjectTasks == Controller) { Write("active"); }">@Html.ActionLink("Tasks", "", "ProjectTasks")</li>
+                    <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Projects", "", "Projects")</li>
                 </ul>
             </div>
         </div>
@@ -74,7 +78,7 @@
 
        
 
-    <div class="container-fluid">
+    <div class="container">
                 
             @RenderBody()
               
@@ -90,5 +94,9 @@
     @Scripts.Render("~/bundles/handsontable")
 
 </body>
-
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted">&copy; @DateTime.Now.Year - Procurable</p>
+    </div>
+</footer>
 </html>
