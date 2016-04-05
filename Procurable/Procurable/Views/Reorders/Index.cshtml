@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Procurable.Models.Reorder>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InventoryItemName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReorderThreshold)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReorderFrequency)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastOrdered)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.InventoryItemName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReorderThreshold)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReorderFrequency)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastOrdered)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

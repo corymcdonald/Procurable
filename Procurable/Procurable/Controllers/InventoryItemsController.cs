@@ -26,6 +26,11 @@ namespace Procurable.Models
             return View(inventoryCount);
         }
 
+        public List<InventoryItem> GetInventoryItems()
+        {
+            return db.InventoryItems.ToList();
+        }
+
         // GET: InventoryItems/Details/5
         [Authorize]
         public ActionResult Details(int? id)

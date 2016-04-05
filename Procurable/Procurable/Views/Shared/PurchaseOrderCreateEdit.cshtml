@@ -55,11 +55,13 @@
     $(document).ready(function () {
 
 
-        @if(Model.RequestedItems.Count != 0)
+        @if (Model != null && Model.RequestedItems.Count != 0)
         {
-            <text>
-        var data = [["", "", "", ""]]
-        </text>
+            <text>var data = [["", "", "", ""]]</text>
+            foreach(var item in Model.RequestedItems)
+            {
+                <text>data.unshift(["@item.Vendor.Name", "@item.Name", @item.Price, "@item.Comments"]);</text>
+            }
         }
         else
         {
@@ -71,15 +73,10 @@
         ["", "", "", ""],
         ["", "", "", ""],
         ];
-            </text>
+        </text>
         }
 
-        @foreach(var item in Model.RequestedItems)
-        {
-            <text>
-            data.unshift(["@item.Vendor.Name", "@item.Name", @item.Price, "@item.Comments"]);
-            </text>
-        }
+
         $(document).keyup(function (e) {
             if (e.keyCode == 45) {
                 var rowIndex = $('.currentRow').parent().index();

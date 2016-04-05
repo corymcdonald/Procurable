@@ -324,15 +324,6 @@ namespace Procurable.Migrations
             });
             InventoryItems3.Add(new InventoryItem()
             {
-                ID = 15,
-                VendorID = 103,
-                Name = "32GB Micro SDHC Card",
-                Status = InventoryStatus.Unallocated,
-                Price = new decimal(9.99),
-                PartNumber = "MB-MP32DA/AM"
-            });
-            InventoryItems3.Add(new InventoryItem()
-            {
                 ID = 16,
                 VendorID = 103,
                 Name = "32GB Micro SDHC Card",

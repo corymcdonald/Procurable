@@ -20,6 +20,8 @@ namespace Procurable.Models
         public string Comments { get; set; }
         public string PartNumber { get; set; }
         public string Location { get; set; }
+        
+
         public InventoryStatus Status { get; set; }
     }
 }

@@ -8,7 +8,8 @@ namespace Procurable.Models
     public enum InventoryStatus
     {
         Allocated,
-        Unallocated
+        Unallocated,
+        Deprecated
     }
 
     public enum ProjectStatus

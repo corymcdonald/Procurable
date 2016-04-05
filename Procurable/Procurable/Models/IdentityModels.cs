@@ -62,5 +62,7 @@ namespace Procurable.Models
         public System.Data.Entity.DbSet<Procurable.Models.ProjectTask> ProjectTasks { get; set; }
 
         public System.Data.Entity.DbSet<Procurable.Models.Project> Projects { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.Reorder> Reorders { get; set; }
     }
 }

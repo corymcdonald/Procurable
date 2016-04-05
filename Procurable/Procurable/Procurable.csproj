@@ -245,12 +245,14 @@
     <Compile Include="Models\ProjectPriority.cs" />
     <Compile Include="Models\ProjectTask.cs" />
     <Compile Include="Models\PurchaseOrder.cs" />
+    <Compile Include="Models\Reorder.cs" />
     <Compile Include="Models\Request.cs" />
     <Compile Include="Models\RequestedItem.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\Vendor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReordersController.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -495,6 +497,11 @@
     <Content Include="Views\Shared\EditorTemplates\User.cshtml" />
     <Content Include="Views\Shared\PurchaseOrderCreateEdit.cshtml" />
     <Content Include="Views\Home\Mobile.cshtml" />
+    <Content Include="Views\Reorders\Create.cshtml" />
+    <Content Include="Views\Reorders\Delete.cshtml" />
+    <Content Include="Views\Reorders\Details.cshtml" />
+    <Content Include="Views\Reorders\Edit.cshtml" />
+    <Content Include="Views\Reorders\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
