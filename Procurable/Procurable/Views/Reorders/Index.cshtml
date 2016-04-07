@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.ReorderThreshold)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ReorderFrequency)
+            @Html.DisplayNameFor(model => model.ReorderFrequencyInDays)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.LastOrdered)
@@ -42,7 +42,12 @@
             @Html.DisplayFor(modelItem => item.ReorderThreshold)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.ReorderFrequency)
+            @if (item.ReorderFrequencyInDays != 0 && item.ReorderFrequencyInDays != null)
+            {
+                <text>
+                    @item.ReorderFrequencyInDays.ToHumanString()
+                </text>
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.LastOrdered)

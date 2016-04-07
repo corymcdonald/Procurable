@@ -26,6 +26,7 @@
 
 
 
+    <meta name="description" content="The description of my page" />
 </head>
 
 <body>
@@ -50,7 +51,7 @@
                     <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Inventory", "", "Requests")</li>
                     <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Projects", "", "Requests")</li>
                     <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Administration", "", "Account/Register")</li>
-                    <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Mobile", "", "Home/Mobile")</li>
+                    <li>@Html.ActionLink("Mobile", "", "Home/Mobile")</li>
 
                 </ul>
             </div>

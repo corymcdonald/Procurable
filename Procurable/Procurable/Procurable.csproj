@@ -200,6 +200,7 @@
     <Compile Include="Controllers\RequestsController.cs" />
     <Compile Include="Controllers\VendorsController.cs" />
     <Compile Include="Controllers\VendorSearch.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -252,7 +253,7 @@
     <Compile Include="Models\Status.cs" />
     <Compile Include="Models\Vendor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReordersController.cs" />
+    <Compile Include="Controllers\ReordersController.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -502,6 +503,8 @@
     <Content Include="Views\Reorders\Details.cshtml" />
     <Content Include="Views\Reorders\Edit.cshtml" />
     <Content Include="Views\Reorders\Index.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Timespan.cshtml" />
+    <Content Include="Views\Shared\_ReorderPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

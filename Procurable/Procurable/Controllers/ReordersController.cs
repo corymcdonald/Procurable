@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Procurable.Models;
+using System.Data.SqlTypes;
 
 namespace Procurable
 {
@@ -41,21 +42,46 @@ namespace Procurable
             return View();
         }
 
-        // POST: Reorders/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        public ActionResult CreateEdit(string InventoryItemName)
+        {
+            var Found = db.Reorders.FirstOrDefault(x => x.InventoryItemName.Equals(InventoryItemName));
+            if (String.IsNullOrEmpty(InventoryItemName) || Found == null)
+            {
+                return View("Create");
+            }
+            else
+                return View("Edit", Found);
+        }
+
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Name,InventoryItemName,ReorderThreshold,ReorderFrequency,LastOrdered")] Reorder reorder)
+        public ActionResult CreateEdit([Bind(Include = "ID,Name,InventoryItemName,ReorderThreshold,ReorderFrequencyInDays,QuanityToOrder,LastOrdered")] Reorder reorder)
         {
             if (ModelState.IsValid)
             {
-                db.Reorders.Add(reorder);
+                if (reorder.LastOrdered == DateTime.MinValue)
+                    reorder.LastOrdered = SqlDateTime.MinValue.Value;
+                if (reorder.ID == 0)
+                {
+                    db.Reorders.Add(reorder);
+                }
+                else {
+                    db.Entry(reorder).State = EntityState.Modified;
+                }
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             return View(reorder);
+        }
+        // POST: Reorders/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "ID,Name,InventoryItemName,ReorderThreshold,ReorderFrequencyInDays,,QuanityToOrder,LastOrdered")] Reorder reorder)
+        {
+            return CreateEdit(reorder);
         }
 
         // GET: Reorders/Edit/5
@@ -78,15 +104,9 @@ namespace Procurable
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Name,InventoryItemName,ReorderThreshold,ReorderFrequency,LastOrdered")] Reorder reorder)
+        public ActionResult Edit([Bind(Include = "ID,Name,InventoryItemName,ReorderThreshold,ReorderFrequencyInDays,QuanityToOrder,LastOrdered")] Reorder reorder)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(reorder).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(reorder);
+            return CreateEdit(reorder);
         }
 
         // GET: Reorders/Delete/5
