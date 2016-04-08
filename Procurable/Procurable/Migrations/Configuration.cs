@@ -130,9 +130,16 @@ namespace Procurable.Migrations
             vendors.Add(new Vendor() { ID = 136, Name = "Zelybron", Description = "", Website = "http://Zelybron.com" });
             vendors.Add(new Vendor() { ID = 138, Name = "Zoostorm", Description = "", Website = "http://Zoostorm.com" });
             vendors.Add(new Vendor() { ID = 139, Name = "Zotac", Description = "", Website = "http://Zotac.com" });
-            vendors.Add( new Vendor() { ID = 139, Name = "Amazon", Description = "An American electronic commerce and cloud computing company with headquarters in Seattle, Washington.", Website = "http://www.amazon.com/", Contact = "1 (888) 280-4331" });
+            vendors.Add( new Vendor() { ID = 140, Name = "Amazon", Description = "An American electronic commerce and cloud computing company with headquarters in Seattle, Washington.", Website = "http://www.amazon.com/", Contact = "1 (888) 280-4331" });
             vendors.ForEach(s => context.Vendors.AddOrUpdate(p => p.ID, s));
             #endregion
+
+            
+            #region Users
+            var departments = new List<Department>();
+            departments.Add(new Department() { ID = 1, Name = "Mobile", Description = "Develops apps", Budget = 10000});
+            departments.Add(new Department() { ID = 2, Name = "Server Team", Description = "SERVER STUFF", Budget = 5400000 });
+            departments.ForEach(s => context.Departments.AddOrUpdate(p => p.ID, s));
 
             context.Roles.AddOrUpdate(r => r.Name,
                 new IdentityRole { Name = "Admin" },
@@ -140,12 +147,12 @@ namespace Procurable.Migrations
                 new IdentityRole { Name = "User" });
            
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-
+            
             if (!(context.Users.Any(u => u.UserName == "admin@test.com")))
             {
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
-                var userToInsert = new ApplicationUser { UserName = "admin@test.com", Email = "admin@test.com", FirstName = "Admin", LastName = "Test" };
+                var userToInsert = new ApplicationUser { UserName = "admin@test.com", DepartmentID = 1, Email = "admin@test.com", FirstName = "Admin", LastName = "Test" };
                 userManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id,"Admin");
             }
@@ -154,7 +161,7 @@ namespace Procurable.Migrations
             {
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
-                var userToInsert = new ApplicationUser { UserName = "reviewer@test.com", Email = "reviewer@test.com", FirstName = "Reviewer", LastName = "Test" };
+                var userToInsert = new ApplicationUser { UserName = "reviewer@test.com", DepartmentID = 1, Email = "reviewer@test.com", FirstName = "Reviewer", LastName = "Test" };
                 userManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "Reviewer");
             }
@@ -163,12 +170,13 @@ namespace Procurable.Migrations
             {
                 var userStore = new UserStore<ApplicationUser>(context);
                 var userManager = new UserManager<ApplicationUser>(userStore);
-                var userToInsert = new ApplicationUser { UserName = "user@test.com", Email = "user@test.com", FirstName = "User", LastName = "Test" };
+                var userToInsert = new ApplicationUser { UserName = "user@test.com", DepartmentID = 1, Email = "user@test.com", FirstName = "User", LastName = "Test" };
                 userManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
             }
+            #endregion
 
-
+            
             #region InventoryItems and Purchase Orders
             List<InventoryItem> InventoryItems1 = new List<InventoryItem>();
             List<InventoryItem> InventoryItems2 = new List<InventoryItem>();
@@ -227,7 +235,7 @@ namespace Procurable.Migrations
             });
             InventoryItems2.Add(new InventoryItem()
             {
-                ID = 6,
+                ID = 7,
                 VendorID = 14,
                 Name = "iPad Air 2",
                 Comments = "iOS 8.1",
@@ -247,16 +255,6 @@ namespace Procurable.Migrations
             });
             InventoryItems2.Add(new InventoryItem()
             {
-                ID = 7,
-                VendorID = 14,
-                Name = "iPad Air 2",
-                Comments = "iOS 8.1",
-                Status = InventoryStatus.Unallocated,
-                Price = new decimal(575.00),
-                PartNumber = "MC769LL",
-            });
-            InventoryItems2.Add(new InventoryItem()
-            {
                 ID = 9,
                 VendorID = 14,
                 Name = "iPad Air 2",
@@ -267,7 +265,17 @@ namespace Procurable.Migrations
             });
             InventoryItems2.Add(new InventoryItem()
             {
-                ID = 4,
+                ID = 10,
+                VendorID = 14,
+                Name = "iPad Air 2",
+                Comments = "iOS 8.1",
+                Status = InventoryStatus.Unallocated,
+                Price = new decimal(575.00),
+                PartNumber = "MC769LL",
+            });
+            InventoryItems2.Add(new InventoryItem()
+            {
+                ID = 11,
                 VendorID = 139,
                 Name = "One",
                 Comments = "145.75 x 70.8. x 7.26 mm",
@@ -278,7 +286,7 @@ namespace Procurable.Migrations
 
             InventoryItems3.Add(new InventoryItem()
             {
-                ID = 10,
+                ID = 12,
                 VendorID = 109,
                 Name = "Digital A6 Color Printer",
                 Status = InventoryStatus.Allocated,
@@ -287,7 +295,7 @@ namespace Procurable.Migrations
             });
             InventoryItems3.Add(new InventoryItem()
             {
-                ID = 11,
+                ID = 13,
                 VendorID = 80,
                 Name = "Microsoft Office Home",
                 Status = InventoryStatus.Allocated,
@@ -296,7 +304,7 @@ namespace Procurable.Migrations
             });
             InventoryItems3.Add(new InventoryItem()
             {
-                ID = 12,
+                ID = 14,
                 VendorID = 80,
                 Name = "Microsoft Office Student",
                 Status = InventoryStatus.Allocated,
@@ -306,19 +314,10 @@ namespace Procurable.Migrations
 
             InventoryItems3.Add(new InventoryItem()
             {
-                ID = 13,
+                ID = 15,
                 VendorID = 103,
                 Name = "32GB Micro SDHC Card",
                 Status = InventoryStatus.Allocated,
-                Price = new decimal(9.99),
-                PartNumber = "MB-MP32DA/AM"
-            });
-            InventoryItems3.Add(new InventoryItem()
-            {
-                ID = 14,
-                VendorID = 103,
-                Name = "32GB Micro SDHC Card",
-                Status = InventoryStatus.Unallocated,
                 Price = new decimal(9.99),
                 PartNumber = "MB-MP32DA/AM"
             });
@@ -334,6 +333,15 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 17,
+                VendorID = 103,
+                Name = "32GB Micro SDHC Card",
+                Status = InventoryStatus.Unallocated,
+                Price = new decimal(9.99),
+                PartNumber = "MB-MP32DA/AM"
+            });
+            InventoryItems3.Add(new InventoryItem()
+            {
+                ID = 18,
                 VendorID = 1,
                 Name = "Aspire",
                 Status = InventoryStatus.Unallocated,
@@ -342,7 +350,7 @@ namespace Procurable.Migrations
             });
             InventoryItems3.Add(new InventoryItem()
             {
-                ID = 17,
+                ID = 19,
                 VendorID = 1,
                 Name = "23-Inch Screen LED-Lit Monitor",
                 Status = InventoryStatus.Unallocated,
@@ -367,7 +375,7 @@ namespace Procurable.Migrations
             });
             var PO3 = (new PurchaseOrder()
             {
-                ID = 2,
+                ID = 3,
                 Name = "Purchase Order - 3/26/2016",
                 RequestedItems = InventoryItems3,
                 Price = InventoryItems3.Sum(x => x.Price)
@@ -385,13 +393,9 @@ namespace Procurable.Migrations
                 inventoryItem.PurchaseOrder = PO2;
             foreach (var inventoryItem in InventoryItems3)
                 inventoryItem.PurchaseOrder = PO3;
-
-            InventoryItems1.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
-            InventoryItems2.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
-            InventoryItems3.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
             #endregion
 
-
+    
 
 
         }

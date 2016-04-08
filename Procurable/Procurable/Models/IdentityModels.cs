@@ -22,6 +22,10 @@ namespace Procurable.Models
         // Extended Properties
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public int DepartmentID { get; set; }
+        public virtual Department Department { get; set; }
+
         public string GravatarHash
         {
             get
@@ -64,5 +68,7 @@ namespace Procurable.Models
         public System.Data.Entity.DbSet<Procurable.Models.Project> Projects { get; set; }
 
         public System.Data.Entity.DbSet<Procurable.Models.Reorder> Reorders { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.Department> Departments { get; set; }
     }
 }

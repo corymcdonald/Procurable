@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace Procurable.Models
         public int ID { get; set; }
         public string Name { get; set; }
 
+        [ForeignKey("Vendor")]
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
 
