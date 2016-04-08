@@ -44,7 +44,7 @@ body {
     height: 100%; }
   .account .card-background {
     height: 100%;
-    background-image: url("/Content/Images/ProcurablePlus.png"); }
+    background-image: linear-gradient(#F44336, #F44336); }
   .account .card-container.card {
     max-width: 350px;
     margin-top: 20vh;
