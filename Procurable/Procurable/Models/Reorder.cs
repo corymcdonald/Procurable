@@ -19,6 +19,7 @@ namespace Procurable.Models
         [Display(Name = "Quanity To Reorder")]
         public int QuanityToOrder { get; set; }
 
+
         public int? ReorderFrequencyInDays { get; set; }
         public DateTime LastOrdered { get; set; }
     }

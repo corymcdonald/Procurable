@@ -12,6 +12,8 @@ namespace ContinuousJob
     {
         static void Main(string[] args)
         {
+            string APIKey = Environment.GetEnvironmentVariable("SendGridAPI", EnvironmentVariableTarget.User);
+
             var IIC = new InventoryItemsController();
             foreach (InventoryItem i in IIC.GetInventoryItems())
             {
