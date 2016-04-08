@@ -9,8 +9,11 @@ namespace Procurable.Models
     public class Reorder
     {
         public int ID { get; set; }
+
         public string Name { get; set; }
 
+        [Display(Name = "Item Name")]
+        [Required]
         public string InventoryItemName { get; set; }
 
         [Display(Name = "Automatic Threshold to Reoder")]
@@ -19,8 +22,10 @@ namespace Procurable.Models
         [Display(Name = "Quanity To Reorder")]
         public int QuanityToOrder { get; set; }
 
-
+        [Display(Name = "Reorder frequencly")]
         public int? ReorderFrequencyInDays { get; set; }
+
+        [Display(Name = "Last Ordered")]
         public DateTime LastOrdered { get; set; }
     }
 }

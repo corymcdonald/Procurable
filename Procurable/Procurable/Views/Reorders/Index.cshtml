@@ -50,7 +50,14 @@
             }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LastOrdered)
+            @if (item.LastOrdered == System.Data.SqlTypes.SqlDateTime.MinValue)
+            {
+                <text>Never</text>
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.LastOrdered)
+            }
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |

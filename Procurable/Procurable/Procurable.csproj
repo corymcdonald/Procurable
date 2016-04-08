@@ -505,6 +505,7 @@
     <Content Include="Views\Reorders\Index.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Timespan.cshtml" />
     <Content Include="Views\Shared\_ReorderPartial.cshtml" />
+    <Content Include="Views\InventoryItems\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
