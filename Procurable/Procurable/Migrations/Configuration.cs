@@ -7,6 +7,7 @@ namespace Procurable.Migrations
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Diagnostics;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<Procurable.Models.ApplicationDbContext>
@@ -17,7 +18,7 @@ namespace Procurable.Migrations
             AutomaticMigrationDataLossAllowed = true;
             ContextKey = "Procurable.Models.ApplicationDbContext";
         }
-
+  
         protected override void Seed(Procurable.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -33,7 +34,6 @@ namespace Procurable.Migrations
             //    );
             #region Vendors
             var vendors = new List<Vendor>();
-
             vendors.Add(new Vendor() { ID = 1, Name = "Acer", Description = "Taiwanese multinational hardware and electronics corporation specializing in advanced electronics technology", Website = "http://Acer.com" });
             vendors.Add(new Vendor() { ID = 2, Name = "Gateway", Description = "American computer hardware company based in South Dakota, that developed, manufactured, supported, and marketed a wide range of personal computers", Website = "http://Gateway.com" });
             vendors.Add(new Vendor() { ID = 4, Name = "Advent", Description = "", Website = "http://Advent.com" });
@@ -134,8 +134,8 @@ namespace Procurable.Migrations
             vendors.ForEach(s => context.Vendors.AddOrUpdate(p => p.ID, s));
             #endregion
 
-            
-            #region Users/Roles/Departments
+
+            #region Users
             var departments = new List<Department>();
             departments.Add(new Department() { ID = 1, Name = "Mobile", Description = "Develops apps", Budget = 10000});
             departments.Add(new Department() { ID = 2, Name = "Server Team", Description = "SERVER STUFF", Budget = 5400000 });
