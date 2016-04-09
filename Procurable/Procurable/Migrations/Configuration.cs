@@ -135,7 +135,7 @@ namespace Procurable.Migrations
             #endregion
 
             
-            #region Users
+            #region Users/Roles/Departments
             var departments = new List<Department>();
             departments.Add(new Department() { ID = 1, Name = "Mobile", Description = "Develops apps", Budget = 10000});
             departments.Add(new Department() { ID = 2, Name = "Server Team", Description = "SERVER STUFF", Budget = 5400000 });
