@@ -12,7 +12,6 @@ namespace Procurable.Models
         public int ID { get; set; }
         public string Name { get; set; }
 
-        [ForeignKey("Vendor")]
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
 
