@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Security;
 using System.Web.Mvc;
 using Procurable.Models;
 using Microsoft.AspNet.Identity.Owin;
@@ -27,6 +28,18 @@ namespace Procurable.Controllers
             {
                 return Json(db.Requests.Where(x => x.RequestedBy.Id.Equals(uId)).ToList(), JsonRequestBehavior.AllowGet);
             }
+            ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
+            System.Diagnostics.Debug.WriteLine(currentUser);
+            if (User.IsInRole("Admin") || User.IsInRole("Reviewer"))
+            {
+                ViewData["powerUser"] = true;
+                
+            }
+            else
+            {
+                ViewData["powerUser"] = false;
+            }
+            
             return View(db.Requests.Where(x => x.RequestedBy.Id.Equals(uId)).ToList());
         }
 
@@ -39,7 +52,7 @@ namespace Procurable.Controllers
             {
                 return Json(db.Requests.ToList(), JsonRequestBehavior.AllowGet);
             }
-            return View(db.Requests.ToList());
+            return PartialView(db.Requests.ToList());
         }
 
         // GET: Requests/Details/5

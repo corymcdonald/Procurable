@@ -24,7 +24,7 @@ namespace Procurable.Models
         Opened,
         Reopened,
         Approved,
-        Denyed,
+        Denied,
         InProgress,
         Completed
     }

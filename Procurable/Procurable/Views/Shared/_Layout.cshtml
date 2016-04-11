@@ -1,18 +1,20 @@
 ﻿@{
     var Vendors = "Vendors";
+    var Departments = "Departments";
     var Inventories = "Inventories";
     var InventoryItems = "InventoryItems";
     var PurchaseOrder = "PurchaseOrders";
     var RequestedItems = "RequestedItems";
-    var Requests = "Requests";
+    var Requests = "requests";
+    
     var ProjectTasks = "ProjectTasks";
     var Projects = "Projects";
     var Controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
 
-    string[] requestsSub = { RequestedItems, Requests };
+    string[] requestsSub = { RequestedItems, Requests};
     string[] inventorySub = { Inventories, InventoryItems, PurchaseOrder};
     string[] projectsSub = {Projects, ProjectTasks};
-    string[] administrationSub = { Vendors};
+    string[] administrationSub = { Vendors, Departments};
     string[] reportingSub = { };
 
     bool isRequestsSub = requestsSub.Any(x => x.Contains(Controller));
@@ -66,17 +68,7 @@
                     <li class="@if (isAdministrationSub) { Write("active"); }"><a data-target="#administrationNav" data-toggle="tab">Administration</a></li>
                     <li class="@if (isReportingSub) { Write("active"); }"><a data-target="#reportingNav" data-toggle="tab">Reporting</a></li>
                 </ul>
-                <!--
-                <ul class="nav navbar-nav nav-pills">
-                    <li class="@if (RequestedItems == Controller) { Write("active"); }">@Html.ActionLink("Requests", "", "RequestedItems")</li>
-                    <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Inventory", "", "Requests")</li>
-                    <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Projects", "", "Requests")</li>
-                    <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Administration", "", "Account/Register")</li>
-                    <li>@Html.ActionLink("Mobile", "", "Home/Mobile")</li>
-                    <li class="">@Html.ActionLink("Reporting", "", "Account/Register")</li>
-
-                </ul>
-                -->
+               
             </div>
         </div><!-- /.container-fluid -->
     </nav>
@@ -93,7 +85,8 @@
                             <div class="tab-pane @if (isRequestsSub) { Write("active"); }" id="requestsNav">
                                 <ul class="nav navbar-nav nav-pills">
                                     <li class="@if (RequestedItems == Controller) { Write("active"); }">@Html.ActionLink("Requested Items", "", "RequestedItems")</li>
-                                    <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Requests", "", "Requests")</li>
+                                    <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Requests", "", "requests")</li>
+                                    
                                 </ul>
                             </div>
                             <!-- Inventory CONTAINER-->
@@ -116,6 +109,7 @@
                             <div class="tab-pane @if (isAdministrationSub) { Write("active"); }" id="administrationNav">
                                 <ul class="nav navbar-nav nav-pills">
                                     <li class="@if (Vendors == Controller) { Write("active"); }">@Html.ActionLink("Vendors", "", "Vendors")</li>
+                                    <li class="@if (Departments == Controller) { Write("active"); }">@Html.ActionLink("Departments", "", "Departments")</li>
                                 </ul>
                             </div>
                             <!-- reporting CONTAINER-->

@@ -1,26 +1,12 @@
 ﻿@model IEnumerable<Procurable.Models.Request>
 
-@{
-    ViewBag.Title = "Index";
-}
+
+
+<h2>Pending My Approval</h2>
 
 
 
-@if ((bool)ViewData["powerUser"])
-{
-   
-    @Html.Action("Approve");
-}
-
-
-<h2>My Requests</h2>
-
-
-<p>
-    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default" })
-</p>
-
-<table class="table-hover table" >
+<table class="table-hover table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ID)
@@ -41,10 +27,9 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model)
-{
+@foreach (var item in Model) {
     <tr class='clickable-row' data-href='@Url.Action("Details", new { id=item.ID })' style="cursor: pointer">
-        <td>
+        <td >
             @Html.DisplayFor(modelItem => item.ID)
         </td>
         <td>
@@ -75,15 +60,11 @@
                     @Html.DisplayFor(modelItem => item.StatusDisplay)
                 </span>
             }
-
+           
         </td>
+       
         <td>
-
-
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default" })
-            @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-default" })
-
-
+          
         </td>
     </tr>
 }
@@ -91,11 +72,4 @@
 </table>
 
 
-<script>
-    jQuery(document).ready(function ($) {
-        $(".clickable-row").click(function () {
 
-            window.document.location = $(this).data("href");
-        });
-    });
-</script>

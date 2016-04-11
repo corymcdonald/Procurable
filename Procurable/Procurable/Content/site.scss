@@ -3,6 +3,7 @@ $dark-red: #7c1f1f;
 $light-red: #FF8F86;
 $black: #121314;
 $grey: #222326;
+$light-grey: #C7C7C7;
 $white: #F4F4F4;
 
 //MAIN STYLES
@@ -38,6 +39,9 @@ body{
     
 }
 
+.table-hover > tbody > tr:hover {
+    background-color: $light-grey;
+}
 
 //LOGIN TESTING
 .account{

@@ -393,9 +393,13 @@ namespace Procurable.Migrations
                 inventoryItem.PurchaseOrder = PO2;
             foreach (var inventoryItem in InventoryItems3)
                 inventoryItem.PurchaseOrder = PO3;
+
+            InventoryItems1.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
+            InventoryItems2.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
+            InventoryItems3.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
             #endregion
 
-    
+
 
 
         }
