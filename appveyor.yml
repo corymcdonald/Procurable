@@ -1,7 +1,7 @@
 environment:
-  matrix:
-    solution_name: ProcurableService.sln
-    solution_name: Procurable.sln 
+  matrix: 
+    - project_name: Procurable/Procurable.sln
+    - project_name: ProcurableService/ProcurableService.sln
   
 install:
  - cmd: nuget sources add -Name api.nuget.org -Source https://api.nuget.org/v3/index.json
@@ -11,4 +11,4 @@ install:
  
 build:
   verbosity: normal
-  project: %solution_name%
+  project: $(project_name)
