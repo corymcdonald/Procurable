@@ -73,7 +73,7 @@ namespace Procurable
                 return RedirectToAction("Index");
             }
 
-            return View(reorder);
+            return View("Details", reorder);
         }
         // POST: Reorders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

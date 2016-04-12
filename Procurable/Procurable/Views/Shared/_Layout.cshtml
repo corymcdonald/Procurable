@@ -5,6 +5,7 @@
     var InventoryItems = "InventoryItems";
     var PurchaseOrder = "PurchaseOrders";
     var RequestedItems = "RequestedItems";
+    var Reorders = "Reorders";
     var Requests = "requests";
     
     var ProjectTasks = "ProjectTasks";
@@ -12,7 +13,7 @@
     var Controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
 
     string[] requestsSub = { RequestedItems, Requests};
-    string[] inventorySub = { Inventories, InventoryItems, PurchaseOrder};
+    string[] inventorySub = { Inventories, InventoryItems, PurchaseOrder, Reorders};
     string[] projectsSub = {Projects, ProjectTasks};
     string[] administrationSub = { Vendors, Departments};
     string[] reportingSub = { };
@@ -96,6 +97,7 @@
                                     <li class="@if (Inventories == Controller) { Write("active"); }">@Html.ActionLink("Inventories", "", "Inventories")</li>
                                     <li class="@if (InventoryItems == Controller) { Write("active"); }">@Html.ActionLink("Inventory Items", "", "InventoryItems")</li>
                                     <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Purchase Order", "", "PurchaseOrders")</li>
+                                    <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Auto Reorder", "", "Reorders")</li>
                                 </ul>
                             </div>
                             <!-- projects CONTAINER-->
