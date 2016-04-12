@@ -9,7 +9,7 @@ namespace Procurable.Migrations
     using System.Data.Entity.Migrations;
     using System.Diagnostics;
     using System.Linq;
-
+    using System.Web.Security;
     internal sealed class Configuration : DbMigrationsConfiguration<Procurable.Models.ApplicationDbContext>
     {
         public Configuration()
@@ -170,6 +170,8 @@ namespace Procurable.Migrations
             {
                 adminID = UserManager.FindByName("admin@test.com").Id;
             }
+
+            
 
             //Reviewers
             if (!(context.Users.Any(u => u.UserName == "reviewer@test.com")))
