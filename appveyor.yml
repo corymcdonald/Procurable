@@ -11,3 +11,4 @@ install:
  
 build:
   verbosity: normal
+  project: %solution_name%
