@@ -150,40 +150,47 @@ namespace Procurable.Migrations
                 new IdentityRole { Name = "User" });
            
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            var adminID = "";
+            var lucasID = "";
+            var mattID = "";
             
+            
+
             //Admins
             if (!(context.Users.Any(u => u.UserName == "admin@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+                
                 var userToInsert = new ApplicationUser { UserName = "admin@test.com", DepartmentID = 1, ApprovalDepartmentID = 1, Email = "admin@gustr.com", FirstName = "Admin", LastName = "Admin" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id,"Admin");
+                adminID = userToInsert.Id;
+            }
+            else
+            {
+                adminID = UserManager.FindByName("admin@test.com").Id;
             }
 
             //Reviewers
             if (!(context.Users.Any(u => u.UserName == "reviewer@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+                
                 var userToInsert = new ApplicationUser { UserName = "reviewer@test.com", DepartmentID = 1, ApprovalDepartmentID = 2, Email = "reviewer@gustr.com", FirstName = "Reviewer", LastName = "Reviewer" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "Reviewer");
             }
             if (!(context.Users.Any(u => u.UserName == "abel@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+                
                 var userToInsert = new ApplicationUser { UserName = "abel@test.com", DepartmentID = 1, ApprovalDepartmentID = 3, Email = "abel@gustr.com", FirstName = "Abel", LastName = "Trespalacios" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "Reviewer");
             }
             if (!(context.Users.Any(u => u.UserName == "chris@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+                
                 var userToInsert = new ApplicationUser { UserName = "chris@test.com", DepartmentID = 1, ApprovalDepartmentID = 4, Email = "chris@gustr.com", FirstName = "Chris", LastName = "Rogers" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "Reviewer");
             }
        
@@ -192,69 +199,72 @@ namespace Procurable.Migrations
             //Inventory Managers
             if (!(context.Users.Any(u => u.UserName == "inventory@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+                
                 var userToInsert = new ApplicationUser { UserName = "inventory@test.com", DepartmentID = 1, Email = "inventory@gustr.com", FirstName = "Inventory", LastName = "Inventory" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "Inventory");
             }
 
             //Users
             if (!(context.Users.Any(u => u.UserName == "lucas@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+               
                 var userToInsert = new ApplicationUser { UserName = "lucas@test.com", DepartmentID = 4, Email = "lucas.dorrough.b@gmail.com", FirstName = "Lucas", LastName = "Dorrough" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
+                lucasID = userToInsert.Id;
             }
+            else
+            {
+                lucasID = UserManager.FindByName("lucas@test.com").Id;
+            }
+
             if (!(context.Users.Any(u => u.UserName == "will@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+               
                 var userToInsert = new ApplicationUser { UserName = "will@test.com", DepartmentID = 3, Email = "wsturner.1123@gmail.com", FirstName = "Will", LastName = "Turner" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
             }
             if (!(context.Users.Any(u => u.UserName == "matt@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+                
                 var userToInsert = new ApplicationUser { UserName = "matt@test.com", DepartmentID = 3, Email = "maluther@uark.edu", FirstName = "Matt", LastName = "Luther" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
+                mattID = userToInsert.Id;
             }
+            {
+                mattID = UserManager.FindByName("matt@test.com").Id;
+            }
+
             if (!(context.Users.Any(u => u.UserName == "cory@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+               
                 var userToInsert = new ApplicationUser { UserName = "cory@test.com", DepartmentID = 4, Email = "cory@corywmcdonald.com ", FirstName = "Cory", LastName = "McDonald" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
             }
             if (!(context.Users.Any(u => u.UserName == "erin@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+                
                 var userToInsert = new ApplicationUser { UserName = "erin@test.com", DepartmentID = 2, Email = "erin@gustr.com", FirstName = "Erin", LastName = "Butcher" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
             }
             if (!(context.Users.Any(u => u.UserName == "andrea@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+               
                 var userToInsert = new ApplicationUser { UserName = "andrea@test.com", DepartmentID = 2, Email = "andrea@gustr.com", FirstName = "Andrea", LastName = "Dobbs" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
             }
 
             if (!(context.Users.Any(u => u.UserName == "loren@test.com")))
             {
-                var userStore = new UserStore<ApplicationUser>(context);
-                var userManager = new UserManager<ApplicationUser>(userStore);
+               
                 var userToInsert = new ApplicationUser { UserName = "loren@test.com", DepartmentID = 2, Email = "loren@gustr.com", FirstName = "Loren", LastName = "Anthony" };
-                userManager.Create(userToInsert, "password");
+                UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
             }
 
@@ -491,8 +501,126 @@ namespace Procurable.Migrations
 
 
             #region RequestedItems and Requests
+            List<RequestedItem> RequestItems1 = new List<RequestedItem>();
+            List<RequestedItem> RequestItems2 = new List<RequestedItem>();
+            List<RequestedItem> RequestItems3 = new List<RequestedItem>();
 
 
+            RequestItems1.Add(new RequestedItem()
+            {
+                ID = 1,
+                Name = "Paper",
+                Comments = "For the printer",
+                URL = "http://www.amazon.com"
+            });
+            RequestItems1.Add(new RequestedItem()
+            {
+                ID = 2,
+                Name = "Dell T510",
+                Comments = "TowerServer",
+                URL = "http://www.amazon.com"
+            });
+            RequestItems1.Add(new RequestedItem()
+            {
+                ID = 3,
+                Name = "Antec Cooler",
+                Comments = "My pc is running hot",
+                URL = "http://www.amazon.com"
+            });
+            RequestItems1.Add(new RequestedItem()
+            {
+                ID = 4,
+                Name = "Keyboard",
+                Comments = "t'nac epyt",
+                URL = "http://www.amazon.com"
+            });
+
+            RequestItems2.Add(new RequestedItem()
+            {
+                ID = 5,
+                Name = "24Inch Monitor",
+                Comments = "Cant see",
+                URL = "http://www.amazon.com"
+            });
+            RequestItems2.Add(new RequestedItem()
+            {
+                ID = 6,
+                Name = "Dell T510",
+                Comments = "TowerServer",
+                URL = "http://www.dell.com"
+            });
+
+            RequestItems3.Add(new RequestedItem()
+            {
+                ID = 7,
+                Name = "Some Board Game",
+                Comments = "Cant see",
+                URL = "http://www.amazon.com"
+            });
+            RequestItems2.Add(new RequestedItem()
+            {
+                ID = 8,
+                Name = "Some Mobile Device",
+                Comments = "NOT iOS",
+                URL = "http://www.dell.com"
+            });
+
+
+            RequestItems1.ForEach(s => context.RequestedItems.AddOrUpdate(p => p.ID, s));
+            RequestItems2.ForEach(s => context.RequestedItems.AddOrUpdate(p => p.ID, s));
+            RequestItems3.ForEach(s => context.RequestedItems.AddOrUpdate(p => p.ID, s));
+
+            List<Request> REQs = new List<Request>();
+
+            var Req1 = (new Request()
+            {
+                ID = 1,
+                Name = "general Junk",
+                Comments = "this is just stuff I need",
+                RequestedById = adminID,
+                RequestedForId = adminID,
+                Items = RequestItems1,
+                Status = RequestStatus.Opened,
+                CreatedDate = DateTime.Now,
+                LastModified = DateTime.Now
+
+            });
+
+            var Req2 = (new Request()
+            {
+                ID = 2,
+                Name = "Lucas' Junk",
+                Comments = "I NEED THIS",
+                RequestedById = lucasID,
+                RequestedForId = lucasID,
+                Items = RequestItems2,
+                Status = RequestStatus.Opened,
+                CreatedDate = DateTime.Now,
+                LastModified = DateTime.Now
+
+            });
+
+            var Req3 = (new Request()
+            {
+                ID = 3,
+                Name = "Matts Junk",
+                Comments = "Worth a fortune in some lands",
+                RequestedById = mattID,
+                RequestedForId = mattID,
+                Items = RequestItems3,
+                Status = RequestStatus.Opened,
+                CreatedDate = DateTime.Now,
+                LastModified = DateTime.Now
+
+            });
+
+            REQs.Add(Req1);
+            REQs.Add(Req2);
+            REQs.Add(Req3);
+
+            REQs.ForEach(s => context.Requests.AddOrUpdate(p => p.ID, s));
+
+           
 
 
             #endregion

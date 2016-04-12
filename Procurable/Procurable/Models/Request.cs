@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,12 +14,7 @@ namespace Procurable.Models
         public string Name { get; set; }
         [DisplayName("Details")]
         public string Comments { get; set; }
-        [UIHint("User")]
-        [DisplayName("Requested For")]
-        public virtual ApplicationUser RequestedFor { get; set; }
-        [UIHint("User")]
-        public virtual ApplicationUser RequestedBy { get; set; }
-
+        
         public DateTime CreatedDate { get; set; }
         public string   CreatedDateDisplay {
             get
@@ -47,5 +43,23 @@ namespace Procurable.Models
                 return Status.ToString();
             }
         }
+
+        //Requested for and by
+
+
+        public string RequestedForId { get; set; }
+        [ForeignKey("RequestedForId")]
+        [UIHint("User")]
+        [DisplayName("Requested For")]
+        public virtual ApplicationUser RequestedFor { get; set; }
+
+        public string RequestedById { get; set; }
+        [ForeignKey("RequestedById")]
+        [UIHint("User")]
+        public virtual ApplicationUser RequestedBy { get; set; }
+
+        //Add better comment system?
+
+
     }
 }
