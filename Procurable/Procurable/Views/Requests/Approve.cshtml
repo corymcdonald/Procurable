@@ -28,7 +28,7 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr class='clickable-row' data-href='@Url.Action("Details", new { id=item.ID })' style="cursor: pointer">
+    <tr data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
         <td >
             @Html.DisplayFor(modelItem => item.ID)
         </td>
@@ -66,6 +66,11 @@
         <td>
           
         </td>
+    </tr>
+    <tr style="background: #222326">
+        <td colspan="5" class="Hidden" style="padding: 0 !important;"><div  id="@item.ID" class="panel-collapse collapse in">
+            @Html.DisplayFor(modelItem => item.Items)
+        </div></td>
     </tr>
 }
 

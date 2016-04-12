@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,8 +11,10 @@ namespace Procurable.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        [DisplayName("Details")]
         public string Comments { get; set; }
         [UIHint("User")]
+        [DisplayName("Requested For")]
         public virtual ApplicationUser RequestedFor { get; set; }
         [UIHint("User")]
         public virtual ApplicationUser RequestedBy { get; set; }
@@ -33,6 +36,7 @@ namespace Procurable.Models
             }
         }
 
+        [UIHint("ItemList")]
         public virtual ICollection<RequestedItem> Items { get; set; }
 
         public RequestStatus Status { get; set; }

@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Procurable.Models.RequestedItem>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+ 
+        
+
+    <div class="col-md-10">
+        <div id="@Model.GetHashCode()"></div>
+    </div>
+
+ 
+
+<script>
+    $(document).ready(function () {
+
+
+        @if (Model != null)
+        {
+            <text>var data = [["", "", "", ""]]</text>
+            foreach (var item in Model)
+            {
+                <text>data.unshift(["@item.ID", "@item.Name", @item.Comments, "@item.URL"]);</text>
+            }
+        }
+        else
+        {
+            <text>
+        var data = [
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ];
+        </text>
+        }
+
+
+        $(document).keyup(function (e) {
+            if (e.keyCode == 45) {
+                var rowIndex = $('.currentRow').parent().index();
+
+                hot.alter("insert_row", rowIndex);
+            }
+        });
+        var container = document.getElementById('@Model.GetHashCode()');
+        var hot = new Handsontable(container,
+        {
+            data: data,
+            stretchH: "all",
+            rowHeaders: true,
+           
+            columns: [
+              { type: "text" },
+              { type: "text" },
+              { type: 'text' },
+              { type: "text" }
+            ],
+
+            colHeaders: [
+               "ID",
+               "Name",
+               "Details",
+               "URL",
+            ]
+        });
+        
+    })
+</script>

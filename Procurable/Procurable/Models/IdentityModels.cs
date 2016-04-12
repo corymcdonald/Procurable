@@ -26,6 +26,9 @@ namespace Procurable.Models
         public int DepartmentID { get; set; }
         public virtual Department Department { get; set; }
 
+        public int? ApprovalDepartmentID { get; set; }
+        public virtual Department ApprovalDepartment { get; set; }
+
         public string GravatarHash
         {
             get
