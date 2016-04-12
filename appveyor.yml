@@ -1,8 +1,8 @@
   
 install:
  - cmd: nuget sources add -Name api.nuget.org -Source https://api.nuget.org/v3/index.json
- - cmd: cd Procurable/Procurable && nuget restore
- - cmd: cd ..
+ - cmd: cd Procurable/ && nuget restore
+# - cmd: cd ..
 
  
 build:
