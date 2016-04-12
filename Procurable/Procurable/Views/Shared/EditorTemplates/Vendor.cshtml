@@ -17,7 +17,7 @@
     </div>
 }*@
 <div id="bloodhound">
-    @Html.TextBox("typeahead", Model.Name, new { @class = "form-control typeahead", id = "Vendor_query", placeholder = "Search vendors", required = "required" })
+    @Html.TextBox("typeahead", Model == null ? "" : Model.Name , new { @class = "form-control typeahead", id = "Vendor_query", placeholder = "Search vendors", required = "required" })
 </div>
 <input type="hidden" id="VendorID" name="VendorID" />
 <script>

@@ -3,6 +3,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Procurable.Models
 {
@@ -20,6 +22,22 @@ namespace Procurable.Models
         // Extended Properties
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+        public int DepartmentID { get; set; }
+        public virtual Department Department { get; set; }
+
+        public int? ApprovalDepartmentID { get; set; }
+        public virtual Department ApprovalDepartment { get; set; }
+
+        public string GravatarHash
+        {
+            get
+            {
+                MD5 md5 = System.Security.Cryptography.MD5.Create();
+                byte[] toBytes = md5.ComputeHash(Encoding.ASCII.GetBytes(Email.Trim().ToLower()));
+                return Encoding.ASCII.GetString(toBytes);
+            }
+        }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -51,5 +69,9 @@ namespace Procurable.Models
         public System.Data.Entity.DbSet<Procurable.Models.ProjectTask> ProjectTasks { get; set; }
 
         public System.Data.Entity.DbSet<Procurable.Models.Project> Projects { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.Reorder> Reorders { get; set; }
+
+        public System.Data.Entity.DbSet<Procurable.Models.Department> Departments { get; set; }
     }
 }

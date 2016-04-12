@@ -26,6 +26,11 @@ namespace Procurable.Models
             return View(inventoryCount);
         }
 
+        public List<InventoryItem> GetInventoryItems()
+        {
+            return db.InventoryItems.ToList();
+        }
+
         // GET: InventoryItems/Details/5
         [Authorize]
         public ActionResult Details(int? id)
@@ -156,6 +161,30 @@ namespace Procurable.Models
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public List<InventoryItem> SearchInternal(string query)
+        {
+            query = query.ToUpper().Trim();
+            var asResult = new List<InventoryItem>();
+            if (query != null)
+            {
+                var temp = from a in db.InventoryItems
+                           where a.Name.ToUpper().Contains(query) 
+                           || a.PartNumber.ToUpper().Contains(query)
+                           || a.Vendor.Name.ToUpper().Contains(query)                           
+                           || a.Location.ToUpper().Contains(query)
+                           select a;
+
+                asResult = temp.ToList();
+            }
+            return asResult;
+        }
+        public ActionResult Search(string query)
+        {
+            if (Request.AcceptTypes.Contains("application/json"))
+                return Json(SearchInternal(query));
+            return PartialView("Search", SearchInternal(query));
         }
     }
 }

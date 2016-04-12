@@ -8,7 +8,8 @@ namespace Procurable.Models
     public enum InventoryStatus
     {
         Allocated,
-        Unallocated
+        Unallocated,
+        Deprecated
     }
 
     public enum ProjectStatus
@@ -23,7 +24,7 @@ namespace Procurable.Models
         Opened,
         Reopened,
         Approved,
-        Denyed,
+        Denied,
         InProgress,
         Completed
     }

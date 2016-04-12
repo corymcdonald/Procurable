@@ -5,7 +5,7 @@
 
 
 <div id="bloodhound">
-    @Html.TextBox("typeahead", "", new { @class = "form-control typeahead", id = "User_query", placeholder = "Search Users", required = "required" })
+    @Html.TextBox("typeahead", Model == null ? "" : Model.UserName, new { @class = "form-control typeahead", id = "User_query", placeholder = "Search Users", required = "required" })
 
 </div>
 <input type="hidden" id="UserID" name="UserID" />
@@ -13,7 +13,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:55504/Account',
+            url: 'localhost:55504/Account',
             method: 'GET',
             headers: {
                 Accept: "application/json"
