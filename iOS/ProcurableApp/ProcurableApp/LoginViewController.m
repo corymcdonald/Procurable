@@ -5,7 +5,7 @@
 //  Created by Will Turner on 2/9/16.
 //  Copyright © 2016 Wilson Turner. All rights reserved.
 //
-
+#import <QuartzCore/QuartzCore.h>
 #import "LoginViewController.h"
 #import "NetworkingController.h"
 #import "MBProgressHUD.h"
@@ -19,6 +19,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (strong, nonatomic) IBOutlet UIButton *submitButton;
 @property (strong, nonatomic) IBOutlet UILabel *errorLabel;
+@property (strong, nonatomic) IBOutlet UIView *bgView;
 
 @end
 
@@ -26,6 +27,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+//    self.bgView.layer.cornerRadius = 5;
+//    self.bgView.layer.masksToBounds = YES;
+    
+    UIColor *color = [UIColor grayColor];
+    CGColorRef gray = color.CGColor;
+    self.bgView.layer.shadowColor = gray;
+    self.bgView.layer.shadowOffset = CGSizeMake(0, 5);
+    self.bgView.layer.shadowRadius = 2;
+    self.bgView.layer.shadowOpacity = 1;
+    self.bgView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.bgView.bounds].CGPath;
+    self.bgView.layer.masksToBounds = NO;
+    
+    
+    
+    
+    
     self.networkingController = [[NetworkingController alloc] init];
     [self.errorLabel setHidden:YES];
     [self.submitButton setEnabled:NO];

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Request.h"
 
-@interface RequestDetailViewController : UIViewController
+@interface RequestDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (strong, nonatomic) Request *request;
+@property (assign, nonatomic) BOOL isManagerDetail;
 
 @end

@@ -19,8 +19,9 @@ typedef void(^RequestsCompletionHandler)(NSArray *requests, NSError * __nullable
 - (void)registerNewUser:(NSString *)user withPassword:(NSString *)password withConfirmPassword:(NSString *)confirmPassword completion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)loginUser:(NSString *)user withPassword:(NSString *)password completion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)cookieTestWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
-- (void)listAllRequests:(NetworkingControllerCompletionHandler)completionHandler;
+- (void)listAllRequests:(RequestsCompletionHandler)completionHandler;
 - (void)listAllRequestsToBeApproved:(RequestsCompletionHandler)completionHandler;
 - (void)temporaryCreateItemWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
+- (void)updateRequestStatus:(NSNumber *)idNumber withValue:(NSNumber *)value withCompletion:(NetworkingControllerCompletionHandler)completionHandler;
 @end
 NS_ASSUME_NONNULL_END

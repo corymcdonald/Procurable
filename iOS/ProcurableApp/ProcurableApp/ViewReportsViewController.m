@@ -17,6 +17,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    UIView *titleView = [[UIView alloc] init];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ProcurableRed"]];
+    [imageView setContentMode:UIViewContentModeScaleAspectFit];
+    [titleView addSubview:imageView];
+    
+    [titleView addConstraint:[NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:imageView attribute:NSLayoutAttributeCenterY multiplier:1.0f constant:0.0f]];
+    [titleView addConstraint:[NSLayoutConstraint constraintWithItem:titleView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:imageView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0.0f]];
+    [imageView addConstraint:[NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1.0f constant:50]];
+    
+    [self.navigationItem setTitleView:titleView];
 }
 
 - (void)didReceiveMemoryWarning {

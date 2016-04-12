@@ -26,6 +26,14 @@
 
     MMDrawerBarButtonItem * rightButton = [[MMDrawerBarButtonItem alloc] initWithTarget:self action:@selector(rightPress:)];
     [self.navigationItem setRightBarButtonItem:rightButton animated:YES];
+//    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 34)];
+//    
+//    [imageView setImage:[UIImage imageNamed:@"ProcurableRed"]];
+//    [imageView setClipsToBounds:YES];
+//    [imageView setContentMode:UIViewContentModeScaleAspectFit];
+//    [self.navigationItem.titleView addSubview:imageView];
+//    [self.navigationItem setTitleView:imageView];
+//    [self.navigationItem.titleView setFrame:CGRectMake(0, 0, 40, 34)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,14 +51,14 @@
 - (IBAction)fetchShit:(id)sender {
      MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak __typeof(self) weakSelf = self;
-    [self.networkingController listAllRequests:^(BOOL value, NSError * __nullable error) {
-        if (value && !error)
-        {
-            [weakSelf isSuccessful];
-        } else {
-            ;
-        }
-    }];
+//    [self.networkingController listAllRequests:^(BOOL value, NSError * __nullable error) {
+//        if (value && !error)
+//        {
+//            [weakSelf isSuccessful];
+//        } else {
+//            ;
+//        }
+//    }];
 }
 
 - (void)rightPress:(id)stuff {

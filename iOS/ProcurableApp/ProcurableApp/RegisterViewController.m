@@ -18,7 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *confirmPasswordTextField;
 @property (strong, nonatomic) IBOutlet UILabel *errorLabel;
 @property (strong, nonatomic) IBOutlet UIButton *submitButton;
-@property (strong, nonatomic) IBOutlet UIButton *loginRegisterButton;
+@property (strong, nonatomic) IBOutlet UIView *bgView;
 
 @end
 
@@ -26,10 +26,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    
+    UIColor *color = [UIColor grayColor];
+    CGColorRef gray = color.CGColor;
+    self.bgView.layer.shadowColor = gray;
+    self.bgView.layer.shadowOffset = CGSizeMake(0, 5);
+    self.bgView.layer.shadowRadius = 2;
+    self.bgView.layer.shadowOpacity = 1;
+    self.bgView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.bgView.bounds].CGPath;
+    self.bgView.layer.masksToBounds = NO;
+    
+    
+    
     self.networkingController = [[NetworkingController alloc] init];
     [self.errorLabel setHidden:YES];
     [self.submitButton setEnabled:NO];
-    [self.loginRegisterButton.titleLabel setTextAlignment:NSTextAlignmentCenter];
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideInput)];
     tapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGesture];

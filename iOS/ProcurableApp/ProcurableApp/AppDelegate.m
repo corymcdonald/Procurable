@@ -17,6 +17,9 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
+    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
+    
     // Override point for customization after application launch.
     if ([self isLoggedIn]) {
         [self presentMainInterface];
