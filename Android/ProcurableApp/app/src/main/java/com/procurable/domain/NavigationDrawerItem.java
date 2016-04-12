@@ -45,14 +45,13 @@ public class NavigationDrawerItem {
 
 		return new int[]{
 							R.drawable.ic_birds, R.drawable.ic_animal,
-							R.drawable.ic_forest, R.drawable.ic_ocean,
-							R.drawable.ic_planet, R.drawable.ic_landscape};
+							R.drawable.ic_forest, R.drawable.ic_ocean};
 	}
 
 	private static String[] getTitles() {
 
 		return new String[] {
-				"Birds", "Animals", "Forest", "Ocean", "Planets", "RequestRow"
+				"Search", "My Requests", "Manage Requests", "Log Out"
 		};
 	}
 }

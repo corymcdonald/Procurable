@@ -1,6 +1,7 @@
 package com.procurable.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,10 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.procurable.activity.ApproveRequestActivity;
+import com.procurable.activity.ManageRequest;
 import com.procurable.capstone.R;
+import com.procurable.constants.Constants;
 import com.procurable.domain.RequestRow;
 
 import java.util.List;
@@ -33,13 +37,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 	}
 
 	@Override
-	public void onBindViewHolder(final MyViewHolder holder, int position) {
-		RequestRow current = mData.get(position);
+	public void onBindViewHolder(final MyViewHolder holder, final int position) {
+		final RequestRow current = mData.get(position);
 		holder.setData(current, position);
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(context, ApproveRequestActivity.class);
+				intent.putExtra(Constants.EXTRA_ITEMS,current.getRequest());
+				context.startActivity(intent);
 			}
 		});
 	}
@@ -63,6 +70,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
 	class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 		TextView title;
+		TextView description;
 		int position;
 		RequestRow current;
 		protected View mRootView;
@@ -70,11 +78,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 		public MyViewHolder(View itemView) {
 			super(itemView);
 			title       = (TextView)  itemView.findViewById(R.id.tvTitle);
+			description       = (TextView)  itemView.findViewById(R.id.tvDescription);
 			mRootView = itemView;
 		}
 
 		public void setData(RequestRow current, int position) {
 			this.title.setText(current.getTitle());
+			this.description.setText(current.getDescription());
 			this.position = position;
 			this.current = current;
 		}

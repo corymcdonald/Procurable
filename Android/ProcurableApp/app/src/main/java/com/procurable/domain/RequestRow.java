@@ -15,6 +15,7 @@ public class RequestRow {
 
 	private String title;
 	private String description;
+	private Request request;
 
 	public String getTitle() {
 		return title;
@@ -30,6 +31,14 @@ public class RequestRow {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public Request getRequest() {
+		return request;
+	}
+
+	public void setRequest(Request request) {
+		this.request = request;
 	}
 
 }

@@ -29,7 +29,7 @@
 
     <style name="PopupTheme" parent="ThemeOverlay.AppCompat.Light">
 
-        <item name="android:textColorPrimary">@color/blue</item>    <!-- Text color of Overflow Menu items-->
+        <item name="android:textColorPrimary">@color/blue</item>    <!-- Text color of Overflow Menu requestItems-->
         <item name="android:background">@color/orange</item>        <!-- Background of Overflow Menu -->
     </style>
 
