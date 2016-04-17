@@ -5,8 +5,8 @@
 
 
 
-<div id="bloodhound">
-    @Html.TextBox("typeahead", Model == null ? "" : Model.Name, new { @class = "form-control typeahead", id = "RequestQuery", placeholder = "Search Requests", required = "required" })
+<div id="requests">
+    @Html.TextBox("typeahead", Model == null ? "" : Model.Name, new { @class = "form-control typeahead RequestQuery", id = "RequestQuery", placeholder = "Search Requests", required = "required" })
 </div>
 <input type="hidden" id="RequestID" name="RequestID"  value="@{ Write(Model == null ? "" : Model.ID.ToString()); } "/>
 <script>
@@ -39,7 +39,7 @@
                 });
                 ayy = data
                 console.log('running typeahead')
-                $('#bloodhound .typeahead').typeahead({
+                $('#requests .typeahead ').typeahead({
                     hint: true,
                     autoselect: true,
                     highlight: true,
@@ -73,7 +73,7 @@
                 });
             }
         });
-        $('.typeahead').on('typeahead:selected', function (evt, item) {
+        $('#RequestQuery').on('typeahead:selected', function (evt, item) {
             $("#RequestID").val(item.ID)
         })
 

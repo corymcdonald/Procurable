@@ -13,7 +13,7 @@
     $(document).ready(function () {
 
         $.ajax({
-            url: 'localhost:55504/Account',
+            url: '../Account',
             method: 'GET',
             headers: {
                 Accept: "application/json"
@@ -36,8 +36,8 @@
                 });
             }
         });
-        $('.typeahead').on('typeahead:selected', function (evt, item) {
-            $("#UserID").val(item.ID)
+        $('#User_query').on('typeahead:selected', function (evt, item) {
+            $("#UserID").val(item.Id)
         })
 
     })

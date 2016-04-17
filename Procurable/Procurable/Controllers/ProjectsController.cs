@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Procurable.Models;
+using Microsoft.AspNet.Identity;
+using System.Data.SqlTypes;
 
 namespace Procurable.Controllers
 {
@@ -55,9 +57,16 @@ namespace Procurable.Controllers
 
         // GET: Projects/Create
         [Authorize]
-        public ActionResult Create()
+        public ActionResult Create(string RequestID="")
         {
-            return View();
+            Project p = new Project();
+            int ParsedID = 0;
+
+            if (!String.IsNullOrEmpty(RequestID) && Int32.TryParse(RequestID, out ParsedID))
+            {
+                p.Request = db.Requests.Find(ParsedID);
+            }
+            return View(p);
         }
 
         // POST: Projects/Create
@@ -65,13 +74,18 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ProjectID,Priority, RequestID,Status,CreatedDate,LastModified")] Project project)
+        public ActionResult Create([Bind(Include = "ProjectID,Priority, RequestID,Status,CreatedDate,DateNeeded,UserID")] Project project)
         {
             if (ModelState.IsValid)
             {
                 project.LastModified = DateTime.Now;
                 project.CreatedDate = DateTime.Now;
-                
+                project.CreatedBy = db.Users.Find(User.Identity.GetUserId());
+
+                if (project.DateNeeded < SqlDateTime.MinValue.Value)
+                    project.DateNeeded = SqlDateTime.MinValue.Value;
+
+                project.AssignedTo = db.Users.Find(Request.Form["UserID"]);
                 db.Projects.Add(project);
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
@@ -107,10 +121,16 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ProjectID,Priority,Status,CreatedDate,LastModified")] Project project)
+        public ActionResult Edit([Bind(Include = "ProjectID,Priority,Status, DateNeeded")] Project project)
         {
             if (ModelState.IsValid)
             {
+                var oldProject = db.Projects.Find(project.ProjectID);
+                project.Request = oldProject.Request;
+                project.RequestID = oldProject.RequestID;
+                project.CreatedDate = oldProject.CreatedDate;
+                project.LastModified = DateTime.Now;
+                project.CreatedBy = oldProject.CreatedBy;
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))

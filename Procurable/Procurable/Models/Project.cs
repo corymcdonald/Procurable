@@ -16,7 +16,7 @@ namespace Procurable.Models
 
         public DateTime CreatedDate { get; set; }
         public DateTime LastModified { get; set; }
-        public DateTime DateNeeded { get; set; }
+        public DateTime? DateNeeded { get; set; }
 
         public ApplicationUser CreatedBy { get; set; }
         public ApplicationUser AssignedTo { get; set; }
