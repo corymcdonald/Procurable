@@ -6,9 +6,9 @@
 
 
 <div id="bloodhound">
-    @Html.TextBox("typeahead", Model == null ? "" : Model.Name, new { @class = "form-control typeahead", id = "User_query", placeholder = "Search Users", required = "required" })
+    @Html.TextBox("typeahead", Model == null ? "" : Model.Name, new { @class = "form-control typeahead", id = "RequestQuery", placeholder = "Search Requests", required = "required" })
 </div>
-<input type="hidden" id="RequestID" name="RequestID" />
+<input type="hidden" id="RequestID" name="RequestID"  value="@{ Write(Model == null ? "" : Model.ID.ToString()); } "/>
 <script>
     $(document).ready(function () {
 
@@ -33,7 +33,7 @@
                 }
 
                 var data = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("Name"),
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("Name", "ID"),
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
                     local: result
                 });
@@ -41,6 +41,7 @@
                 console.log('running typeahead')
                 $('#bloodhound .typeahead').typeahead({
                     hint: true,
+                    autoselect: true,
                     highlight: true,
                     minLength: 0
                 },

@@ -8,7 +8,7 @@
     @Html.TextBox("typeahead", Model == null ? "" : Model.UserName, new { @class = "form-control typeahead", id = "User_query", placeholder = "Search Users", required = "required" })
 
 </div>
-<input type="hidden" id="UserID" name="UserID" />
+<input type="hidden" id="UserID" name="UserID"  value="@{ Write(Model == null ? "" : Model.Id.ToString()); } " />
 <script>
     $(document).ready(function () {
 
