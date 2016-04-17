@@ -1,0 +1,104 @@
+﻿@model Procurable.Models.Request
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/Handlebars")
+
+
+
+<div id="bloodhound">
+    @Html.TextBox("typeahead", Model == null ? "" : Model.Name, new { @class = "form-control typeahead", id = "User_query", placeholder = "Search Users", required = "required" })
+</div>
+<input type="hidden" id="RequestID" name="RequestID" />
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '../Requests/All',
+            method: 'GET',
+            headers: {
+                Accept: "application/json"
+            },
+            success: function (result) {
+                
+                result = JSON.parse(JSON.stringify(result), dateTimeReviver)
+                console.log(result)
+                function defaultRequest(q, sync) {
+                    if (q === '') {
+                        sync([result[0], result[1]]);
+                    }
+
+                    else {
+                        data.search(q, sync);
+                    }
+                }
+
+                var data = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("Name"),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    local: result
+                });
+                ayy = data
+                console.log('running typeahead')
+                $('#bloodhound .typeahead').typeahead({
+                    hint: true,
+                    highlight: true,
+                    minLength: 0
+                },
+                {
+                    displayKey: 'Name',
+                    source: defaultRequest,
+                    templates: {
+                        empty: [
+                          '<div style="padding:10px;">',
+                            'Unable to find any request that matches the current query',
+                          '</div>'
+                        ].join('\n'),
+                        suggestion: Handlebars.compile('<div style="width:450px;">' + 
+	                                                        '<span style="font-size:1.3em">' + 
+	                                                        '{{Name}}</span>' + 
+	                                                        '<br/>' + 
+	                                                        '{{truncate Comments 25}}' +
+                                                            '<div class="row" >' +
+                                                                    '<div class="col-sm-6">' +
+		                                                                '<small>Requestor:  {{RequestedFor.FirstName}} {{RequestedFor.LastName}}</small>' +
+	                                                                '</div>' +
+                                                                    '<div class="col-sm-6">' +
+			                                                            '<span class="pull-right">' + 
+			                                                            '<small>Created: {{CreatedDate}}</small></span>' +
+        	                                                        '</div>' +
+	                                                        '</div>' + 
+                                                        '</div>')
+                    }
+                });
+            }
+        });
+        $('.typeahead').on('typeahead:selected', function (evt, item) {
+            $("#RequestID").val(item.ID)
+        })
+
+    })
+   
+    dateTimeReviver = function (key, value) {
+        var a;
+        if (typeof value === 'string') {
+            a = /\/Date\((\d*)\)\//.exec(value);
+            if (a) {
+
+                return new Date(+a[1]).toLocaleDateString();
+            }
+        }
+        return value;
+    }
+    Handlebars.registerHelper('truncate', function (str, len) {
+        if (str && str.length > len && str.length > 0) {
+            var new_str = str + " ";
+            new_str = str.substr(0, len);
+            new_str = str.substr(0, new_str.lastIndexOf(" "));
+            new_str = (new_str.length > 0) ? new_str : str.substr(0, len);
+
+            return new Handlebars.SafeString(new_str + '...');
+        }
+        return str;
+    });
+
+</script>

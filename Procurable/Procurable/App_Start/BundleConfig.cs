@@ -33,7 +33,11 @@ namespace Procurable
             bundles.Add(new ScriptBundle("~/bundles/handsontable").Include(
                        "~/Scripts/handsontable/handsontable.full.js"));
 
-            
+
+            bundles.Add(new ScriptBundle("~/bundles/handlebars").Include(
+                "~/Scripts/handlebars.js"
+             ));
+
         }
     }
 }

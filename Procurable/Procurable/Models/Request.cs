@@ -21,8 +21,8 @@ namespace Procurable.Models
             {
                 return CreatedDate.ToString("s") + "Z";
             }
-
         }
+
         public DateTime LastModified { get; set; }
         public string   LastModifiedDisplay
         {

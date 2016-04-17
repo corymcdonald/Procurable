@@ -65,10 +65,13 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ProjectID,Priority,Status,CreatedDate,LastModified")] Project project)
+        public ActionResult Create([Bind(Include = "ProjectID,Priority, RequestID,Status,CreatedDate,LastModified")] Project project)
         {
             if (ModelState.IsValid)
             {
+                project.LastModified = DateTime.Now;
+                project.CreatedDate = DateTime.Now;
+                
                 db.Projects.Add(project);
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
