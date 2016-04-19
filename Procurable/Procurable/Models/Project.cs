@@ -10,7 +10,7 @@ namespace Procurable.Models
         public int ProjectID { get; set; }
         public int RequestID { get; set; }
 
-        public virtual  Request Request { get; set; }
+        public virtual Request Request { get; set; }
         public ProjectPriority Priority { get; set; }
         public ProjectStatus Status { get; set; }
 
@@ -18,7 +18,9 @@ namespace Procurable.Models
         public DateTime LastModified { get; set; }
         public DateTime? DateNeeded { get; set; }
 
-        public ApplicationUser CreatedBy { get; set; }
-        public ApplicationUser AssignedTo { get; set; }
+        public string AssignedToID { get; set; }
+        public string CreatedByID { get; set; }
+        public virtual ApplicationUser CreatedBy { get; set; }
+        public virtual ApplicationUser AssignedTo { get; set; }
     }
 }

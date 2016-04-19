@@ -85,7 +85,7 @@ namespace Procurable.Controllers
                 if (project.DateNeeded < SqlDateTime.MinValue.Value)
                     project.DateNeeded = SqlDateTime.MinValue.Value;
 
-                project.AssignedTo = db.Users.Find(Request.Form["UserID"]);
+                project.AssignedToID = db.Users.Find(Request.Form["UserID"]).Id;
                 db.Projects.Add(project);
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
@@ -125,12 +125,16 @@ namespace Procurable.Controllers
         {
             if (ModelState.IsValid)
             {
-                var oldProject = db.Projects.Find(project.ProjectID);
-                project.Request = oldProject.Request;
+                string SentUserID = Request.Form["UserID"];
+                var oldProject = db.Projects.AsNoTracking().FirstOrDefault(x => x.ProjectID == project.ProjectID);
                 project.RequestID = oldProject.RequestID;
+                project.Request = oldProject.Request;
                 project.CreatedDate = oldProject.CreatedDate;
                 project.LastModified = DateTime.Now;
-                project.CreatedBy = oldProject.CreatedBy;
+                project.CreatedByID = oldProject.CreatedBy.Id;
+                //project.CreatedBy = oldProject.CreatedBy;
+                project.AssignedToID = db.Users.AsNoTracking().FirstOrDefault(x=> x.Id == SentUserID).Id;
+
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
