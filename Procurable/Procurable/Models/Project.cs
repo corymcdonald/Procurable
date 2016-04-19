@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,6 +14,9 @@ namespace Procurable.Models
         public virtual Request Request { get; set; }
         public ProjectPriority Priority { get; set; }
         public ProjectStatus Status { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string Comments { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime LastModified { get; set; }

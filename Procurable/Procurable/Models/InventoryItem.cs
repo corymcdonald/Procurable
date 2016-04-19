@@ -18,6 +18,7 @@ namespace Procurable.Models
         public PurchaseOrder PurchaseOrder { get; set; }
         public decimal Price { get; set; }
 
+        [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
         public string PartNumber { get; set; }
         public string Location { get; set; }

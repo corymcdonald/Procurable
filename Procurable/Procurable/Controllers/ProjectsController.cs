@@ -74,7 +74,7 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ProjectID,Priority, RequestID,Status,CreatedDate,DateNeeded,UserID")] Project project)
+        public ActionResult Create([Bind(Include = "ProjectID,Priority, RequestID,Status,CreatedDate,DateNeeded,UserID, Comments")] Project project)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace Procurable.Controllers
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
-                    return Json(new { Succeeded = true });
+                    return Json(new { Succeeded = true }, JsonRequestBehavior.AllowGet);
                 }
                 return RedirectToAction("Index");
             }
@@ -121,18 +121,18 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ProjectID,Priority,Status, DateNeeded")] Project project)
+        public ActionResult Edit([Bind(Include = "ProjectID,Priority,Status, DateNeeded, Comments")] Project project)
         {
             if (ModelState.IsValid)
             {
                 string SentUserID = Request.Form["UserID"];
-                var oldProject = db.Projects.AsNoTracking().FirstOrDefault(x => x.ProjectID == project.ProjectID);
-                project.RequestID = oldProject.RequestID;
-                project.Request = oldProject.Request;
-                project.CreatedDate = oldProject.CreatedDate;
+                var currentTask = db.Projects.AsNoTracking().FirstOrDefault(x => x.ProjectID == project.ProjectID);
+                project.RequestID = currentTask.RequestID;
+                project.Request = currentTask.Request;
+                project.CreatedDate = currentTask.CreatedDate;
                 project.LastModified = DateTime.Now;
-                project.CreatedByID = oldProject.CreatedBy.Id;
-                //project.CreatedBy = oldProject.CreatedBy;
+                project.CreatedByID = currentTask.CreatedBy.Id;
+
                 project.AssignedToID = db.Users.AsNoTracking().FirstOrDefault(x=> x.Id == SentUserID).Id;
 
                 db.Entry(project).State = EntityState.Modified;

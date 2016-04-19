@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Procurable.Models;
+using System.Data.SqlTypes;
+using Microsoft.AspNet.Identity;
 
 namespace Procurable.Controllers
 {
@@ -55,9 +57,16 @@ namespace Procurable.Controllers
 
         // GET: ProjectTasks/Create
         [Authorize]
-        public ActionResult Create()
+        public ActionResult Create(string projectID ="")
         {
-            return View();
+            ProjectTask p = new ProjectTask();
+            p.DateNeeded = DateTime.Now.AddDays(7);
+            int pID;
+            if(Int32.TryParse(projectID, out pID))
+            {
+                p.ProjectID = pID;
+            }
+            return View(p);
         }
 
         // POST: ProjectTasks/Create
@@ -65,10 +74,18 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ID,ProjectID,Comments,DateNeeded")] ProjectTask projectTask)
+        public ActionResult Create([Bind(Include = "ID,ProjectID,Comments,DateNeeded, Comments")] ProjectTask projectTask)
         {
             if (ModelState.IsValid)
             {
+                projectTask.LastModified = DateTime.Now;
+                projectTask.CreatedDate = DateTime.Now;
+                projectTask.CreatedBy = db.Users.Find(User.Identity.GetUserId());
+
+                if (projectTask.DateNeeded < SqlDateTime.MinValue.Value)
+                    projectTask.DateNeeded = SqlDateTime.MinValue.Value;
+
+                projectTask.AssignedToID = db.Users.Find(Request.Form["UserID"]).Id;
                 db.ProjectTasks.Add(projectTask);
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
@@ -102,12 +119,20 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ID,ProjectID,Comments,DateNeeded")] ProjectTask projectTask)
+        public ActionResult Edit([Bind(Include = "ID,ProjectID,Comments,DateNeeded, Comments")] ProjectTask projectTask)
         {
             if (ModelState.IsValid)
             {
+                string SentUserID = Request.Form["UserID"];
+                var oldProject = db.ProjectTasks.AsNoTracking().FirstOrDefault(x => x.ID == projectTask.ID);
+
+                projectTask.CreatedDate = oldProject.CreatedDate;
+                projectTask.LastModified = DateTime.Now;
+                projectTask.CreatedByID = oldProject.CreatedBy.Id;
+                projectTask.AssignedToID = db.Users.AsNoTracking().FirstOrDefault(x => x.Id == SentUserID).Id;
                 db.Entry(projectTask).State = EntityState.Modified;
                 db.SaveChanges();
+
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
                     return Json(new { Succeeded = true });
