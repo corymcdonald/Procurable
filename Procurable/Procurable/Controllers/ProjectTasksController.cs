@@ -74,7 +74,7 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ID,ProjectID,Comments,DateNeeded, Comments")] ProjectTask projectTask)
+        public ActionResult Create([Bind(Include = "ID,ProjectID,Comments,DateNeeded,Comments,Name,Status")] ProjectTask projectTask)
         {
             if (ModelState.IsValid)
             {
@@ -119,7 +119,7 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ID,ProjectID,Comments,DateNeeded, Comments")] ProjectTask projectTask)
+        public ActionResult Edit([Bind(Include = "ID,ProjectID,Comments,DateNeeded,Comments,Name,Status")] ProjectTask projectTask)
         {
             if (ModelState.IsValid)
             {

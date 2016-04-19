@@ -56,6 +56,8 @@ namespace Procurable.Models
         public string RequestedById { get; set; }
         [ForeignKey("RequestedById")]
         [UIHint("User")]
+        [DisplayName("Requested By")]
+
         public virtual ApplicationUser RequestedBy { get; set; }
 
         //Add better comment system?

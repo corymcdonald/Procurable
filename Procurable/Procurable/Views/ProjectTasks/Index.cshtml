@@ -4,42 +4,85 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<div class="row">
+    <div class="col-md-2">
+        <h2>Tasks</h2>
+    </div>
+    <div class="col-md-10">
+        <div class="progress" style="margin-top:30px;">
+            @{ var total = Model.Count(); }
+            @{ var done = ((double)Model.Where(x => x.Status == Procurable.Models.ProjectStatus.Completed).Count() / total) * 100;}
+            @{ var newTasks = ((double)Model.Where(x => (x.Status == Procurable.Models.ProjectStatus.New || x.Status == Procurable.Models.ProjectStatus.InProgress) && x.DateNeeded.Date >= DateTime.Now.Date).Count() / total) * 100;}
+            @{ var outstanding = ((double)Model.Where(x => x.DateNeeded.Date < DateTime.Now.Date).Count() / total) * 100;}
+            <div class="progress-bar progress-bar-success" data-toggle="tooltip"  data-placement="top" title="Complete" style="width: @done%"></div>
+            <div class="progress-bar progress-bar-primary" data-toggle="tooltip"  data-placement="top" title="New / In Progress" style="width: @newTasks%"></div>
+            <div class="progress-bar progress-bar-danger"  data-toggle="tooltip"  data-placement="top" title="Past Due" style="width: @outstanding%"></div>
+        </div>
+    </div>
+</div>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ProjectID)
+            @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comments)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateNeeded)
-        </th>
-        <th></th>
+        <th>Status</th>
+        <th>@Html.DisplayNameFor(model => model.AssignedTo)</th>
+        <th>@Html.DisplayNameFor(model => model.DateNeeded)</th>
+        <th>@Html.DisplayNameFor(model => model.LastModified)</th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProjectID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateNeeded)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
+    @{ int i = 1; }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.Name ?? "Task " + i, "Details", "ProjectTasks", new { id = item.ID }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status, "_ProjectStatus")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignedTo, "User")
+            </td>
+
+            <td>
+                @{
+                    string textStatus = "";
+                    int Days = (item.DateNeeded.Date - DateTime.Now.Date).Days;
+                    string statusHTML = Math.Abs(Days) + " day";
+                    if (Days != 1)
+                    {
+                        statusHTML += "s";
+                    }
+                    if (Days < 0)
+                    {
+
+                        statusHTML = "<strong>" + String.Format("<i class=\"{0}\"></i> Past due by " + statusHTML, "fa fa-exclamation-triangle") + "</strong>";
+
+                        textStatus = "text-danger";
+                    }
+                    else if (Days < 2)
+                    {
+                        statusHTML = "Due in " + statusHTML;
+                        textStatus = "text-warning";
+                    }
+                    else
+                    {
+                        statusHTML = item.DateNeeded.Date.ToString("d");
+                    }
+                }
+                <span data-toggle="tooltip" class="@textStatus" data-placement="top" title="@item.DateNeeded.Date.ToString("d") ">
+                    @Html.Raw(statusHTML)
+                </span>
+            </td>
+            <td>
+                @item.LastModified
+            </td>
+
+        </tr>
+    i = i + 1;
 }
 
 </table>

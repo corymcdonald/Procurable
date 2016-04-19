@@ -250,4 +250,16 @@ span.twitter-typeahead {
 .subLevel > td {
   background-color: #e4e4e4 !important; }
 
+.projectStatus {
+  display: inline-block;
+  margin-left: 20px;
+  position: relative;
+  bottom: 5px; }
+  .projectStatus h4 {
+    margin: 0; }
+
+.projectDl dt {
+  font-size: 1.25em;
+  font-weight: normal; }
+
 /*# sourceMappingURL=site.css.map */

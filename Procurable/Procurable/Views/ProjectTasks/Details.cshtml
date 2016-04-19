@@ -4,26 +4,33 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="col-md-10">
+        <h2 style="display:inline-block ">@(Model.Name ?? "Task")</h2>
+        <div class="projectStatus">
+            <h4>
+                @Html.DisplayFor(model => model.Status, "_ProjectStatus")
+            </h4>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <br />
+        <div class="pull-right">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
 
 <div>
-    <h4>ProjectTask</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ProjectID)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ProjectID)
-        </dd>
+    <hr style="margin-top:0" />
+    <dl>
 
         <dt>
             @Html.DisplayNameFor(model => model.AssignedTo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AssignedTo)
+            @Html.DisplayFor(model => model.AssignedTo, "User")
         </dd>
 
         <dt>
@@ -31,7 +38,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.DateNeeded)
+            @Model.DateNeeded.ToString("d")
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Comments)

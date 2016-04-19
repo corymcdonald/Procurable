@@ -52,6 +52,7 @@ namespace Procurable.Controllers
             {
                 return Json(project, JsonRequestBehavior.AllowGet);
             }
+            ViewData["Tasks"] = db.ProjectTasks.Where(x => x.ProjectID == id.Value);
             return View(project);
         }
 
