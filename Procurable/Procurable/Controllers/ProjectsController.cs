@@ -82,7 +82,8 @@ namespace Procurable.Controllers
                 project.LastModified = DateTime.Now;
                 project.CreatedDate = DateTime.Now;
                 project.CreatedBy = db.Users.Find(User.Identity.GetUserId());
-
+                if (project.Status == ProjectStatus.Completed)
+                    project.CompletedDate = DateTime.Now;
                 if (project.DateNeeded < SqlDateTime.MinValue.Value)
                     project.DateNeeded = SqlDateTime.MinValue.Value;
 
@@ -131,10 +132,13 @@ namespace Procurable.Controllers
                 project.RequestID = currentTask.RequestID;
                 project.Request = currentTask.Request;
                 project.CreatedDate = currentTask.CreatedDate;
-                project.LastModified = DateTime.Now;
                 project.CreatedByID = currentTask.CreatedBy.Id;
 
                 project.AssignedToID = db.Users.AsNoTracking().FirstOrDefault(x=> x.Id == SentUserID).Id;
+
+                project.LastModified = DateTime.Now;
+                if (project.Status == ProjectStatus.Completed && currentTask.Status != ProjectStatus.Completed)
+                    project.CompletedDate = DateTime.Now;
 
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();

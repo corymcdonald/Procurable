@@ -27,6 +27,7 @@ namespace Procurable.Models
         public virtual ApplicationUser CreatedBy { get; set;  }
         public virtual ApplicationUser AssignedTo { get; set; }
 
+        public DateTime? CompletedDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModified { get; set; }
         public DateTime DateNeeded { get; set; }

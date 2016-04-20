@@ -24,7 +24,12 @@
 <div>
     <hr style="margin-top:0" />
     <dl>
-
+        <dt>
+            Project
+        </dt>
+        <dd>
+            @Html.ActionLink(Model.ProjectID.ToString().PadLeft(8, '0'), "Details", "Projects",  new { id = Model.ProjectID }, null)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.AssignedTo)
         </dt>
@@ -43,14 +48,14 @@
         <dt>
             @Html.DisplayNameFor(model => model.Comments)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Comments)
         </dd>
 
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div class="row">
+    <div class="col-md-4"><span class="text-muted">@Html.DisplayNameFor(model => model.CreatedBy): @Html.DisplayFor(model => model.CreatedBy, "User")</span></div>
+    <div class="col-md-4"><span class="text-muted">@Html.DisplayNameFor(model => model.LastModified): @Html.DisplayFor(model => model.LastModified)</span></div>
+    <div class="col-md-4"><span class="text-muted">@Html.DisplayNameFor(model => model.CreatedDate): @Html.DisplayFor(model => model.CreatedDate)</span></div>
+</div>

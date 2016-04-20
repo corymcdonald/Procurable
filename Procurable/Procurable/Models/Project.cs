@@ -18,6 +18,7 @@ namespace Procurable.Models
         [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 
+        public DateTime? CompletedDate { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModified { get; set; }
         public DateTime? DateNeeded { get; set; }

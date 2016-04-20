@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using Procurable.Models;
 using System.Data.SqlTypes;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity.Core.Objects;
 
 namespace Procurable.Controllers
 {
@@ -24,6 +25,15 @@ namespace Procurable.Controllers
             {
                 return Json(db.ProjectTasks.ToList(), JsonRequestBehavior.AllowGet);
             }
+            string UserID = User.Identity.GetUserId();
+            ViewData["MyOpenTasks"] = db.ProjectTasks.Where(x => x.AssignedToID == UserID && x.Status != ProjectStatus.Completed);
+            ViewData["MyCompletedTasks"] = db.ProjectTasks.Where(x => x.AssignedToID == UserID && x.Status == ProjectStatus.Completed );
+            ViewData["CompletedTasks"] = db.ProjectTasks.Where(x=> x.Status == ProjectStatus.Completed);
+            ViewData["OpenTasks"] = db.ProjectTasks.Where(x=> x.Status != ProjectStatus.Completed);
+
+            DateTime Now = DateTime.Now.Date;
+            ViewData["LateTasks"] = db.ProjectTasks.Where(x => DbFunctions.TruncateTime(x.DateNeeded) < Now);
+
             return View(db.ProjectTasks.ToList());
         }
 
@@ -84,7 +94,8 @@ namespace Procurable.Controllers
 
                 if (projectTask.DateNeeded < SqlDateTime.MinValue.Value)
                     projectTask.DateNeeded = SqlDateTime.MinValue.Value;
-
+                if (projectTask.Status == ProjectStatus.Completed)
+                    projectTask.CompletedDate = DateTime.Now;
                 projectTask.AssignedToID = db.Users.Find(Request.Form["UserID"]).Id;
                 db.ProjectTasks.Add(projectTask);
                 db.SaveChanges();
@@ -92,7 +103,7 @@ namespace Procurable.Controllers
                 {
                     return Json(new { Succeeded = true });
                 }
-                return RedirectToAction("Index");
+                return Redirect(Request.UrlReferrer.AbsolutePath);
             }
 
             return View(projectTask);
@@ -125,7 +136,8 @@ namespace Procurable.Controllers
             {
                 string SentUserID = Request.Form["UserID"];
                 var oldProject = db.ProjectTasks.AsNoTracking().FirstOrDefault(x => x.ID == projectTask.ID);
-
+                if (projectTask.Status == ProjectStatus.Completed && oldProject.Status != ProjectStatus.Completed)
+                    projectTask.CompletedDate = DateTime.Now;
                 projectTask.CreatedDate = oldProject.CreatedDate;
                 projectTask.LastModified = DateTime.Now;
                 projectTask.CreatedByID = oldProject.CreatedBy.Id;
@@ -137,7 +149,7 @@ namespace Procurable.Controllers
                 {
                     return Json(new { Succeeded = true });
                 }
-                return RedirectToAction("Index");
+                return View("Details", projectTask);
             }
             return View(projectTask);
         }
