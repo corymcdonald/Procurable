@@ -1,0 +1,12 @@
+﻿@model Procurable.Controllers.VendorSearch
+
+<table>
+    @foreach (var item in Model.Results)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+        </tr>
+    }
+</table>

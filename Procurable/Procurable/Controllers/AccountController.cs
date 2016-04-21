@@ -9,12 +9,17 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Procurable.Models;
+using System.Web.Security;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Procurable.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -53,29 +58,60 @@ namespace Procurable.Controllers
         }
 
         //
+        // GET: /Account/
+        [AllowAnonymous]
+        public ActionResult Index(string returnUrl)
+        {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.Users.ToList(), JsonRequestBehavior.AllowGet);
+            }
+            return View(db.Users.ToList());
+        }
+
+
+        //
         // GET: /Account/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View("Login","_LoginLayout");
         }
 
         //
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
+                if (Request.AcceptTypes.Contains("application/json"))
+                { 
+                    return Json(new { Succeeded = false } );
+                }
                 return View(model);
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        return Json(new { Succeeded=true } );
+                    case SignInStatus.LockedOut:
+                        return Json(new { Succeeded = false, Error="Lockout." });
+                    case SignInStatus.Failure:
+                        return Json(new { Succeeded = false, Error = "Invalid email or password." });
+                    default:
+                        return Json(new { Succeeded = false, Error = "Invalid login attempt." });
+                }
+            }
             switch (result)
             {
                 case SignInStatus.Success:
@@ -104,11 +140,24 @@ namespace Procurable.Controllers
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult GetAdministrators()
+        {
+            var roleManager =  new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            List<ApplicationUser> Users = new List<ApplicationUser>();
+            foreach(var user in roleManager.FindByName("Admin").Users)
+            {
+                Users.Add(db.Users.Find(user.UserId));
+            }
+            return Json(Users, JsonRequestBehavior.AllowGet);
+        }
+
         //
         // POST: /Account/VerifyCode
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+       
         public async Task<ActionResult> VerifyCode(VerifyCodeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -138,36 +187,44 @@ namespace Procurable.Controllers
         // GET: /Account/Register
         [AllowAnonymous]
         public ActionResult Register()
-        {
-            return View();
+        {           
+            return View("Register", "_LoginLayout");
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            IdentityResult result = new IdentityResult();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, "User");
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    if (Request.AcceptTypes.Contains("application/json"))
+                    {
+                        return Json(new { Succeeded=true });
+                    }
+                    return RedirectToAction("Index", "Requests");
                 }
                 AddErrors(result);
             }
-
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(result);
+            }
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -197,7 +254,7 @@ namespace Procurable.Controllers
         // POST: /Account/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
@@ -241,7 +298,7 @@ namespace Procurable.Controllers
         // POST: /Account/ResetPassword
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+       
         public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -275,7 +332,7 @@ namespace Procurable.Controllers
         // POST: /Account/ExternalLogin
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Request a redirect to the external login provider
@@ -301,7 +358,7 @@ namespace Procurable.Controllers
         // POST: /Account/SendCode
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+       
         public async Task<ActionResult> SendCode(SendCodeViewModel model)
         {
             if (!ModelState.IsValid)
@@ -351,7 +408,7 @@ namespace Procurable.Controllers
         // POST: /Account/ExternalLoginConfirmation
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+       
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
             if (User.Identity.IsAuthenticated)
@@ -388,11 +445,11 @@ namespace Procurable.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
+      
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Requests");
         }
 
         //
@@ -449,7 +506,7 @@ namespace Procurable.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Requests");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

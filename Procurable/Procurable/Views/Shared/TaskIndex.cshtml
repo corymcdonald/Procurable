@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Procurable.Models.ProjectTask>
+@{ if (ViewData["ProjectID"] != null)
+        {
+        <text>
+            <div class="progress" >
+                @{ var total = Model.Count(); }
+                @{ var done = ((double)Model.Where(x => x.Status == Procurable.Models.ProjectStatus.Completed).Count() / total) * 100;}
+                @{ var newTasks = ((double)Model.Where(x => (x.Status == Procurable.Models.ProjectStatus.New || x.Status == Procurable.Models.ProjectStatus.InProgress) && x.DateNeeded.Date >= DateTime.Now.Date).Count() / total) * 100;}
+                @{ var outstanding = ((double)Model.Where(x => x.DateNeeded.Date < DateTime.Now.Date).Count() / total) * 100;}
+                <div class="progress-bar progress-bar-success" data-toggle="tooltip" data-placement="top" title="Complete" style="width: @done%"></div>
+                <div class="progress-bar progress-bar-primary" data-toggle="tooltip" data-placement="top" title="New / In Progress" style="width: @newTasks%"></div>
+                <div class="progress-bar progress-bar-danger" data-toggle="tooltip" data-placement="top" title="Past Due" style="width: @outstanding%"></div>
+            </div>
+        </text>
+                    }
+}
+
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.ProjectID)</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>Status</th>
+        <th>@Html.DisplayNameFor(model => model.AssignedTo)</th>
+        <th>@Html.DisplayNameFor(model => model.DateNeeded)</th>
+        <th>@Html.DisplayNameFor(model => model.LastModified)</th>
+    </tr>
+
+
+    @{ int i = 1; }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectID)
+            </td>
+            <td>
+                @Html.ActionLink(item.Name ?? "Task " + i, "Details", "ProjectTasks", new { id = item.ID }, null)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status, "_ProjectStatus")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssignedTo, "User")
+            </td>
+
+            <td>
+                @{
+                    string textStatus = "";
+                    int Days = (item.DateNeeded.Date - (item.CompletedDate ?? DateTime.Now.Date)).Days;
+                    string statusHTML = Math.Abs(Days) + " day";
+                    if (Math.Abs(Days) > 1)
+                    {
+                        statusHTML += "s";
+                    }
+                    if (Days < 0)
+                    {
+                        statusHTML = "<strong>" + String.Format("<i class=\"{0}\"></i> Past due by " + statusHTML, "fa fa-exclamation-triangle") + "</strong>";
+
+                        textStatus = "text-danger";
+                    }
+                    else if (Days < 2)
+                    {
+                        if (Days == 0)
+                        {
+                            statusHTML = "Due today";
+                        }
+                        else
+                        {
+                            statusHTML = "Due in " + statusHTML;
+                        }
+                        textStatus = "text-warning bg-warning";
+                    }
+                    else
+                    {
+                        statusHTML = item.DateNeeded.Date.ToString("d");
+                    }
+                }
+                <span data-toggle="@(!string.IsNullOrEmpty(textStatus) ? "tooltip" : "")" class="@textStatus" data-placement="top" title="@item.DateNeeded.Date.ToString("d") ">
+                    @Html.Raw(statusHTML)
+                </span>
+            </td>
+
+            <td>
+                @item.LastModified
+            </td>
+
+        </tr>
+                        i = i + 1;
+                    }
+
+</table>
+

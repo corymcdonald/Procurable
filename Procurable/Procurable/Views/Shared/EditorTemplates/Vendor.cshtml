@@ -1,0 +1,57 @@
+﻿@model Procurable.Models.Vendor
+
+@Scripts.Render("~/bundles/jquery")
+
+
+
+
+
+
+@*@using (Ajax.BeginForm("Search", "Vendor", new AjaxOptions { UpdateTargetId = "result" }))
+{
+    <div class="input-group">
+        @Html.TextBox("query", "", new { @class = "form-control", placeholder = "Search vendors" })
+        <div class="input-group-btn">
+            <input type="submit" name="Send" value="Search" class="btn btn-primary btn-iconed btn-lg" />
+        </div>
+    </div>
+}*@
+<div id="bloodhound">
+    @Html.TextBox("typeahead", Model == null ? "" : Model.Name , new { @class = "form-control typeahead", id = "Vendor_query", placeholder = "Search vendors", required = "required" })
+</div>
+<input type="hidden" id="VendorID" name="VendorID" value="@{ Write(Model == null ? "" : Model.ID.ToString()); } " />
+<script>
+    $(document).ready(function () {
+
+        $.ajax({
+            url: '../Vendors',
+            method: 'GET',
+            headers: {
+                Accept: "application/json"
+            },
+            success: function (result) {
+                var data = new Bloodhound({
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("Name"),
+                    queryTokenizer: Bloodhound.tokenizers.whitespace,
+                    local: result
+                });
+                console.log('running typeahead')
+                $('#bloodhound .typeahead').typeahead({
+                    hint: true,
+                    highlight: true,
+                    minLength: 1
+                },
+                {
+                    displayKey: 'Name',
+                    source: data
+                });
+            }
+        });
+        $('.typeahead').on('typeahead:selected', function (evt, item) {
+            $("#VendorID").val(item.ID)
+        })
+
+    })
+ 
+
+</script>

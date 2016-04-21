@@ -1,49 +1,151 @@
-﻿<!DOCTYPE html>
-<html>
+﻿@{
+    var Vendors = "Vendors";
+    var Departments = "Departments";
+    var Inventories = "Inventories";
+    var InventoryItems = "InventoryItems";
+    var PurchaseOrder = "PurchaseOrders";
+    var RequestedItems = "RequestedItems";
+    var Reorders = "Reorders";
+    var Requests = "requests";
+    
+    var ProjectTasks = "ProjectTasks";
+    var Projects = "Projects";
+    var Controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+    string[] requestsSub = { RequestedItems, Requests};
+    string[] inventorySub = { Inventories, InventoryItems, PurchaseOrder, Reorders};
+    string[] projectsSub = {Projects, ProjectTasks};
+    string[] administrationSub = { Vendors, Departments};
+    string[] reportingSub = { };
+
+    bool isRequestsSub = requestsSub.Any(x => x.Contains(Controller));
+    bool isinventorySub = inventorySub.Any(x => x.Contains(Controller));
+    bool isProjectsSub = projectsSub.Any(x => x.Contains(Controller));
+    bool isAdministrationSub = administrationSub.Any(x => x.Contains(Controller));
+    bool isReportingSub = reportingSub.Any(x => x.Contains(Controller));
+
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
 
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/jquery")
+
+
+
+
+    <meta name="description" content="The description of my page" />
 </head>
+
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+
+    <nav class="navbar navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+               <img src="@Url.Content("~/Content/Images/ProcurableRed.png")" class="navbar-brand" />
+              
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Vendors", "", "Vendors")</li>
-                    <li>@Html.ActionLink("Inventories", "", "Inventories")</li>
-                    <li>@Html.ActionLink("Inventory Items", "", "InventoryItems")</li>
-                    <li>@Html.ActionLink("Purchase Order", "", "PurchaseOrders")</li>
-                    <li>@Html.ActionLink("Requested Items", "", "RequestedItems")</li>
-                    <li>@Html.ActionLink("Requests", "", "Requests")</li>
-                    <li>@Html.ActionLink("Tasks", "", "ProjectTasks")</li>
-                    <li>@Html.ActionLink("Projects", "", "Projects")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
-            </div>
-        </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+            <ul class="nav navbar-right top-nav">
+                @Html.Partial("_LoginPartial")
+
+            </ul>
+
+            
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav nav-tabs nav-pills" id="myTab">
+                    <li class="@if (isRequestsSub) { Write("active"); }"><a data-target="#requestsNav" data-toggle="tab">Requests</a></li>
+                    <li class="@if (isinventorySub) { Write("active"); }"><a data-target="#inventoryNav" data-toggle="tab">Inventory</a></li>
+                    <li class="@if (isProjectsSub) { Write("active"); }"><a data-target="#projectsNav" data-toggle="tab">Projects</a></li>
+                    <li class="@if (isAdministrationSub) { Write("active"); }"><a data-target="#administrationNav" data-toggle="tab">Administration</a></li>
+                    <li class="@if (isReportingSub) { Write("active"); }"><a data-target="#reportingNav" data-toggle="tab">Reporting</a></li>
+                </ul>
+               
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+
+   
+
+        
+        <nav class="navbar navbar-fixed-top navbar-lower" role="navigation" >
+            <div class="container">
+                <div class="collapse navbar-collapse collapse-buttons">
+                    
+                        <div class="tab-content">
+                            <!-- REQUESTS CONTAINER-->
+                            <div class="tab-pane @if (isRequestsSub) { Write("active"); }" id="requestsNav">
+                                <ul class="nav navbar-nav nav-pills">
+                                    <li class="@if (RequestedItems == Controller) { Write("active"); }">@Html.ActionLink("Requested Items", "", "RequestedItems")</li>
+                                    <li class="@if (Requests == Controller) { Write("active"); }">@Html.ActionLink("Requests", "", "requests")</li>
+                                    
+                                </ul>
+                            </div>
+                            <!-- Inventory CONTAINER-->
+                            <div class="tab-pane @if (isinventorySub) { Write("active"); }" id="inventoryNav">
+                                <ul class="nav navbar-nav nav-pills">
+                                   
+                                    <li class="@if (Inventories == Controller) { Write("active"); }">@Html.ActionLink("Inventories", "", "Inventories")</li>
+                                    <li class="@if (InventoryItems == Controller) { Write("active"); }">@Html.ActionLink("Inventory Items", "", "InventoryItems")</li>
+                                    <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Purchase Order", "", "PurchaseOrders")</li>
+                                    <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Auto Reorder", "", "Reorders")</li>
+                                </ul>
+                            </div>
+                            <!-- projects CONTAINER-->
+                            <div class="tab-pane @if (isProjectsSub) { Write("active"); }" id="projectsNav">
+                                <ul class="nav navbar-nav nav-pills">
+                                    <li class="@if (ProjectTasks == Controller) { Write("active"); }">@Html.ActionLink("Tasks", "", "ProjectTasks")</li>
+                                    <li class="@if (Projects == Controller) { Write("active"); }">@Html.ActionLink("Projects", "", "Projects")</li>
+                                </ul>
+                            </div>
+                            <!-- administration CONTAINER-->
+                            <div class="tab-pane @if (isAdministrationSub) { Write("active"); }" id="administrationNav">
+                                <ul class="nav navbar-nav nav-pills">
+                                    <li class="@if (Vendors == Controller) { Write("active"); }">@Html.ActionLink("Vendors", "", "Vendors")</li>
+                                    <li class="@if (Departments == Controller) { Write("active"); }">@Html.ActionLink("Departments", "", "Departments")</li>
+                                </ul>
+                            </div>
+                            <!-- reporting CONTAINER-->
+                            <div class="tab-pane @if (isReportingSub) { Write("active"); }" id="reportingNav">
+                                <ul class="nav navbar-nav nav-pills">
+                                </ul>
+                            </div>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+      
+
+
+        <div class="container">
+
+            @RenderBody()
+
+        </div>
+        <!-- /.container-fluid -->
+
+
+
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+
+        @Scripts.Render("~/bundles/typeahead")
+        @Scripts.Render("~/bundles/handsontable")
+
 </body>
+<footer class="footer">
+    <div class="container">
+        <p class="text-muted">&copy; @DateTime.Now.Year - Procurable</p>
+    </div>
+</footer>
 </html>

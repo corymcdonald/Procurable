@@ -11,6 +11,12 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Vendor)
+        </dt>
+        <dd>
+            @Html.ActionLink(Model.Vendor.Name, "Details", "Vendors", new { id = Model.Vendor.ID }, null)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Name)
         </dt>
 
@@ -62,5 +68,6 @@
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to List", "Index") | 
+    @Html.ActionLink("Auto reorder this item", "CreateEdit", "Reorders", new { InventoryItemName = Model.Name }, "");
 </p>

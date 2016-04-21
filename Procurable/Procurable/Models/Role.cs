@@ -7,9 +7,10 @@ namespace Procurable.Models
 {
     public enum UserRole
     {
-        Member,
-        Admin,
-        Owner
+        User,
+        Reviewer,
+        Admin
+        
     }
 
 

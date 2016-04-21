@@ -4,13 +4,27 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+
+
+@if ((bool)ViewData["powerUser"])
+{
+   
+    @Html.Action("Approve");
+}
+
+
+<h2>My Requests</h2>
+
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default" })
 </p>
-<table class="table">
+
+<table class="table-hover table" >
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ID)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
@@ -18,16 +32,22 @@
             @Html.DisplayNameFor(model => model.Comments)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CreatedDate)
+            @Html.DisplayNameFor(model => model.RequestedFor)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LastModified)
+            @Html.DisplayNameFor(model => model.Status)
         </th>
+       
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
+@foreach (var item in Model)
+{
+    var newID = item.ID * 500000;
+    <tr data-toggle="collapse" data-target="#@newID " class="accordion-toggle" >
+        <td>
+            @Html.DisplayFor(modelItem => item.ID)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.Name)
         </td>
@@ -35,17 +55,55 @@
             @Html.DisplayFor(modelItem => item.Comments)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CreatedDate)
+            @Html.DisplayFor(modelItem => item.RequestedFor)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LastModified)
+            @if (item.StatusDisplay == "Opened")
+            {
+                <span class="label label-primary">
+                    @Html.DisplayFor(modelItem => item.StatusDisplay)
+                </span>
+            }
+            @if (item.StatusDisplay == "Denied")
+            {
+                <span class="label label-danger">
+                    @Html.DisplayFor(modelItem => item.StatusDisplay)
+                </span>
+            }
+            @if (item.StatusDisplay == "Approved")
+            {
+                <span class="label label-success">
+                    @Html.DisplayFor(modelItem => item.StatusDisplay)
+                </span>
+            }
+
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+
+
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default btn-sm" })
+            @Html.ActionLink("Close", "Delete", new { id = item.ID }, new { @class = "btn btn-danger  btn-sm" })
+
+
+        </td>
+    </tr>
+    
+    <tr style="background: #222326">
+        <td colspan="6" class="Hidden" style="padding: 0 !important;">
+            <div id="@newID" class="panel-collapse collapse in">
+                @Html.DisplayFor(modelItem => item.Items)
+            </div>
         </td>
     </tr>
 }
 
 </table>
+
+
+<script>
+    jQuery(document).ready(function ($) {
+        $(".clickable-row").click(function () {
+            window.document.location = $(this).data("href");
+        });
+    });
+</script>

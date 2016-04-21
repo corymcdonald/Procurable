@@ -4,31 +4,57 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
-
 <div>
-    <h4>PurchaseOrder</h4>
+    <h2>@Html.DisplayFor(model => model.Name)</h2>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+
     <hr />
     <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+      
+      
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Price)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Price)
-        </dd>
 
     </dl>
+
+        <table class="table">
+            <tr>
+                <th>
+                    Vendor
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+
+            @foreach (var item in Model.RequestedItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Vendor.Name)
+                    </td>
+                    <td>
+                        @Html.ActionLink(item.Name, "Details", "InventoryItems", new { id = item.ID }, null)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                </tr>
+            }
+            <tr style="background-color: lightgrey">
+                <td><b>Total</b></td>
+                <td></td>
+                <td><b>
+                    @Html.DisplayFor(model => model.Price)
+                </b>
+                </td>
+              
+            </tr>
+        </table>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

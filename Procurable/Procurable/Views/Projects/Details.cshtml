@@ -4,47 +4,74 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="row">
+    <div class="pull-right">
+        <br/>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Delete", "Delete", new { id = Model.ProjectID }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Create Task", "Create", "ProjectTasks", new { projectID = Model.ProjectID }, new { @class = "btn btn-default " })
+    </div>
+    <div >
 
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Priority)
-        </dt>
+        <h2 style="display:inline-block ">Project for @Html.ActionLink(Model.Request.Name.ToTitleCase(), "Details", "Requests", new { @id = Model.RequestID }, null) </h2>
+        <div class="projectStatus">
 
-        <dd>
-            @Html.DisplayFor(model => model.Priority)
-        </dd>
+            <h4>
+                @Html.DisplayFor(model => model.Status, "_ProjectStatus")
+                @Html.DisplayFor(model => model.Priority, "_ProjectPriority")
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
+            </h4>
+        </div>
+    </div>
 
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDate)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDate)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.LastModified)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.LastModified)
-        </dd>
-
-    </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ProjectID }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+<div>
+    <hr />
+    <dl class="projectDl">
+        <dt>
+            @Html.DisplayNameFor(model => model.AssignedTo)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AssignedTo, "User")
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Request.RequestedFor)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Request.RequestedFor, "User")
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Request.RequestedBy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Request.RequestedBy, "User")
+        </dd>
+        <dt>
+            Request @Html.DisplayNameFor(model => model.Request.Comments)
+        </dt>
+        <dd>
+            <p>
+                @Html.DisplayFor(model => model.Request.Comments)
+            </p>
+        </dd>
+        <dt>
+            Project @Html.DisplayNameFor(model => model.Comments)
+        </dt>
+        <dd>
+            <p>
+                @Html.DisplayFor(model => model.Comments)
+            </p>
+        </dd>
+    </dl>
+    <h3 >Tasks</h3>
+    @Html.Partial("TaskIndex", ViewData["Tasks"], new ViewDataDictionary { { "ProjectID", 1 } })
+</div>
+<div class="row">
+    <div class="col-md-4"><span class="text-muted">@Html.DisplayNameFor(model => model.CreatedBy): @Html.DisplayFor(model => model.CreatedBy, "User")</span></div>
+    <div class="col-md-4"><span class="text-muted">@Html.DisplayNameFor(model => model.LastModified): @Html.DisplayFor(model => model.LastModified)</span></div>
+    <div class="col-md-4"><span class="text-muted">@Html.DisplayNameFor(model => model.CreatedDate): @Html.DisplayFor(model => model.CreatedDate)</span></div>
+</div>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })</script>
