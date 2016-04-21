@@ -50,31 +50,38 @@
                     string textStatus = "";
                     int Days = (item.DateNeeded.Date - (item.CompletedDate ?? DateTime.Now.Date)).Days;
                     string statusHTML = Math.Abs(Days) + " day";
-                    if (Days != 1)
+                    if (Math.Abs(Days) > 1)
                     {
                         statusHTML += "s";
                     }
                     if (Days < 0)
                     {
-
                         statusHTML = "<strong>" + String.Format("<i class=\"{0}\"></i> Past due by " + statusHTML, "fa fa-exclamation-triangle") + "</strong>";
 
                         textStatus = "text-danger";
                     }
                     else if (Days < 2)
                     {
-                        statusHTML = "Due in " + statusHTML;
-                        textStatus = "text-warning";
+                        if (Days == 0)
+                        {
+                            statusHTML = "Due today";
+                        }
+                        else
+                        {
+                            statusHTML = "Due in " + statusHTML;
+                        }
+                        textStatus = "text-warning bg-warning";
                     }
                     else
                     {
                         statusHTML = item.DateNeeded.Date.ToString("d");
                     }
                 }
-                <span data-toggle="tooltip" class="@textStatus" data-placement="top" title="@item.DateNeeded.Date.ToString("d") ">
+                <span data-toggle="@(!string.IsNullOrEmpty(textStatus) ? "tooltip" : "")" class="@textStatus" data-placement="top" title="@item.DateNeeded.Date.ToString("d") ">
                     @Html.Raw(statusHTML)
                 </span>
             </td>
+
             <td>
                 @item.LastModified
             </td>
