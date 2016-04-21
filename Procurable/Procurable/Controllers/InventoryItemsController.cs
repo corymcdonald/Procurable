@@ -184,7 +184,7 @@ namespace Procurable.Models
         public ActionResult Search(string query)
         {
             if (Request.AcceptTypes.Contains("application/json"))
-                return Json(SearchInternal(query));
+                return Json(SearchInternal(query), JsonRequestBehavior.AllowGet);
             return PartialView("Search", SearchInternal(query));
         }
     }

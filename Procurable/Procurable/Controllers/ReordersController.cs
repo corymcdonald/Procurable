@@ -21,7 +21,7 @@ namespace Procurable
         {
             if (Request.AcceptTypes.Contains("application/json"))
             {
-                return Json(db.Reorders.ToList());
+                return Json(db.Reorders.ToList(), JsonRequestBehavior.AllowGet);
             }
             return View(db.Reorders.ToList());
         }
@@ -40,7 +40,7 @@ namespace Procurable
             }
             if (Request.AcceptTypes.Contains("application/json"))
             {
-                return Json(reorder);
+                return Json(reorder, JsonRequestBehavior.AllowGet);
             }
             return View(reorder);
         }

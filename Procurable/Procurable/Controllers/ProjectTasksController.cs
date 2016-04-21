@@ -33,7 +33,10 @@ namespace Procurable.Controllers
 
             DateTime Now = DateTime.Now.Date;
             ViewData["LateTasks"] = db.ProjectTasks.Where(x => DbFunctions.TruncateTime(x.DateNeeded) < Now);
-
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.ProjectTasks.ToList(), JsonRequestBehavior.AllowGet);
+            }
             return View(db.ProjectTasks.ToList());
         }
 
