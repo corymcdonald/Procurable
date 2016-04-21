@@ -15,15 +15,18 @@ namespace Procurable.Models
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
 
+        [Display(Name = "Purchase Order")]
         public PurchaseOrder PurchaseOrder { get; set; }
         public decimal Price { get; set; }
 
         [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
+
+        [Display(Name = "Part Order")]
         public string PartNumber { get; set; }
         public string Location { get; set; }
-        
 
+        [Display(Name = "Inventory Status")]
         public InventoryStatus Status { get; set; }
     }
 }
