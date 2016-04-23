@@ -38,5 +38,7 @@
     <string name="drawer_close">Close</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="comments">Comments</string>
+    <string name="price">Date</string>
     <string name="thumbnail">thumbnail</string>
 </resources>

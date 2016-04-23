@@ -12,6 +12,9 @@
 <table class="table">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.ProjectID)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Priority)
         </th>
         <th>
@@ -29,10 +32,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
+            @Html.ActionLink(item.ProjectID.ToString().PadLeft(8, '0'), "Details", new { id = item.ProjectID })
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Priority)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Status)
+            @Html.DisplayFor(modelItem => item.Status, "_ProjectStatus")
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CreatedDate)
@@ -41,9 +47,6 @@
             @Html.DisplayFor(modelItem => item.LastModified)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ProjectID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ProjectID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ProjectID })
         </td>
     </tr>
 }

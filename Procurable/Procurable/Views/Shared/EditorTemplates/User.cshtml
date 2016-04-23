@@ -6,14 +6,13 @@
 
 <div id="bloodhound">
     @Html.TextBox("typeahead", Model == null ? "" : Model.UserName, new { @class = "form-control typeahead", id = "User_query", placeholder = "Search Users", required = "required" })
-
 </div>
-<input type="hidden" id="UserID" name="UserID" />
+<input type="hidden" id="UserID" name="UserID"  value="@{ Write(Model == null ? "" : Model.Id.ToString()); } " />
 <script>
     $(document).ready(function () {
 
         $.ajax({
-            url: 'localhost:55504/Account',
+            url: '/Account',
             method: 'GET',
             headers: {
                 Accept: "application/json"
@@ -36,8 +35,8 @@
                 });
             }
         });
-        $('.typeahead').on('typeahead:selected', function (evt, item) {
-            $("#UserID").val(item.ID)
+        $('#User_query').on('typeahead:selected', function (evt, item) {
+            $("#UserID").val(item.Id)
         })
 
     })

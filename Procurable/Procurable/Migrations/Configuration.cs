@@ -9,7 +9,7 @@ namespace Procurable.Migrations
     using System.Data.Entity.Migrations;
     using System.Diagnostics;
     using System.Linq;
-
+    using System.Web.Security;
     internal sealed class Configuration : DbMigrationsConfiguration<Procurable.Models.ApplicationDbContext>
     {
         public Configuration()
@@ -171,6 +171,8 @@ namespace Procurable.Migrations
                 adminID = UserManager.FindByName("admin@test.com").Id;
             }
 
+            
+
             //Reviewers
             if (!(context.Users.Any(u => u.UserName == "reviewer@test.com")))
             {
@@ -277,7 +279,7 @@ namespace Procurable.Migrations
 
             InventoryItems1.Add(new InventoryItem() {
                 ID = 1,
-                VendorID=33,
+                VendorID=context.Vendors.FirstOrDefault(x=> x.Name == "Intel").ID,
                 Name = "Inspiron i3847-4616BK",
                 Comments = "Gen 4 i5-4440/ 8GB/ 1TB/ Windows 8.1",
                 Status = InventoryStatus.Unallocated,
@@ -287,7 +289,7 @@ namespace Procurable.Migrations
             InventoryItems1.Add(new InventoryItem()
             {
                 ID = 2,
-                VendorID = 33,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Intel").ID,
                 Name = "Inspiron i3847-4616BK",
                 Comments = "Gen 4 i5-4440/ 8GB/ 1TB/ Windows 8.1",
                 Status = InventoryStatus.Unallocated,
@@ -297,7 +299,7 @@ namespace Procurable.Migrations
             InventoryItems1.Add(new InventoryItem()
             {
                 ID = 3,
-                VendorID = 55,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "HTC").ID,
                 Name = "One",
                 Comments = "145.75 x 70.8. x 7.26 mm",
                 Status = InventoryStatus.Unallocated,
@@ -308,7 +310,7 @@ namespace Procurable.Migrations
             InventoryItems1.Add(new InventoryItem()
             {
                 ID = 4,
-                VendorID = 60,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Gigabyte").ID,
                 Name = "Inspiron i3847-4616BK",
                 Comments = "Gen 4 i5-4440/ 8GB/ 1TB/ Windows 8.1",
                 Status = InventoryStatus.Unallocated,
@@ -319,7 +321,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 5,
-                VendorID = 48,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "LG").ID,
                 Name = "Q21",
                 Comments = "Intel Celeron N2930 Processor (1.83-2.17GHz) " + Environment.NewLine + "500GB/1TB 2.5\" HDD 5400rpm",
                 Status = InventoryStatus.Unallocated,
@@ -329,7 +331,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 6,
-                VendorID = 14,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
                 Name = "iPad Air 2",
                 Comments = "iOS 8.1",
                 Status = InventoryStatus.Allocated,
@@ -339,7 +341,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 7,
-                VendorID = 14,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
                 Name = "iPad Air 2",
                 Comments = "iOS 8.1",
                 Status = InventoryStatus.Allocated,
@@ -349,7 +351,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 8,
-                VendorID = 14,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
                 Name = "iPad Air 2",
                 Comments = "iOS 8.1",
                 Status = InventoryStatus.Unallocated,
@@ -359,7 +361,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 9,
-                VendorID = 14,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
                 Name = "iPad Air 2",
                 Comments = "iOS 8.1",
                 Status = InventoryStatus.Unallocated,
@@ -369,7 +371,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 10,
-                VendorID = 60,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "HTC").ID,
                 Name = "One",
                 Comments = "145.75 x 70.8. x 7.26 mm",
                 Status = InventoryStatus.Unallocated,
@@ -380,7 +382,7 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 11,
-                VendorID = 50,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Amazon").ID,
                 Name = "Digital A6 Color Printer",
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(1300.00),
@@ -389,7 +391,7 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 12,
-                VendorID = 80,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Microsoft").ID,
                 Name = "Microsoft Office Home",
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(124.94),
@@ -398,7 +400,7 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 13,
-                VendorID = 80,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Microsoft").ID,
                 Name = "Microsoft Office Student",
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(94.99),
@@ -408,7 +410,7 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 14,
-                VendorID = 50,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Amazon").ID,
                 Name = "32GB Micro SDHC Card",
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(9.99),
@@ -417,7 +419,7 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 15,
-                VendorID = 50,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Amazon").ID,
                 Name = "32GB Micro SDHC Card",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(9.99),
@@ -426,7 +428,7 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 16,
-                VendorID = 50,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Amazon").ID,
                 Name = "32GB Micro SDHC Card",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(9.99),
@@ -435,7 +437,7 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 17,
-                VendorID = 1,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Acer").ID,
                 Name = "Aspire",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(465.00),
@@ -444,7 +446,7 @@ namespace Procurable.Migrations
             InventoryItems3.Add(new InventoryItem()
             {
                 ID = 18,
-                VendorID = 1,
+                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Acer").ID,
                 Name = "23-Inch Screen LED-Lit Monitor",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(110.48),

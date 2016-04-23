@@ -4,42 +4,35 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ProjectID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comments)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DateNeeded)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProjectID)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.DateNeeded)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
-
-</table>
+<div class="row">
+    <div class="col-md-2">
+        <h2>Tasks</h2>
+    </div>
+   
+</div>
+<div class="tabbable taskTabs">
+    <ul class="nav nav-pills nav-stacked col-md-3">
+        <li class="active"><a href="#a" data-toggle="tab">My open tasks</a></li>
+        <li ><a href="#mycomplete" data-toggle="tab">My completed tasks</a></li>
+        <li><a href="#b" data-toggle="tab">Open tasks</a></li>
+        <li><a href="#c" data-toggle="tab">Completed tasks</a></li>
+        <li><a href="#late" data-toggle="tab">Late tasks</a></li>
+    </ul>
+    <div class="tab-content col-md-9">
+        <div class="tab-pane active" id="a">
+            @Html.Partial("TaskIndex", ViewData["MyOpenTasks"])
+        </div>
+        <div class="tab-pane" id="mycomplete">
+            @Html.Partial("TaskIndex", ViewData["MyCompletedTasks"])
+        </div>
+        <div class="tab-pane" id="b">
+            @Html.Partial("TaskIndex", ViewData["OpenTasks"]);
+        </div>
+        <div class="tab-pane" id="c">
+            @Html.Partial("TaskIndex", ViewData["CompletedTasks"])
+        </div>
+        <div class="tab-pane" id="late">
+            @Html.Partial("TaskIndex", ViewData["LateTasks"])
+        </div>
+    </div>
+</div>

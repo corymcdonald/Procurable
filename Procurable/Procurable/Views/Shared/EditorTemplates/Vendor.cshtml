@@ -19,12 +19,12 @@
 <div id="bloodhound">
     @Html.TextBox("typeahead", Model == null ? "" : Model.Name , new { @class = "form-control typeahead", id = "Vendor_query", placeholder = "Search vendors", required = "required" })
 </div>
-<input type="hidden" id="VendorID" name="VendorID" />
+<input type="hidden" id="VendorID" name="VendorID" value="@{ Write(Model == null ? "" : Model.ID.ToString()); } " />
 <script>
     $(document).ready(function () {
 
         $.ajax({
-            url: 'http://localhost:55504/Vendors',
+            url: '../Vendors',
             method: 'GET',
             headers: {
                 Accept: "application/json"

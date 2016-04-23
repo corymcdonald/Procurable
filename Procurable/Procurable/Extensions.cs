@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 
@@ -30,6 +31,12 @@ namespace Procurable
                 ((int)(ts.Days - Months* 30.436875) <= 0 ? "" : string.Format("{0} days ", (int)(ts.Days - Months * 30.436875))),
                 ((int)ts.Minutes == 0 ? "" : string.Format("{0} minutes ", (int)ts.Minutes))
                 );
+        }
+
+        public static string ToTitleCase(this string title)
+        {
+            TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;
+            return textInfo.ToTitleCase(title);
         }
         public static int GetYears(this TimeSpan timespan)
         {

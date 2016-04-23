@@ -19,6 +19,10 @@ namespace Procurable
         // GET: Reorders
         public ActionResult Index()
         {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.Reorders.ToList(), JsonRequestBehavior.AllowGet);
+            }
             return View(db.Reorders.ToList());
         }
 
@@ -33,6 +37,10 @@ namespace Procurable
             if (reorder == null)
             {
                 return HttpNotFound();
+            }
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(reorder, JsonRequestBehavior.AllowGet);
             }
             return View(reorder);
         }
@@ -70,16 +78,13 @@ namespace Procurable
                     db.Entry(reorder).State = EntityState.Modified;
                 }
                 db.SaveChanges();
-                return RedirectToAction("Index");
             }
-
-            return View(reorder);
+            return RedirectToAction("Index");
         }
         // POST: Reorders/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Name,InventoryItemName,ReorderThreshold,ReorderFrequencyInDays,,QuanityToOrder,LastOrdered")] Reorder reorder)
         {
             return CreateEdit(reorder);
@@ -104,7 +109,6 @@ namespace Procurable
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ID,Name,InventoryItemName,ReorderThreshold,ReorderFrequencyInDays,QuanityToOrder,LastOrdered")] Reorder reorder)
         {
             return CreateEdit(reorder);
@@ -127,7 +131,6 @@ namespace Procurable
 
         // POST: Reorders/Delete/5
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             Reorder reorder = db.Reorders.Find(id);

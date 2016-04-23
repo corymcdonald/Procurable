@@ -35,7 +35,8 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.procurable.activity.ManageRequest" />
-        <activity android:name="com.procurable.activity.RequestDetails"></activity>
+        <activity android:name="com.procurable.activity.RequestDetails" />
+        <activity android:name="com.procurable.activity.ApproveRequestActivity"></activity>
     </application>
 
 </manifest>

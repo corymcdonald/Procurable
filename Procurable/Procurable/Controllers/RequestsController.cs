@@ -43,6 +43,22 @@ namespace Procurable.Controllers
             return View(db.Requests.Where(x => x.RequestedBy.Id.Equals(uId)).ToList());
         }
 
+        [Authorize]
+        public ActionResult All()
+        {
+
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.Requests.ToList(), JsonRequestBehavior.AllowGet);
+            }
+            ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
+            if (User.IsInRole("Admin") || User.IsInRole("Reviewer"))
+                ViewData["powerUser"] = true;
+            else
+                ViewData["powerUser"] = false;
+            return View("Index", db.Requests.ToList());
+        }
+
         // GET: Requests for Approval
         [Authorize(Roles = "Admin, Reviewer")]
         public ActionResult Approve()

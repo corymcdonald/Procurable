@@ -11,6 +11,7 @@ namespace Procurable.Models
         public int ID { get; set; }
         [Display(Name = "Vendor Name")]
         public string Name { get; set; }
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
         public string Website { get; set; }
         public string Contact { get; set; }

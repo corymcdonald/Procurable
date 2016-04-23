@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Procurable.Models;
+using System.Web.Security;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Procurable.Controllers
 {
@@ -135,6 +138,19 @@ namespace Procurable.Controllers
                 return View("Error");
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        public ActionResult GetAdministrators()
+        {
+            var roleManager =  new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            List<ApplicationUser> Users = new List<ApplicationUser>();
+            foreach(var user in roleManager.FindByName("Admin").Users)
+            {
+                Users.Add(db.Users.Find(user.UserId));
+            }
+            return Json(Users, JsonRequestBehavior.AllowGet);
         }
 
         //

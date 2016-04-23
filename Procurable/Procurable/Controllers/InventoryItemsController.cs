@@ -18,17 +18,18 @@ namespace Procurable.Models
         [Authorize]
         public ActionResult Index()
         {
+            var inventoryCount = db.InventoryItems.ToList().GroupBy(x => new { x.Name }).Select(group => new InventoryItemIndex() { Name=group.Key.Name, Item = group.ToList<InventoryItem>(), Count = group.Count() }).ToList();
             if (Request.AcceptTypes.Contains("application/json"))
             {
-                return Json(db.InventoryItems.ToList(), JsonRequestBehavior.AllowGet);
+                return Json(inventoryCount, JsonRequestBehavior.AllowGet);
             }
-            var inventoryCount = db.InventoryItems.ToList().GroupBy(x => new { x.Name }).Select(group => new InventoryItemIndex() { Item= group.ToList<InventoryItem>(), Count = group.Count() }).ToList();
             return View(inventoryCount);
         }
 
-        public List<InventoryItem> GetInventoryItems()
+        [Authorize]
+        public ActionResult GetInventoryItems()
         {
-            return db.InventoryItems.ToList();
+            return Json(db.InventoryItems.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         // GET: InventoryItems/Details/5
@@ -183,7 +184,7 @@ namespace Procurable.Models
         public ActionResult Search(string query)
         {
             if (Request.AcceptTypes.Contains("application/json"))
-                return Json(SearchInternal(query));
+                return Json(SearchInternal(query), JsonRequestBehavior.AllowGet);
             return PartialView("Search", SearchInternal(query));
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,8 +15,9 @@ namespace Procurable.Models
 
     public enum ProjectStatus
     {
-        InProgress,
         New,
+        [Display(Name = "In Progress")]
+        InProgress,
         Completed
     }
 
@@ -25,6 +27,7 @@ namespace Procurable.Models
         Reopened,
         Approved,
         Denied,
+        [Display(Name = "In Progress")]
         InProgress,
         Completed
     }

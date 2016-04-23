@@ -7,6 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Procurable.Models;
+using System.Data.SqlTypes;
+using Microsoft.AspNet.Identity;
+using System.Data.Entity.Core.Objects;
 
 namespace Procurable.Controllers
 {
@@ -18,6 +21,18 @@ namespace Procurable.Controllers
         [Authorize]
         public ActionResult Index()
         {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.ProjectTasks.ToList(), JsonRequestBehavior.AllowGet);
+            }
+            string UserID = User.Identity.GetUserId();
+            ViewData["MyOpenTasks"] = db.ProjectTasks.Where(x => x.AssignedToID == UserID && x.Status != ProjectStatus.Completed);
+            ViewData["MyCompletedTasks"] = db.ProjectTasks.Where(x => x.AssignedToID == UserID && x.Status == ProjectStatus.Completed );
+            ViewData["CompletedTasks"] = db.ProjectTasks.Where(x=> x.Status == ProjectStatus.Completed);
+            ViewData["OpenTasks"] = db.ProjectTasks.Where(x=> x.Status != ProjectStatus.Completed);
+
+            DateTime Now = DateTime.Now.Date;
+            ViewData["LateTasks"] = db.ProjectTasks.Where(x => DbFunctions.TruncateTime(x.DateNeeded) < Now);
             if (Request.AcceptTypes.Contains("application/json"))
             {
                 return Json(db.ProjectTasks.ToList(), JsonRequestBehavior.AllowGet);
@@ -55,9 +70,16 @@ namespace Procurable.Controllers
 
         // GET: ProjectTasks/Create
         [Authorize]
-        public ActionResult Create()
+        public ActionResult Create(string projectID ="")
         {
-            return View();
+            ProjectTask p = new ProjectTask();
+            p.DateNeeded = DateTime.Now.AddDays(7);
+            int pID;
+            if(Int32.TryParse(projectID, out pID))
+            {
+                p.ProjectID = pID;
+            }
+            return View(p);
         }
 
         // POST: ProjectTasks/Create
@@ -65,17 +87,26 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Create([Bind(Include = "ID,ProjectID,Comments,DateNeeded")] ProjectTask projectTask)
+        public ActionResult Create([Bind(Include = "ID,ProjectID,Comments,DateNeeded,Comments,Name,Status")] ProjectTask projectTask)
         {
             if (ModelState.IsValid)
             {
+                projectTask.LastModified = DateTime.Now;
+                projectTask.CreatedDate = DateTime.Now;
+                projectTask.CreatedBy = db.Users.Find(User.Identity.GetUserId());
+
+                if (projectTask.DateNeeded < SqlDateTime.MinValue.Value)
+                    projectTask.DateNeeded = SqlDateTime.MinValue.Value;
+                if (projectTask.Status == ProjectStatus.Completed)
+                    projectTask.CompletedDate = DateTime.Now;
+                projectTask.AssignedToID = db.Users.Find(Request.Form["UserID"]).Id;
                 db.ProjectTasks.Add(projectTask);
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
                     return Json(new { Succeeded = true });
                 }
-                return RedirectToAction("Index");
+                return Redirect(Request.UrlReferrer.AbsolutePath);
             }
 
             return View(projectTask);
@@ -102,17 +133,26 @@ namespace Procurable.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ID,ProjectID,Comments,DateNeeded")] ProjectTask projectTask)
+        public ActionResult Edit([Bind(Include = "ID,ProjectID,Comments,DateNeeded,Comments,Name,Status")] ProjectTask projectTask)
         {
             if (ModelState.IsValid)
             {
+                string SentUserID = Request.Form["UserID"];
+                var oldProject = db.ProjectTasks.AsNoTracking().FirstOrDefault(x => x.ID == projectTask.ID);
+                if (projectTask.Status == ProjectStatus.Completed && oldProject.Status != ProjectStatus.Completed)
+                    projectTask.CompletedDate = DateTime.Now;
+                projectTask.CreatedDate = oldProject.CreatedDate;
+                projectTask.LastModified = DateTime.Now;
+                projectTask.CreatedByID = oldProject.CreatedBy.Id;
+                projectTask.AssignedToID = db.Users.AsNoTracking().FirstOrDefault(x => x.Id == SentUserID).Id;
                 db.Entry(projectTask).State = EntityState.Modified;
                 db.SaveChanges();
+
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
                     return Json(new { Succeeded = true });
                 }
-                return RedirectToAction("Index");
+                return View("Details", projectTask);
             }
             return View(projectTask);
         }

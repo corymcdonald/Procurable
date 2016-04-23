@@ -48,10 +48,6 @@ namespace Procurable.Controllers
             }
             if (Request.AcceptTypes.Contains("application/json"))
             {
-                return Json(vendor);
-            }
-            if (Request.AcceptTypes.Contains("application/json"))
-            {
                 return Json(vendor, JsonRequestBehavior.AllowGet);
             }
             return View(vendor);

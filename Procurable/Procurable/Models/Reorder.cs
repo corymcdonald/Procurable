@@ -16,8 +16,8 @@ namespace Procurable.Models
         [Required]
         public string InventoryItemName { get; set; }
 
-        [Display(Name = "Automatic Threshold to Reoder")]
-        public int ReorderThreshold { get; set; }
+        [Display(Name = "Automatic Threshold to Reorder")]
+        public int? ReorderThreshold { get; set; }
 
         [Display(Name = "Quanity To Reorder")]
         public int QuanityToOrder { get; set; }

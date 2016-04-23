@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.procurable.activity.ManageRequest;
 import com.procurable.activity.SearchActivity;
 import com.procurable.capstone.R;
+import com.procurable.constants.Constants;
 import com.procurable.domain.NavigationDrawerItem;
 
 import java.util.Collections;
@@ -48,7 +49,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 	        public void onClick(View v) {
                 switch (holder.title.getText().toString())
                 {
-                    case "RequestRow" :
+                    case "Manage Requests" :
                         Intent intent = new Intent(context, ManageRequest.class);
                         context.startActivity(intent);
                     default: Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();

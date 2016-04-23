@@ -1,9 +1,14 @@
+environment:
+  matrix: 
+    - project_name: Procurable/Procurable.sln
+    # - project_name: ProcurableService/ProcurableService.sln
   
 install:
  - cmd: nuget sources add -Name api.nuget.org -Source https://api.nuget.org/v3/index.json
- - cmd: cd Procurable && nuget restore
+ - cmd: cd Procurable/ && nuget restore
  - cmd: cd ..
 
  
 build:
   verbosity: normal
+  project: $(project_name)

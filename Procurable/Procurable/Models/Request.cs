@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,15 +16,16 @@ namespace Procurable.Models
         public string Name { get; set; }
         [DisplayName("Details")]
         public string Comments { get; set; }
-        
+
+        [Display(Name = "Created Modified")]
         public DateTime CreatedDate { get; set; }
         public string   CreatedDateDisplay {
             get
             {
                 return CreatedDate.ToString("s") + "Z";
             }
-
         }
+        [Display(Name = "Last Modified")]
         public DateTime LastModified { get; set; }
         public string   LastModifiedDisplay
         {
@@ -35,6 +38,7 @@ namespace Procurable.Models
         [UIHint("ItemList")]
         public virtual ICollection<RequestedItem> Items { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))] //Test to see if this works in a bit
         public RequestStatus Status { get; set; }
         public string StatusDisplay
         {
@@ -56,6 +60,7 @@ namespace Procurable.Models
         public string RequestedById { get; set; }
         [ForeignKey("RequestedById")]
         [UIHint("User")]
+        [DisplayName("Requested By")]
         public virtual ApplicationUser RequestedBy { get; set; }
 
         //Add better comment system?

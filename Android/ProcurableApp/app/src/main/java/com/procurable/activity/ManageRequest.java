@@ -119,7 +119,7 @@ public class ManageRequest extends AppCompatActivity {
                     RequestRow landscape = new RequestRow();
                     landscape.setTitle(response.body()[i].getName());
                     landscape.setDescription(response.body()[i].getID().toString());
-
+                    landscape.setRequest(response.body()[i]);
                     dataList.add(landscape);
                 }
                 adapter.mData = dataList;
