@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^DataControllerCompletionHandler)(NSArray * __nullable values, NSError * __nullable error);
 typedef void(^NetworkingControllerCompletionHandler)(BOOL value, NSError * __nullable error);
 typedef void(^RequestsCompletionHandler)(NSArray *requests, NSError * __nullable error);
+typedef void(^ItemsCompletionHandler)(NSArray *items, NSError * __nullable error);
 
 @interface NetworkingController : NSObject
 //- (void)fetchRandomNumbers:(NSInteger)integer completion:(DataControllerCompletionHandler)completionHandler;
@@ -23,5 +24,7 @@ typedef void(^RequestsCompletionHandler)(NSArray *requests, NSError * __nullable
 - (void)listAllRequestsToBeApproved:(RequestsCompletionHandler)completionHandler;
 - (void)temporaryCreateItemWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)updateRequestStatus:(NSNumber *)idNumber withValue:(NSNumber *)value withCompletion:(NetworkingControllerCompletionHandler)completionHandler;
+- (void)listAllInventoryItems:(ItemsCompletionHandler)completionHandler;
+- (void)searchForItems:(NSString *)string withCompletion:(ItemsCompletionHandler)completionHandler;
 @end
 NS_ASSUME_NONNULL_END
