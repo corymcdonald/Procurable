@@ -7,8 +7,6 @@
 <!-- Login -->
 <div class="container account">
     <div class="card card-container">
-
-        
         <img src="@Url.Content("~/Content/Images/ProcurableRed.png")" class="img-responsive" />
         <section id="loginForm" style="padding-top: 40px">
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin", role = "form" }))

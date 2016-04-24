@@ -80,7 +80,8 @@ namespace Procurable.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-
+        public int DepartmentID { get; set; }
+        public virtual Department Department {get;set;}
     }
 
     public class ResetPasswordViewModel

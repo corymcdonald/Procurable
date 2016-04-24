@@ -9,6 +9,7 @@ namespace Procurable.Models
 {
     public class InventoryItem
     {
+
         public int ID { get; set; }
         public string Name { get; set; }
 

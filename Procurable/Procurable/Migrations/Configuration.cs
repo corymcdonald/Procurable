@@ -18,7 +18,8 @@ namespace Procurable.Migrations
             AutomaticMigrationDataLossAllowed = true;
             ContextKey = "Procurable.Models.ApplicationDbContext";
         }
-  
+            
+        private Random rand = new Random();
         protected override void Seed(Procurable.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
@@ -622,13 +623,44 @@ namespace Procurable.Migrations
 
             REQs.ForEach(s => context.Requests.AddOrUpdate(p => p.ID, s));
 
-           
+
 
 
             #endregion
 
+            #region Reporting
+            try
+            {
+                var inventoryItemCount = context.InventoryItems.Max(x => x.ID);
+                if (inventoryItemCount != null)
+                {
+                    var inventoryItemReportItem = context.InventoryItems.Find(rand.Next(inventoryItemCount));
 
+                    List<InventoryItemHistory> ItemsToInsert = new List<InventoryItemHistory>();
+                    inventoryItemReportItem.Price += rand.Next(-100, 100);
+                    ItemsToInsert.Add(new InventoryItemHistory(inventoryItemReportItem) { Action = InventoryItemHistory.Actions.Update, ModifiedDate = RandomDay() });
+                    inventoryItemReportItem.Price += rand.Next(-100, 100);
+                    ItemsToInsert.Add(new InventoryItemHistory(inventoryItemReportItem) { Action = InventoryItemHistory.Actions.Update, ModifiedDate = RandomDay() });
+                    inventoryItemReportItem.Price += rand.Next(-100, 100);
+                    ItemsToInsert.Add(new InventoryItemHistory(inventoryItemReportItem) { Action = InventoryItemHistory.Actions.Update, ModifiedDate = RandomDay() });
+                    inventoryItemReportItem.Price += rand.Next(-100, 100);
+                    ItemsToInsert.Add(new InventoryItemHistory(inventoryItemReportItem) { Action = InventoryItemHistory.Actions.Update, ModifiedDate = RandomDay() });
 
+                    ItemsToInsert.ForEach(s => context.InventoryItemsHistory.Add(s));
+                }
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            #endregion
+
+        }
+        DateTime RandomDay()
+        {
+            DateTime start = new DateTime(2016, 1, 1);
+            int range = (DateTime.Today - start).Days;
+            return start.AddDays(rand.Next(range));
         }
     }
 }
