@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Item.h"
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^DataControllerCompletionHandler)(NSArray * __nullable values, NSError * __nullable error);
 typedef void(^NetworkingControllerCompletionHandler)(BOOL value, NSError * __nullable error);
 typedef void(^RequestsCompletionHandler)(NSArray *requests, NSError * __nullable error);
 typedef void(^ItemsCompletionHandler)(NSArray *items, NSError * __nullable error);
+typedef void(^ItemDetailCompletionHandler)(Item * __nullable item, NSError * __nullable error);
+
 
 @interface NetworkingController : NSObject
 //- (void)fetchRandomNumbers:(NSInteger)integer completion:(DataControllerCompletionHandler)completionHandler;
@@ -26,5 +29,6 @@ typedef void(^ItemsCompletionHandler)(NSArray *items, NSError * __nullable error
 - (void)updateRequestStatus:(NSNumber *)idNumber withValue:(NSNumber *)value withCompletion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)listAllInventoryItems:(ItemsCompletionHandler)completionHandler;
 - (void)searchForItems:(NSString *)string withCompletion:(ItemsCompletionHandler)completionHandler;
+- (void)inventoryItemDetail:(NSNumber *)idNumber withCompletion:(ItemDetailCompletionHandler)completionHandler;
 @end
 NS_ASSUME_NONNULL_END

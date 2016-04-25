@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		902ECC501CCEB68F001D7A0C /* InventoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 902ECC4F1CCEB68F001D7A0C /* InventoryItem.m */; };
 		904B91451C7BC94E008FD32B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904B91441C7BC94E008FD32B /* RegisterViewController.m */; };
 		904B91481C7F5BC0008FD32B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904B91471C7F5BC0008FD32B /* SearchViewController.m */; };
 		908C68841CA8C02F002A5C39 /* NavDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 908C68831CA8C02F002A5C39 /* NavDrawerViewController.m */; };
@@ -54,6 +55,8 @@
 /* Begin PBXFileReference section */
 		1C24070DCB24D8EE372546F4 /* Pods-ProcurableApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProcurableApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ProcurableApp/Pods-ProcurableApp.debug.xcconfig"; sourceTree = "<group>"; };
 		4563EC4E9A3C383BFB720748 /* libPods-ProcurableApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProcurableApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		902ECC4E1CCEB68F001D7A0C /* InventoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryItem.h; sourceTree = "<group>"; };
+		902ECC4F1CCEB68F001D7A0C /* InventoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItem.m; sourceTree = "<group>"; };
 		904B91431C7BC94E008FD32B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		904B91441C7BC94E008FD32B /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		904B91461C7F5BC0008FD32B /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -176,6 +179,8 @@
 				90CE221F1CBC14EF0034E463 /* Item.m */,
 				90CE22211CBC15070034E463 /* User.h */,
 				90CE22221CBC15070034E463 /* User.m */,
+				902ECC4E1CCEB68F001D7A0C /* InventoryItem.h */,
+				902ECC4F1CCEB68F001D7A0C /* InventoryItem.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -452,6 +457,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				90CE22261CBCE1110034E463 /* ItemDetailViewController.m in Sources */,
+				902ECC501CCEB68F001D7A0C /* InventoryItem.m in Sources */,
 				90CE22231CBC15070034E463 /* User.m in Sources */,
 				90CE22201CBC14EF0034E463 /* Item.m in Sources */,
 				908C68951CA97E38002A5C39 /* Request.m in Sources */,

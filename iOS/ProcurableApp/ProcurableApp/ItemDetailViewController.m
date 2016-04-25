@@ -7,8 +7,11 @@
 //
 
 #import "ItemDetailViewController.h"
+#import "NetworkingController.h"
+#import "MBProgressHUD.h"
 
 @interface ItemDetailViewController ()
+@property (strong, nonatomic) NetworkingController *networkingController;
 
 @end
 
@@ -16,6 +19,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.networkingController = [[NetworkingController alloc] init];
+    [self fetchItemDetails];
     // Do any additional setup after loading the view.
 }
 
@@ -24,14 +29,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)fetchItemDetails {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //    hud.opacity = 0.0f;
+    __weak __typeof(self) weakSelf = self;
+    [self.networkingController inventoryItemDetail:self.item.idNumber withCompletion:^(Item * __nullable item, NSError * __nullable error) {
+        if (item && !error) 
+        {
+            NSLog(@"Denied");
+        } else {
+            NSLog(error.domain);
+        }
+    }];
 }
-*/
 
 @end

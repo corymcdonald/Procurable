@@ -8,7 +8,6 @@
 
 #import "NetworkingController.h"
 #import "Request.h"
-#import "Item.h"
 
 static NSString *const kURL = @"https://procurable.azurewebsites.net";
 
@@ -522,7 +521,48 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     [dataTask resume];
 }
 
-- (void)inventoryItemDetail:(NetworkingControllerCompletionHandler)completionHandler {
+- (void)inventoryItemDetail:(NSNumber *)idNumber withCompletion:(ItemDetailCompletionHandler)completionHandler {
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    NSHTTPCookie *appCookie;
+    for (NSHTTPCookie *cookie in cookies) {
+        if ([cookie.name isEqualToString:@".AspNet.ApplicationCookie"]) {
+            appCookie = cookie;
+        }
+    }
+        
+    NSString *cookieValue = [[[appCookie name] stringByAppendingString:@"="] stringByAppendingString:[appCookie value]];
+    NSString *urlString = @"https://procurable.azurewebsites.net/InventoryItems/Details/";
+    urlString = [urlString stringByAppendingString:[idNumber stringValue]];
+    NSURL *URL = [NSURL URLWithString:urlString];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"GET"];
+    
+    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setValue:cookieValue forHTTPHeaderField:@"Cookie"];
+    
+    NSURLSessionDataTask *dataTask = [self.session dataTaskWithRequest:request completionHandler:^(NSData *data,NSURLResponse *response,NSError *error) {
+        if (data) {
+            NSError *parseError;
+            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
+            if (dictionary) {
+                Item *item = [[Item alloc] initWithDictionary:dictionary];
+                completionHandler(item, parseError);
+            } else {
+                NSError *err = [NSError errorWithDomain:@"An unknown error has occurred" code:-1 userInfo:nil];
+                completionHandler(nil, err);
+            }
+        } else if (error) {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(nil, error);
+            }];
+        } else {
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                completionHandler(nil, nil);
+            }];
+        }
+    }];
+    [dataTask resume];
 }
 
 - (void)createInventoryItem:(NetworkingControllerCompletionHandler)completionHandler {

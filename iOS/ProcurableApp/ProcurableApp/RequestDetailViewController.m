@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "NetworkingController.h"
 #import "Item.h"
+#import "ItemDetailViewController.h"
 
 @interface RequestDetailViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *requestIDLabel;
 @property (strong, nonatomic) IBOutlet UIButton *denyRequestButton;
 @property (strong, nonatomic) IBOutlet UIButton *approveRequestButton;
+@property (strong, nonatomic) Item *selectedItem;
 
 @end
 
@@ -129,23 +131,22 @@
     return 75.0;
 }
 
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    self.selectedRequest = (Request *)[self.requests objectAtIndex:indexPath.row];
-//    [self performSegueWithIdentifier:@"RequestDetailSegue" sender:self];
-//}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedItem = (Item *)[self.request.items objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"RequestItemDetailSegue" sender:self];
+}
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Accessory!");
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"RequestItemDetailSegue"])
+    {
+        ItemDetailViewController *vc = [segue destinationViewController];
+        [vc setItem:self.selectedItem];
+        [vc setIsRequestItem:NO];
+    }
 }
-*/
 
 @end

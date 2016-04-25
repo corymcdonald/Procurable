@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Item.h"
 
 @interface ItemDetailViewController : UIViewController
+@property (strong, nonatomic) Item *item;
+@property (assign, nonatomic) BOOL isRequestItem;
 
 @end

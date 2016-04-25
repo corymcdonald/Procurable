@@ -14,6 +14,7 @@
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "Item.h"
+#import "ItemDetailViewController.h"
 
 @interface SearchViewController () <UISearchBarDelegate>
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -130,7 +131,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     self.selectedItem = (Item *)[self.items objectAtIndex:indexPath.row];
-//    [self performSegueWithIdentifier:@"RequestDetailSegue" sender:self];
+    [self performSegueWithIdentifier:@"ItemDetailSegue" sender:self];
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
@@ -152,12 +153,12 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([[segue identifier] isEqualToString:@"RequestDetailSegue"])
-//    {
-//        RequestDetailViewController *vc = [segue destinationViewController];
-//        [vc setRequest:self.selectedRequest];
-//        [vc setIsManagerDetail:NO];
-//    }
+    if ([[segue identifier] isEqualToString:@"ItemDetailSegue"])
+    {
+        ItemDetailViewController *vc = [segue destinationViewController];
+        [vc setItem:self.selectedItem];
+        [vc setIsRequestItem:NO];
+    }
 }
 
 @end
