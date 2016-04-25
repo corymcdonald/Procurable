@@ -5,7 +5,11 @@
 }
 
 <h2>Details</h2>
+@if((bool)ViewData["IsReportAvailable"] == true)
+{
+    @Html.ActionLink("History Information", "InventoryItem", "Reports", new { id = Model.ID }, "");
 
+}
 <div>
     <h4>InventoryItem</h4>
     <hr />

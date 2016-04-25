@@ -26,7 +26,7 @@ namespace Procurable.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var inventoryCount = db.InventoryItemsHistory.Where(x => x.InventoryItemID == id.Value).Select(x => new InventoryItemsReport() { Name = x.Name, Price = x.Price });
+            var inventoryCount = db.InventoryItemsHistory.Where(x => x.InventoryItemID == id.Value).Select(x => new InventoryItemsReport() { Name = x.Name, Price = x.Price, LastModified = x.ModifiedDate }).OrderBy(x=>x.LastModified);
 
             //if (purchaseOrder == null)
             //{
@@ -39,6 +39,7 @@ namespace Procurable.Controllers
     }
     public class InventoryItemsReport
     {
+        public DateTime LastModified { get; internal set; }
         public string Name { get; set; }
         public decimal Price { get; set; }
     }
