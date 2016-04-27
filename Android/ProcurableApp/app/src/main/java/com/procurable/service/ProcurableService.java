@@ -1,9 +1,14 @@
 package com.procurable.service;
 
+import android.content.Intent;
+import android.support.annotation.IntegerRes;
+
 import com.procurable.domain.request.LoginRequest;
 import com.procurable.domain.request.RegisterRequest;
+import com.procurable.domain.request.UpdateStatusRequest;
 import com.procurable.domain.response.GenericResponse;
 import com.procurable.domain.response.Inventory;
+import com.procurable.domain.response.InventoryItem;
 import com.procurable.domain.response.Project;
 import com.procurable.domain.response.Request;
 
@@ -12,6 +17,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by Matt on 2/22/2016.
@@ -41,4 +47,12 @@ public interface ProcurableService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET("requests")
     Call<Request[]> requests();
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("InventoryItems")
+    Call<InventoryItem[]> inventoryItems();
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("/requests/UpdateStatus/{id}")
+    Call<Object> updateStatus(@Body UpdateStatusRequest updateStatusRequest, @Path("id")Integer id);
 }

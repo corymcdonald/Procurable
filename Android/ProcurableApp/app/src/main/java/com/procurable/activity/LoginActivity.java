@@ -253,7 +253,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 context);
                         alertDialogBuilder.setTitle("Error ");
                         alertDialogBuilder
-                                .setMessage(response.body().getErrors().length > 0 ? response.body().getErrors()[0] : "Login failed")
+                                .setMessage(response.body().getError())
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {

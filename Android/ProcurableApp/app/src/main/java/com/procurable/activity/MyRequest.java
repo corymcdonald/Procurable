@@ -4,15 +4,16 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.procurable.adapter.MyRequestRecyclerAdapter;
 import com.procurable.adapter.RecyclerAdapter;
 import com.procurable.capstone.R;
 import com.procurable.constants.Constants;
@@ -26,17 +27,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ManageRequest extends AppCompatActivity {
+public class MyRequest extends AppCompatActivity {
 
     Toolbar toolbar;
     View mRequestView;
     View mProgressView;
     RecyclerView recyclerView;
-    RecyclerAdapter adapter;
+    MyRequestRecyclerAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manage_request);
+        setContentView(R.layout.activity_my_request);
 
         setUpToolbar();
         setUpRecyclerView();
@@ -45,7 +46,7 @@ public class ManageRequest extends AppCompatActivity {
     private void setUpRecyclerView() {
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        adapter = new RecyclerAdapter(this, getData());
+        adapter = new MyRequestRecyclerAdapter(this, getData());
 
         recyclerView.setAdapter(adapter);
 
@@ -60,7 +61,7 @@ public class ManageRequest extends AppCompatActivity {
     private void setUpToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Manage Requests");
+        getSupportActionBar().setTitle("My Requests");
     }
     private void setUpDrawer() {
         NavigationDrawerFragment drawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.nav_drwr_fragment);

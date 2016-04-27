@@ -131,7 +131,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 context);
                         alertDialogBuilder.setTitle("Error ");
                         alertDialogBuilder
-                                .setMessage(response.body().getErrors().length > 0 ? response.body().getErrors()[0]:"Register failed")
+                                .setMessage(response.body().getError())
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
