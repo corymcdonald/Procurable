@@ -1,48 +1,47 @@
 ﻿@model Procurable.Models.InventoryItem
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = Model.Name;
 }
 
-<h2>Details</h2>
-@if((bool)ViewData["IsReportAvailable"] == true)
-{
-    @Html.ActionLink("History Information", "InventoryItem", "Reports", new { id = Model.ID }, "");
 
-}
+
+
+
+<div class="row">
+    <div class="col-md-8">
+        <h2 style="display:inline-block ">@Html.ActionLink(Model.Vendor.Name, "Details", "Vendors", new { id = Model.Vendor.ID }, null) - @Html.DisplayFor(model => model.Name)</h2>
+        <div class="projectStatus">
+            <h4>
+                @Html.DisplayFor(model => model.Status, "InventoryItemStatus")
+            </h4>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <br />
+        <div class="pull-right">
+            @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" })
+            @if ((bool)ViewData["IsReportAvailable"] == true)
+            {
+                @Html.ActionLink("History Information", "InventoryItem", "Reports", new { id = Model.ID }, new { @class = "btn btn-default" });
+            }
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+</div>
+
+
 <div>
-    <h4>InventoryItem</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Vendor)
-        </dt>
-        <dd>
-            @Html.ActionLink(Model.Vendor.Name, "Details", "Vendors", new { id = Model.Vendor.ID }, null)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-
+    <dl >
+        
         <dt>
             @Html.DisplayNameFor(model => model.Price)
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.Price)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Comments)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Comments)
-        </dd>
+        </dd>   
 
         <dt>
             @Html.DisplayNameFor(model => model.PartNumber)
@@ -53,21 +52,12 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Location)
+            @Html.DisplayNameFor(model => model.Comments)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Location)
+            @Html.DisplayFor(model => model.Comments)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-
     </dl>
 </div>
 <p>

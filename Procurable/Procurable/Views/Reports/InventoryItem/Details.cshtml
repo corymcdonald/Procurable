@@ -1,15 +1,12 @@
 ﻿@model IEnumerable<Procurable.Controllers.InventoryItemsReport>
 
 @{
-    ViewBag.Title = "InventoryItem";
+    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>InventoryItem</h2>
+<h2><i class="fa fa-line-chart" aria-hidden="true"></i> @Model.FirstOrDefault().Name Price History Report</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <div id="chart_div"></div>
 <script>
     google.charts.load('current', { packages: ['corechart', 'line'] });
@@ -33,21 +30,24 @@
             }
         ]);
 
-                    var options = {
+        var options = {
+            colors: ['red', '#f44336'],
+            backgroundColor: { fill:'transparent' },
             hAxis: {
-                        title: 'Time'
+                title: 'Time'
             },
             vAxis: {
-                        title: 'Price'
+                title: 'Price'
             }
-                };
+        };
 
-                var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
 
-                chart.draw(data, options);
+        chart.draw(data, options);
     }
 
 </script>
+<h3>History information</h3>
 <table class="table">
     <tr>
         <th>
@@ -56,23 +56,22 @@
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
-        <th></th>
+        <th>Modified Time</th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModified)
+            </td>
+        </tr>
+    }
 
 </table>

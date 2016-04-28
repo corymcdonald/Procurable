@@ -18,21 +18,24 @@ namespace Procurable.Controllers
         {
             return View();
         }
+    
 
         [Authorize]
         public ActionResult InventoryItem(int? id)
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var List = db.InventoryItemsHistory.GroupBy(x => new { x.Name, x.Vendor}).Select(x => x.FirstOrDefault()).ToList();
+                return View("~/Views/Reports/InventoryItem/Index.cshtml", List);
             }
-            var inventoryCount = db.InventoryItemsHistory.Where(x => x.InventoryItemID == id.Value).Select(x => new InventoryItemsReport() { Name = x.Name, Price = x.Price, LastModified = x.ModifiedDate }).OrderBy(x=>x.LastModified);
+            var InventoryItem = db.InventoryItems.Find(id.Value);
+            var inventoryCount = db.InventoryItemsHistory.Where(x => x.Name == InventoryItem.Name && x.VendorID == InventoryItem.VendorID).Select(x => new InventoryItemsReport() { Name = x.Name, Price = x.Price, LastModified = x.ModifiedDate }).OrderByDescending(x=>x.LastModified);
 
             //if (purchaseOrder == null)
             //{
             //    return HttpNotFound();
             //}
-            return View(inventoryCount);
+            return View("~/Views/Reports/InventoryItem/Details.cshtml", inventoryCount);
         }
 
      

@@ -32,6 +32,7 @@ namespace Procurable.Models
 
         private decimal MonthToDay = 30.4167M;
 
+        public decimal? DepreciationRemaining { get; set; }
         public decimal? Depreciation { get; set; }
         public TimeSpan DepreciationDate
         {

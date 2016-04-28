@@ -549,8 +549,9 @@
     <Content Include="Views\Shared\DisplayTemplates\_ProjectPriority.cshtml" />
     <Content Include="Views\Shared\TaskIndex.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
-    <Content Include="Views\Reports\InventoryItem.cshtml" />
+    <Content Include="Views\Reports\InventoryItem\Details.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Department.cshtml" />
+    <Content Include="Views\Reports\InventoryItem\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
