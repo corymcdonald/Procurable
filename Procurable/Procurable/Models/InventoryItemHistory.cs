@@ -19,10 +19,10 @@ namespace Procurable.Models
             this.InventorySourceID = inventoryItem.ID;
             this.Name = inventoryItem.Name;
             this.VendorID = inventoryItem.VendorID;
-            this.Vendor = inventoryItem.Vendor;
-            this.PurchaseOrder = inventoryItem.PurchaseOrder;
+            this.PurchaseOrderID = inventoryItem.PurchaseOrderID.Value;
             this.Price = inventoryItem.Price;
             this.Comments = inventoryItem.Comments;
+
             this.PartNumber = inventoryItem.PartNumber;
             this.Location = inventoryItem.Location;
             this.Status = inventoryItem.Status;
@@ -37,8 +37,9 @@ namespace Procurable.Models
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
 
+        public int PurchaseOrderID { get; set; }
         [Display(Name = "Purchase Order")]
-        public PurchaseOrder PurchaseOrder { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
         public decimal Price { get; set; }
 
         [DataType(DataType.MultilineText)]

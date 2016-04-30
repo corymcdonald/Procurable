@@ -50,6 +50,7 @@ namespace Procurable.Controllers
             {
                 return Json(vendor, JsonRequestBehavior.AllowGet);
             }
+            ViewData["InventoryItems"] = db.InventoryItems.Where(x => x.VendorID == id).GroupBy(x => new { x.Name }).Select(group => new InventoryItemIndex() { Name = group.Key.Name, Item = group.ToList<InventoryItem>(), Count = group.Count() }).ToList(); 
             return View(vendor);
         }
 
@@ -152,12 +153,6 @@ namespace Procurable.Controllers
                 return Json(SearchInternal(query));
              return PartialView("VendorSearch", SearchInternal(query));
         }
-        public ActionResult HelloWorld()
-        {
-            ViewData["Message"] = "Hello World!";
-            return View();
-        }
-
         // POST: Vendors/Delete/5
         [HttpPost, ActionName("Delete")]
         [Authorize]
