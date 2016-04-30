@@ -77,7 +77,7 @@ namespace Procurable.Controllers
         [Authorize]
         public ActionResult Create([Bind(Include = "ProjectID,Priority, RequestID,Status,CreatedDate,DateNeeded,UserID, Comments")] Project project)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !String.IsNullOrEmpty(Request.Form["UserID"]))
             {
                 project.LastModified = DateTime.Now;
                 project.CreatedDate = DateTime.Now;
@@ -86,7 +86,7 @@ namespace Procurable.Controllers
                     project.CompletedDate = DateTime.Now;
                 if (project.DateNeeded < SqlDateTime.MinValue.Value)
                     project.DateNeeded = SqlDateTime.MinValue.Value;
-
+                
                 project.AssignedToID = db.Users.Find(Request.Form["UserID"]).Id;
                 db.Projects.Add(project);
                 db.SaveChanges();

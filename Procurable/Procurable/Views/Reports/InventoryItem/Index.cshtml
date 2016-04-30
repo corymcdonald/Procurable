@@ -26,7 +26,7 @@
             <tr>
                 <td><i class="fa fa-line-chart" aria-hidden="true"></i></td>
                 <td>
-                    @Html.ActionLink(@Html.DisplayFor(modelItem => inventoryItem.Vendor.Name) + " - " + @Html.DisplayFor(modelItem => inventoryItem.Name), "InventoryItem", new { id = inventoryItem.ID })
+                    @Html.ActionLink(@Html.DisplayFor(modelItem => inventoryItem.Vendor.Name) + " - " + @Html.DisplayFor(modelItem => inventoryItem.Name), "InventoryItems", new { id = inventoryItem.InventorySourceID})
                 </td>
                 <td>
                     $@Html.DisplayFor(modelItem => inventoryItem.Price)

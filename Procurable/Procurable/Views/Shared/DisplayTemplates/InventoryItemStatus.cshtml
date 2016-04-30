@@ -1,10 +1,10 @@
 ﻿@model Procurable.Models.InventoryStatus
 
 @{
-    string labelClass = "label-success";
+    string labelClass = "label-primary";
     if (Model == Procurable.Models.InventoryStatus.Allocated)
     {
-        labelClass = "label-danger";
+        labelClass = "label-default";
     }
     else if (Model == Procurable.Models.InventoryStatus.Deprecated)
     {

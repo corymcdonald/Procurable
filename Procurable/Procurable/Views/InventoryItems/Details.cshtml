@@ -23,7 +23,7 @@
             @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" })
             @if ((bool)ViewData["IsReportAvailable"] == true)
             {
-                @Html.ActionLink("History Information", "InventoryItem", "Reports", new { id = Model.ID }, new { @class = "btn btn-default" });
+                @Html.ActionLink("History Information", "InventoryItems", "Reports", new { id = Model.ID }, new { @class = "btn btn-default" });
             }
             @Html.ActionLink("Auto Reorder", "CreateEdit", "Reorders", new { InventoryItemName = Model.Name }, new { @class = "btn btn-default" })
             @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default" })
