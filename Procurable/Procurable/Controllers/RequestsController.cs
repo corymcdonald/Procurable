@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Security;
 using System.Web.Mvc;
 using Procurable.Models;
-using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
+using System.Web.Script.Serialization;
 
 namespace Procurable.Controllers
 {
@@ -114,25 +111,78 @@ namespace Procurable.Controllers
         [Authorize]
         public ActionResult Create([Bind(Include = "ID,Name,Comments,UserID")] Request request)
         {
+            
+            List<RequestedItem> requestedItems = new List<RequestedItem>();
+
             if (ModelState.IsValid)
             {
-                request.CreatedDate = DateTime.Now;
-                request.LastModified = DateTime.Now;
-                               
-                
-                ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
-                request.RequestedBy = currentUser;
-          
-                //System.Diagnostics.Debug.WriteLine(currentUser);
-                
-
-                db.Requests.Add(request);
-                db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
                 {
-                    return Json(new { Succeeded = true });
+                    request.CreatedDate = DateTime.Now;
+                    request.LastModified = DateTime.Now;
+                    
+                    ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
+                    request.RequestedBy = currentUser;
+
+                    Request.InputStream.Position = 0;
+                    System.IO.StreamReader str = new System.IO.StreamReader(Request.InputStream);
+                    string rawBody = str.ReadToEnd();
+                    JavaScriptSerializer serializer = new JavaScriptSerializer();
+                    var InventoryItemsJSON = serializer.Deserialize<Dictionary<string, dynamic>>(rawBody);
+                    foreach (var item in InventoryItemsJSON["Items"])
+                    {
+                        var requestedItem = new RequestedItem()
+                        {
+                            Name = item["Name"],
+                            Comments = item["Comments"],
+                            URL = item["Url"],
+                        };
+                        List<InventoryItem> results = new InventoryItemsController().SearchInternal(item["Name"]);
+                        if (results.Any())
+                        {
+                            foreach(var invenItem in results)
+                            {
+                                if(invenItem.Status == InventoryStatus.Unallocated)
+                                {
+                                    requestedItem.ItemID = invenItem.ID;
+                                    break;
+                                }
+                            }
+                        }
+                        
+                        db.RequestedItems.Add(requestedItem);
+                        db.SaveChanges();
+                        requestedItems.Add(requestedItem);
+                    }
+                    
+                    request.Items = requestedItems;
+                    db.Requests.Add(request);
+                    db.SaveChanges();
+                
+                    return RedirectToAction("Index");
+                                    
                 }
-                return RedirectToAction("Index");
+                else
+                {
+                    request.CreatedDate = DateTime.Now;
+                    request.LastModified = DateTime.Now;
+
+
+                    ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
+                    request.RequestedBy = currentUser;
+
+                    //System.Diagnostics.Debug.WriteLine(currentUser);
+
+
+                    db.Requests.Add(request);
+                    db.SaveChanges();
+                    if (Request.AcceptTypes.Contains("application/json"))
+                    {
+                        return Json(new { Succeeded = true });
+                    }
+                    return RedirectToAction("Index");
+                }
+                
             }
 
             return View(request);

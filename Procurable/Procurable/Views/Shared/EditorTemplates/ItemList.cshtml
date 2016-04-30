@@ -1,1 +1,77 @@
-﻿<h1>ItemList</h1>
+﻿
+    <div class="col-md-10">
+        <div id="example"></div>
+    </div>
+
+@Html.Hidden("InventoryItems")
+
+
+
+<script>
+    $(document).ready(function () {
+
+
+        @if (Model != null && Model.RequestedItems.Count != 0)
+        {
+            <text>var data = [["", "", "", ""]]</text>
+            foreach(var item in Model.RequestedItems)
+            {
+                <text>data.unshift(["@item.Vendor.Name", "@item.Name", @item.Price, "@item.Comments"]);</text>
+            }
+        }
+        else
+        {
+            <text>
+        var data = [
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ["", "", "", ""],
+        ];
+        </text>
+        }
+
+
+        $(document).keyup(function (e) {
+            if (e.keyCode == 45) {
+                var rowIndex = $('.currentRow').parent().index();
+
+                hot.alter("insert_row", rowIndex);
+            }
+        });
+        var container = document.getElementById('example');
+        var hot = new Handsontable(container,
+        {
+            data: data,
+            stretchH: "all",
+            rowHeaders: true,
+            columns: [
+              { type: "text" },
+              { type: "text" },
+              { type: 'numeric', format: '$0,0.00' },
+              { type: "text" }
+            ],
+
+            colHeaders: [
+               "Vendor",
+               "Name",
+               "Price",
+               "Comments",
+            ]
+        });
+        hot.updateSettings({
+            afterChange: function (changes, source) {
+                console.log('changed')
+                var sourceData = hot.getSourceData();
+                console.log(JSON.stringify(sourceData))
+                $("#InventoryItems").val(JSON.stringify(sourceData));
+                sum = 0;
+                for (var i = 0; i < sourceData.length; i++) {
+                    sum += (sourceData[i][2]);
+                }
+                $("#Price").val(sum)
+            },
+        })
+    })
+</script>
