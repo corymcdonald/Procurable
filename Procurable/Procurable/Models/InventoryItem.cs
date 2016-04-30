@@ -16,8 +16,9 @@ namespace Procurable.Models
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
 
+        public int? PurchaseOrderID { get; set; }
         [Display(Name = "Purchase Order")]
-        public PurchaseOrder PurchaseOrder { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
         public decimal Price { get; set; }
 
         [DataType(DataType.MultilineText)]

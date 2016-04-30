@@ -114,7 +114,10 @@ namespace Procurable.Models
         {
             if (ModelState.IsValid)
             {
-                var itemHistory = new InventoryItemHistory(inventoryItem) { Action = InventoryItemHistory.Actions.Update };
+                var existingItem  = db.InventoryItems.AsNoTracking().FirstOrDefault(x => x.ID == inventoryItem.ID);
+                inventoryItem.PurchaseOrderID = existingItem.PurchaseOrderID;
+
+                var itemHistory = new InventoryItemHistory(db.InventoryItems.AsNoTracking().FirstOrDefault(x=> x.ID==inventoryItem.ID)) { Action = InventoryItemHistory.Actions.Update };
                 db.InventoryItemsHistory.Add(itemHistory);
 
                 db.Entry(inventoryItem).State = EntityState.Modified;
