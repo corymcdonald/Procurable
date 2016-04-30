@@ -20,7 +20,7 @@
     @Html.ActionLink("Create New", "Create", new { }, new { @class = "btn btn-default" })
 </p>
 
-<table class="table-hover table" >
+<table class="table-striped table " >
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ID)
@@ -44,7 +44,7 @@
 @foreach (var item in Model)
 {
     var newID = item.ID * 500000;
-    <tr data-toggle="collapse" data-target="#@newID " class="accordion-toggle" >
+    <tr data-toggle="collapse" data-target="#@newID " class="accordion-toggle pointer" >
         <td>
             @Html.DisplayFor(modelItem => item.ID)
         </td>
@@ -81,16 +81,16 @@
         <td>
 
 
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default btn-sm" })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default  btn-sm" })
             @Html.ActionLink("Close", "Delete", new { id = item.ID }, new { @class = "btn btn-danger  btn-sm" })
 
 
         </td>
     </tr>
     
-    <tr style="background: #222326">
+    <tr style="background: #CECECE">
         <td colspan="6" class="Hidden" style="padding: 0 !important;">
-            <div id="@newID" class="panel-collapse collapse in">
+            <div id="@newID" class="panel-collapse collapse out">
                 @Html.DisplayFor(modelItem => item.Items)
             </div>
         </td>
