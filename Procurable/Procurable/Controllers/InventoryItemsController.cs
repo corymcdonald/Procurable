@@ -1,4 +1,5 @@
-﻿using Procurable.Controllers;
+﻿using Newtonsoft.Json;
+using Procurable.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,6 +32,20 @@ namespace Procurable.Models
         {
             return Json(db.InventoryItems.ToList(), JsonRequestBehavior.AllowGet);
         }
+
+        [Authorize]
+        public ActionResult GetInventoryItemsDepreciation()
+        {
+            var list = JsonConvert.SerializeObject(db.InventoryItems.Where(x => x.Depreciation.HasValue).ToList(),
+                Formatting.None,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+            return Content(list, "application/json");
+
+        }
+
 
         // GET: InventoryItems/Details/5
         [Authorize]
@@ -77,6 +92,7 @@ namespace Procurable.Models
         {
             if (ModelState.IsValid)
             {
+                inventoryItem.DepreciationRemaining = inventoryItem.Price;
                 db.InventoryItems.Add(inventoryItem);
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
@@ -110,12 +126,17 @@ namespace Procurable.Models
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-        public ActionResult Edit([Bind(Include = "ID,Name,Price,Comments,PartNumber,Location,Status,VendorID")] InventoryItem inventoryItem)
+        public ActionResult Edit([Bind(Include = "ID,Name,Price,Comments,PartNumber,Location,Status,VendorID,Depreciation")] InventoryItem inventoryItem)
         {
             if (ModelState.IsValid)
             {
                 var existingItem  = db.InventoryItems.AsNoTracking().FirstOrDefault(x => x.ID == inventoryItem.ID);
+                inventoryItem.DepreciationRemaining = existingItem.DepreciationRemaining;
                 inventoryItem.PurchaseOrderID = existingItem.PurchaseOrderID;
+                if(!existingItem.Depreciation.HasValue)
+                {
+                    inventoryItem.DepreciationRemaining = inventoryItem.Price;
+                }
 
                 var itemHistory = new InventoryItemHistory(db.InventoryItems.AsNoTracking().FirstOrDefault(x=> x.ID==inventoryItem.ID)) { Action = InventoryItemHistory.Actions.Update };
                 db.InventoryItemsHistory.Add(itemHistory);

@@ -53,6 +53,30 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Depreciation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Depreciation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepreciationRemaining)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepreciationRemaining)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepreciationDate)
+        </dt>
+
+        <dd>
+            @Model.DepreciationDate.GetMonths() Month(s) remaining
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Comments)
         </dt>
 
