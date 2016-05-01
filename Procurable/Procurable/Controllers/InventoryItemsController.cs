@@ -172,20 +172,20 @@ namespace Procurable.Models
             base.Dispose(disposing);
         }
 
-        public List<InventoryItem> SearchInternal(string query)
+        public List<InventoryItemIndex> SearchInternal(string query)
         {
             query = query.ToUpper().Trim();
-            var asResult = new List<InventoryItem>();
+            var asResult = new List<InventoryItemIndex>();
             if (query != null)
             {
                 var temp = from a in db.InventoryItems
-                           where a.Name.ToUpper().Contains(query) 
-                           || a.PartNumber.ToUpper().Contains(query)
-                           || a.Vendor.Name.ToUpper().Contains(query)                           
-                           || a.Location.ToUpper().Contains(query)
+                           where a.Name.Trim().ToUpper().Contains(query) 
+                           || a.PartNumber.Trim().ToUpper().Contains(query)
+                           || a.Vendor.Name.Trim().ToUpper().Contains(query)                           
+                           || a.Location.Trim().ToUpper().Contains(query)
                            select a;
 
-                asResult = temp.ToList();
+                asResult = temp.ToList().GroupBy(x => new { x.Name }).Select(group => new InventoryItemIndex() { Name = group.Key.Name, Item = group.ToList<InventoryItem>(), Count = group.Count() }).ToList(); ;
             }
             return asResult;
         }
