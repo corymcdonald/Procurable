@@ -10,6 +10,8 @@
 #import "NetworkingController.h"
 #import "MBProgressHUD.h"
 #import "SearchViewController.h"
+#import "MMDrawerController.h"
+#import "MMDrawerBarButtonItem.h"
 
 @interface RegisterViewController () <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -21,6 +23,7 @@
 @property (strong, nonatomic) IBOutlet UIView *bgView;
 @property (strong, nonatomic) IBOutlet UIPickerView *picker;
 @property (assign, nonatomic) NSInteger selectedDepartment;
+@property (strong, nonatomic) NSArray *departmentNumberArray;
 @property (strong, nonatomic) NSArray *departmentArray;
 
 @end
@@ -80,8 +83,20 @@
         [self.errorLabel setHidden:NO];
         [self.errorLabel setText:@"Registration Successful"];
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-        [self.navigationController setViewControllers:[NSArray arrayWithObject:[[SearchViewController alloc] init]] animated:YES];
+        [self presentMainInterface];
     });
+}
+
+- (void)presentMainInterface {
+    UIViewController* centerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateInitialViewController];
+    UIViewController* navigationDrawerViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"NavDrawerViewController"];
+    MMDrawerController *drawerController;
+    drawerController = [[MMDrawerController alloc] initWithCenterViewController:centerViewController rightDrawerViewController:navigationDrawerViewController];
+    
+    drawerController.openDrawerGestureModeMask = MMOpenDrawerGestureModeBezelPanningCenterView;
+    drawerController.closeDrawerGestureModeMask = MMCloseDrawerGestureModePanningCenterView;
+    [drawerController setShowsShadow:NO];
+    [[[[UIApplication sharedApplication] delegate] window] setRootViewController:drawerController];
 }
 
 - (void)setLabels3 {
@@ -158,10 +173,11 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //    hud.opacity = 0.0f;
     __weak __typeof(self) weakSelf = self;
-    [self.networkingController fetchDepartmentsForRegister:^(NSArray *array, NSError * __nullable error) {
-        if (array && !error)
+    [self.networkingController fetchDepartmentsForRegister:^(NSArray *names, NSArray *numbers, NSError * __nullable error) {
+        if (names && !error)
         {
-            [weakSelf pickerUpdate:array];
+            [weakSelf pickerUpdate:names];
+            weakSelf.departmentNumberArray = numbers;
         } else {
             [weakSelf errorUpdate:@"Error Fetching Departments"];
         }
@@ -195,7 +211,10 @@
 }
 
 -(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    self.selectedDepartment = row - 1;
+    self.selectedDepartment = -1;
+    if (row > 0) {
+        self.selectedDepartment = [[self.departmentNumberArray objectAtIndex:row - 1] integerValue];
+    }
     if ([self.picker selectedRowInComponent:0] != 0 && self.passwordTextField.text.length > 0 && self.emailTextField.text.length > 0 && self.confirmPasswordTextField.text.length > 0) {
         [self.submitButton setEnabled:YES];
         self.emailTextField.returnKeyType = UIReturnKeyGo;
