@@ -14,13 +14,14 @@
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "Item.h"
+#import "ItemDetailViewController.h"
 
 @interface SearchViewController () <UISearchBarDelegate>
 @property (strong, nonatomic) NetworkingController *networkingController;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *items;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) Item *selectedItem;
+@property (strong, nonatomic) InventoryItem *selectedItem;
 @end
 
 @implementation SearchViewController
@@ -45,11 +46,10 @@
 //    [self.navigationItem.titleView setFrame:CGRectMake(0, 0, 40, 34)];
 }
 
--(void) viewWillAppear:(BOOL)inAnimated {
-    NSIndexPath *selected = [self.tableView indexPathForSelectedRow];
-    if (selected) {
-        [self.tableView deselectRowAtIndexPath:selected animated:NO];
-    }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -106,10 +106,10 @@
     Item *item = (Item *)[self.items objectAtIndex:indexPath.row];
     [mainLabel setText:[item name]];
     [idLabel setText:[[item idNumber] stringValue]];
-    [availabilityLabel setText:@"No"];
-    if (item.inInventory) {
-        [availabilityLabel setText:@"Yes"];
-    }
+//    [availabilityLabel setText:@"No"];
+//    if (item.inInventory) {
+//        [availabilityLabel setText:@"Yes"];
+//    }
 //    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 //    [dateFormat setDateFormat:@"MMMM d, YYYY"];
 //    NSString *dateString = [dateFormat stringFromDate:[item createdDate]];
@@ -129,12 +129,12 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedItem = (Item *)[self.items objectAtIndex:indexPath.row];
-//    [self performSegueWithIdentifier:@"RequestDetailSegue" sender:self];
+    self.selectedItem = (InventoryItem *)[self.items objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"ItemDetailSegue" sender:self];
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    self.selectedItem = (Item *)[self.items objectAtIndex:indexPath.row];
+    self.selectedItem = (InventoryItem *)[self.items objectAtIndex:indexPath.row];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -152,12 +152,11 @@
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([[segue identifier] isEqualToString:@"RequestDetailSegue"])
-//    {
-//        RequestDetailViewController *vc = [segue destinationViewController];
-//        [vc setRequest:self.selectedRequest];
-//        [vc setIsManagerDetail:NO];
-//    }
+    if ([[segue identifier] isEqualToString:@"ItemDetailSegue"])
+    {
+        ItemDetailViewController *vc = [segue destinationViewController];
+        [vc setInventoryItem:self.selectedItem];
+    }
 }
 
 @end
