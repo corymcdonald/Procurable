@@ -35,7 +35,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-group">
                     @Html.LabelFor(model => model.RequestedFor, htmlAttributes: new { @class = "control-label col-md-3" })
                     <div class="col-md-9">
@@ -45,6 +44,8 @@
                 </div>
             </div>
             <div class="col-lg-8">
+
+                @Html.Hidden("RequestItems")
                 <label class="control-label col-md-2">Items</label>
                 <div class="col-md-10 roundBox">
                     <table class="table" id="itemList">
@@ -116,101 +117,7 @@
                     </tr>
                 </thead>
                 <tbody id="inventoryList">
-                    <tr>
-
-                        <td>
-                            yay
-                        </td>
-                        <td class="inventoryName">
-                            item 1
-                        </td>
-                        <td class="inventoryComment">
-                            this is a comment
-                        </td>
-                        <td>
-                            www.amazon.com
-                        </td>
-                        <td>
-                            yay
-                        </td>
-                        <td>
-                            this is a comment
-                        </td>
-                        <td>
-                            www.amazon.com
-                        </td>
-
-                        <td>
-                            <button type="button" class="btn btn-xs addExistingRow">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-                            </button>
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>
-                            yay
-                        </td>
-                        <td class="inventoryName">
-                            Item 2
-                        </td>
-                        <td class="inventoryComment">
-                            this is a comment
-                        </td>
-                        <td>
-                            www.amazon.com
-                        </td>
-                        <td>
-                            yay
-                        </td>
-                        <td>
-                            this is a comment
-                        </td>
-                        <td>
-                            www.amazon.com
-                        </td>
-
-                        <td>
-                            <button type="button" class="btn btn-xs addExistingRow">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-                            </button>
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>
-                            yay
-                        </td>
-                        <td class="inventoryName">
-                            Item 3
-                        </td>
-                        <td class="inventoryComment">
-                            this is a comment
-                        </td>
-                        <td>
-                            www.amazon.com
-                        </td>
-                        <td>
-                            yay
-                        </td>
-                        <td>
-                            this is a comment
-                        </td>
-                        <td>
-                            www.amazon.com
-                        </td>
-
-                        <td>
-                            <button type="button" class="btn btn-xs addExistingRow">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
-                            </button>
-                        </td>
-
-                    </tr>
+                    
                 </tbody>
 
 </table>
@@ -269,15 +176,71 @@
 
 
 <script>
+    $(document).ready(function () {
+        $("#itemList").trigger('update');
+    });
+
+    //DELETE ROWS
 
     $("#itemList").on("click", '.deleteRow', function () {
         var $killrow = $(this).parent('td').parent('tr');
         $killrow.addClass("danger");
         $killrow.fadeOut(300, function () {
             $(this).remove();
+            $("#itemList").trigger('update');
         });
+
+        
     });
 
+    //ADD ROWS
+
+    $("#inventoryList").on("click", ".addExistingRow", function () {
+        var $parentRow = $(this).parent('td').parent('tr');
+        $name = $parentRow.find(".inventoryName").html();
+        $comment = $parentRow.find(".inventoryComment").html();
+        $url = '';
+
+        $('#itemList tr:last').after("<tr><td>" + $name + "</td><td>" + $comment + "</td><td>" + $url + "</td><td>"
+             + "<button type='button' class='btn btn-xs deleteRow'>"
+             + " <span class='glyphicon glyphicon-remove ' aria-hidden='true'></span> Remove"
+             + "</button>"
+             + "</td></tr>");
+
+        $("#itemList").trigger('update');
+       
+    });
+
+    $(".addNewRow").on("click", function () {
+        $name = $("#nameinput").val();
+        $comment = $("#commentsinput").val();
+        $url = $("#urlinput").val();
+
+     
+        $('#itemList tr:last').after("<tr><td>" + $name + "</td><td>" + $comment + "</td><td>" + $url + "</td><td>"
+            + "<button type='button' class='btn btn-xs deleteRow'>" 
+            + " <span class='glyphicon glyphicon-remove ' aria-hidden='true'></span> Remove"
+            + "</button>"
+            + "</td></tr>");    
+
+        $("#nameinput").val('');
+        $("#commentsinput").val('');
+        $("#urlinput").val('');
+
+        $("#itemList").trigger('update');
+    });
+
+    //UPDATE JSON 
+
+    $('#itemList').on('update', function () {
+       
+        var sourceData = $("#itemList").tableToJSON({ignoreColumns: [3] });
+
+        $("#RequestItems").val(JSON.stringify(sourceData));
+ 
+    });
+
+    //SEARCH INVENTORY
     $("#searchButton").on("click", function () {
         var $searchValue = $("#itemSearchBox").val();
         var $searchQuery = "/InventoryItems/Search?query=" + $searchValue;
@@ -297,54 +260,213 @@
                 Accept: "application/json"
             },
             success: function (result) {
-                $.each(result, function (index, value) {
-                    console.log(value.Vendor.Name);
-                    console.log(value.name);
-                    console.log(value.Price);
-                    console.log(value.Comments);
-                    console.log(value.PartNumber);
-                    console.log(value.Location);
-                    console.log(value.StatusDisplay);
-                   
-                });
-                          
+                if (result.length > 0) {
+                    $.each(result, function (index, value) {
+                        $vendor = value.Vendor.Name;
+                        $name = value.Name;
+                        $price = value.Price;
+                        $comment = value.Comments;
+                        $part = value.PartNumber;
+                        $loc = value.Location;
+                        $status = value.StatusDisplay;
+
+
+                        $('#inventoryList').append("<tr><td>" + $vendor + "</td><td class='inventoryName'>" + $name + "</td><td>" + $price + "</td><td class='inventoryComment'>" + $comment + "</td><td>" + $part + "</td><td>" + $loc + "</td><td>" + $status + "</td><td>"
+                            + "<button type='button' class='btn btn-xs addExistingRow'>"
+                            + " <span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Add"
+                            + "</button>"
+                            + "</td></tr>");
+                    });
+                }
+                else {
+                    $('#inventoryList').append("<tr><td>No Results</td></tr>");
+                }
+
             }
         });
 
-        $("#itemSearchBox").val('');       
+        $("#itemSearchBox").val('');
 
     });
 
-    $(".addExistingRow").on("click", function () {
-        var $parentRow = $(this).parent('td').parent('tr');
-        $name = $parentRow.find(".inventoryName").html();
-        $comment = $parentRow.find(".inventoryComment").html();
-        $url = '';
 
-        $('#itemList tr:last').after("<tr><td>" + $name + "</td><td>" + $comment + "</td><td>" + $url + "</td><td>"
-             + "<button type='button' class='btn btn-xs deleteRow'>"
-             + " <span class='glyphicon glyphicon-remove ' aria-hidden='true'></span> Remove"
-             + "</button>"
-             + "</td></tr>");
-       
-    });
 
-    $(".addNewRow").on("click", function () {
-        $name = $("#nameinput").val();
-        $comment = $("#commentsinput").val();
-        $url = $("#urlinput").val();
 
-     
-        $('#itemList tr:last').after("<tr><td>" + $name + "</td><td>" + $comment + "</td><td>" + $url + "</td><td>"
-            + "<button type='button' class='btn btn-xs deleteRow'>" 
-            + " <span class='glyphicon glyphicon-remove ' aria-hidden='true'></span> Remove"
-            + "</button>"
-            + "</td></tr>");    
 
-        $("#nameinput").val('');
-        $("#commentsinput").val('');
-        $("#urlinput").val('');
-    });
+
+    //TABLE TO JSON - PLUG IN - YEAH BAD PRACTICE I KNOW!
+    (function ($) {
+        'use strict';
+
+        $.fn.tableToJSON = function (opts) {
+
+            // Set options
+            var defaults = {
+                ignoreColumns: [],
+                onlyColumns: null,
+                ignoreHiddenRows: true,
+                ignoreEmptyRows: false,
+                headings: null,
+                allowHTML: false,
+                includeRowId: false,
+                textDataOverride: 'data-override',
+                textExtractor: null
+            };
+            opts = $.extend(defaults, opts);
+
+            var notNull = function (value) {
+                return value !== undefined && value !== null;
+            };
+
+            var ignoredColumn = function (index) {
+                if (notNull(opts.onlyColumns)) {
+                    return $.inArray(index, opts.onlyColumns) === -1;
+                }
+                return $.inArray(index, opts.ignoreColumns) !== -1;
+            };
+
+            var arraysToHash = function (keys, values) {
+                var result = {}, index = 0;
+                $.each(values, function (i, value) {
+                    // when ignoring columns, the header option still starts
+                    // with the first defined column
+                    if (index < keys.length && notNull(value)) {
+                        result[keys[index]] = value;
+                        index++;
+                    }
+                });
+                return result;
+            };
+
+            var cellValues = function (cellIndex, cell, isHeader) {
+                var $cell = $(cell),
+                  // textExtractor
+                  extractor = opts.textExtractor,
+                  override = $cell.attr(opts.textDataOverride);
+                // don't use extractor for header cells
+                if (extractor === null || isHeader) {
+                    return $.trim(override || (opts.allowHTML ? $cell.html() : cell.textContent || $cell.text()) || '');
+                } else {
+                    // overall extractor function
+                    if ($.isFunction(extractor)) {
+                        return $.trim(override || extractor(cellIndex, $cell));
+                    } else if (typeof extractor === 'object' && $.isFunction(extractor[cellIndex])) {
+                        return $.trim(override || extractor[cellIndex](cellIndex, $cell));
+                    }
+                }
+                // fallback
+                return $.trim(override || (opts.allowHTML ? $cell.html() : cell.textContent || $cell.text()) || '');
+            };
+
+            var rowValues = function (row, isHeader) {
+                var result = [];
+                var includeRowId = opts.includeRowId;
+                var useRowId = (typeof includeRowId === 'boolean') ? includeRowId : (typeof includeRowId === 'string') ? true : false;
+                var rowIdName = (typeof includeRowId === 'string') === true ? includeRowId : 'rowId';
+                if (useRowId) {
+                    if (typeof $(row).attr('id') === 'undefined') {
+                        result.push(rowIdName);
+                    }
+                }
+                $(row).children('td,th').each(function (cellIndex, cell) {
+                    result.push(cellValues(cellIndex, cell, isHeader));
+                });
+                return result;
+            };
+
+            var getHeadings = function (table) {
+                var firstRow = table.find('tr:first').first();
+                return notNull(opts.headings) ? opts.headings : rowValues(firstRow, true);
+            };
+
+            var construct = function (table, headings) {
+                var i, j, len, len2, txt, $row, $cell,
+                  tmpArray = [], cellIndex = 0, result = [];
+                table.children('tbody,*').children('tr').each(function (rowIndex, row) {
+                    if (rowIndex > 0 || notNull(opts.headings)) {
+                        var includeRowId = opts.includeRowId;
+                        var useRowId = (typeof includeRowId === 'boolean') ? includeRowId : (typeof includeRowId === 'string') ? true : false;
+
+                        $row = $(row);
+
+                        var isEmpty = ($row.find('td').length === $row.find('td:empty').length) ? true : false;
+
+                        if (($row.is(':visible') || !opts.ignoreHiddenRows) && (!isEmpty || !opts.ignoreEmptyRows) && (!$row.data('ignore') || $row.data('ignore') === 'false')) {
+                            cellIndex = 0;
+                            if (!tmpArray[rowIndex]) {
+                                tmpArray[rowIndex] = [];
+                            }
+                            if (useRowId) {
+                                cellIndex = cellIndex + 1;
+                                if (typeof $row.attr('id') !== 'undefined') {
+                                    tmpArray[rowIndex].push($row.attr('id'));
+                                } else {
+                                    tmpArray[rowIndex].push('');
+                                }
+                            }
+
+                            $row.children().each(function () {
+                                $cell = $(this);
+                                // skip column if already defined
+                                while (tmpArray[rowIndex][cellIndex]) { cellIndex++; }
+
+                                // process rowspans
+                                if ($cell.filter('[rowspan]').length) {
+                                    len = parseInt($cell.attr('rowspan'), 10) - 1;
+                                    txt = cellValues(cellIndex, $cell);
+                                    for (i = 1; i <= len; i++) {
+                                        if (!tmpArray[rowIndex + i]) { tmpArray[rowIndex + i] = []; }
+                                        tmpArray[rowIndex + i][cellIndex] = txt;
+                                    }
+                                }
+                                // process colspans
+                                if ($cell.filter('[colspan]').length) {
+                                    len = parseInt($cell.attr('colspan'), 10) - 1;
+                                    txt = cellValues(cellIndex, $cell);
+                                    for (i = 1; i <= len; i++) {
+                                        // cell has both col and row spans
+                                        if ($cell.filter('[rowspan]').length) {
+                                            len2 = parseInt($cell.attr('rowspan'), 10);
+                                            for (j = 0; j < len2; j++) {
+                                                tmpArray[rowIndex + j][cellIndex + i] = txt;
+                                            }
+                                        } else {
+                                            tmpArray[rowIndex][cellIndex + i] = txt;
+                                        }
+                                    }
+                                }
+
+                                txt = tmpArray[rowIndex][cellIndex] || cellValues(cellIndex, $cell);
+                                if (notNull(txt)) {
+                                    tmpArray[rowIndex][cellIndex] = txt;
+                                }
+                                cellIndex++;
+                            });
+                        }
+                    }
+                });
+                $.each(tmpArray, function (i, row) {
+                    if (notNull(row)) {
+                        // remove ignoredColumns / add onlyColumns
+                        var newRow = notNull(opts.onlyColumns) || opts.ignoreColumns.length ?
+                          $.grep(row, function (v, index) { return !ignoredColumn(index); }) : row,
+
+                          // remove ignoredColumns / add onlyColumns if headings is not defined
+                          newHeadings = notNull(opts.headings) ? headings :
+                            $.grep(headings, function (v, index) { return !ignoredColumn(index); });
+
+                        txt = arraysToHash(newHeadings, newRow);
+                        result[result.length] = txt;
+                    }
+                });
+                return result;
+            };
+
+            // Run
+            var headings = getHeadings(this);
+            return construct(this, headings);
+        };
+    })(jQuery);
 
     
 
