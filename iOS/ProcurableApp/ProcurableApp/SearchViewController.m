@@ -22,6 +22,8 @@
 @property (strong, nonatomic) NSArray *items;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) InventoryItem *selectedItem;
+@property (strong, nonatomic) IBOutlet UIButton *reloadTableButton;
+@property (strong, nonatomic) IBOutlet UILabel *noItemsLabel;
 @end
 
 @implementation SearchViewController
@@ -61,6 +63,12 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self.tableView reloadData];
+        [self.tableView setHidden:NO];
+        [self.noItemsLabel setHidden:YES];
+        if ([self.items count] == 0) {
+            [self.tableView setHidden:YES];
+            [self.noItemsLabel setHidden:NO];
+        }
     });
 }
 
@@ -139,9 +147,10 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.searchBar resignFirstResponder];
     __weak __typeof(self) weakSelf = self;
-    [self.networkingController searchForItems:[searchBar text] withCompletion:^(NSArray *items, NSError * __nullable error) {
-        if ([items count] > 0 && !error)
+    [self.networkingController searchForItems:[searchBar text] withCompletion:^(BOOL success, NSArray *items, NSError * __nullable error) {
+        if (success && !error)
         {
             weakSelf.items = items;
             [weakSelf resolve];

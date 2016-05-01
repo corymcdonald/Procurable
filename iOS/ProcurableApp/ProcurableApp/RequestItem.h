@@ -14,5 +14,5 @@
 @property (strong, nonatomic) NSString *url;
 @property (strong, nonatomic) NSNumber *count;
 
-- (instancetype)initWithName:(NSString *)name comments:(NSString *)comments url:(NSString *)url count:(NSNumber *)count;
+- (instancetype)initWithName:(NSString *)name comments:(NSString *)comments url:(NSString *)url count:(NSInteger)count;
 @end

@@ -180,8 +180,8 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     }
 }
 
-- (void)fetchDepartmentsForRegister:(DataControllerCompletionHandler)completionHandler {
-    NSURL *url = [NSURL URLWithString:@"https://procurabledev.azurewebsites.net/Departments"];
+- (void)fetchDepartmentsForRegister:(DepartmentControllerCompletionHandler)completionHandler {
+    NSURL *url = [NSURL URLWithString:@"https://procurable.azurewebsites.net/Departments"];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -193,21 +193,23 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
             if (dictionary) {
                 NSArray *dictionaryArray = [[NSArray alloc] initWithArray:(NSArray *)dictionary];
                 NSMutableArray *departmentArray = [[NSMutableArray alloc] init];
+                NSMutableArray *numberArray = [[NSMutableArray alloc] init];
                 for (int i = 0; i < [dictionaryArray count]; i++) {
                     [departmentArray addObject:[(NSDictionary *)[dictionaryArray objectAtIndex:i] objectForKey:@"Name"]];
+                    [numberArray addObject:[(NSDictionary *)[dictionaryArray objectAtIndex:i] objectForKey:@"ID"]];
                 }
-                completionHandler(departmentArray, parseError);
+                completionHandler(departmentArray, numberArray, parseError);
             } else {
                 NSError *err = [NSError errorWithDomain:@"An unknown error has occurred" code:-1 userInfo:nil];
-                completionHandler([[NSArray alloc] init], err);
+                completionHandler(nil, nil, err);
             }
         } else if (error) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                completionHandler([[NSArray alloc] init], error);
+                completionHandler(nil, nil, error);
             }];
         } else {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                completionHandler([[NSArray alloc] init], nil);
+                completionHandler(nil, nil, nil);
             }];
         }
     }];
@@ -510,7 +512,7 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
     [dataTask resume];
 }
 
-- (void)searchForItems:(NSString *)string withCompletion:(ItemsCompletionHandler)completionHandler {
+- (void)searchForItems:(NSString *)string withCompletion:(SearchItemsCompletionHandler)completionHandler {
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
     NSHTTPCookie *appCookie;
     for (NSHTTPCookie *cookie in cookies) {
@@ -533,18 +535,18 @@ static NSString *const kURL = @"https://procurable.azurewebsites.net";
             NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&parseError];
             if (dictionary) {
                 NSArray *arr = [self itemsArray:dictionary];
-                completionHandler(arr, parseError);
+                completionHandler(YES, arr, parseError);
             } else {
                 NSError *err = [NSError errorWithDomain:@"An unknown error has occurred" code:-1 userInfo:nil];
-                completionHandler([[NSArray alloc] init], err);
+                completionHandler(NO, [[NSArray alloc] init], err);
             }
         } else if (error) {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                completionHandler([[NSArray alloc] init], error);
+                completionHandler(NO, [[NSArray alloc] init], error);
             }];
         } else {
             [[NSOperationQueue mainQueue] addOperationWithBlock:^{
-                completionHandler([[NSArray alloc] init], nil);
+                completionHandler(NO, [[NSArray alloc] init], nil);
             }];
         }
     }];
