@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		902ECC501CCEB68F001D7A0C /* InventoryItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 902ECC4F1CCEB68F001D7A0C /* InventoryItem.m */; };
+		902ECC531CD3FF55001D7A0C /* RequestItemDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 902ECC521CD3FF54001D7A0C /* RequestItemDetailViewController.m */; };
+		902ECC561CD5A279001D7A0C /* CartSingleton.m in Sources */ = {isa = PBXBuildFile; fileRef = 902ECC551CD5A279001D7A0C /* CartSingleton.m */; };
+		902ECC591CD66A55001D7A0C /* RequestItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 902ECC581CD66A55001D7A0C /* RequestItem.m */; };
 		904B91451C7BC94E008FD32B /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904B91441C7BC94E008FD32B /* RegisterViewController.m */; };
 		904B91481C7F5BC0008FD32B /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 904B91471C7F5BC0008FD32B /* SearchViewController.m */; };
 		908C68841CA8C02F002A5C39 /* NavDrawerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 908C68831CA8C02F002A5C39 /* NavDrawerViewController.m */; };
@@ -57,6 +60,12 @@
 		4563EC4E9A3C383BFB720748 /* libPods-ProcurableApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ProcurableApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		902ECC4E1CCEB68F001D7A0C /* InventoryItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryItem.h; sourceTree = "<group>"; };
 		902ECC4F1CCEB68F001D7A0C /* InventoryItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItem.m; sourceTree = "<group>"; };
+		902ECC511CD3FF54001D7A0C /* RequestItemDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestItemDetailViewController.h; sourceTree = "<group>"; };
+		902ECC521CD3FF54001D7A0C /* RequestItemDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestItemDetailViewController.m; sourceTree = "<group>"; };
+		902ECC541CD5A279001D7A0C /* CartSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CartSingleton.h; sourceTree = "<group>"; };
+		902ECC551CD5A279001D7A0C /* CartSingleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CartSingleton.m; sourceTree = "<group>"; };
+		902ECC571CD66A55001D7A0C /* RequestItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestItem.h; sourceTree = "<group>"; };
+		902ECC581CD66A55001D7A0C /* RequestItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestItem.m; sourceTree = "<group>"; };
 		904B91431C7BC94E008FD32B /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		904B91441C7BC94E008FD32B /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		904B91461C7F5BC0008FD32B /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewController.h; sourceTree = "<group>"; };
@@ -166,6 +175,8 @@
 				90CE22251CBCE1110034E463 /* ItemDetailViewController.m */,
 				90CE22271CBCE1D30034E463 /* CreateRequestViewController.h */,
 				90CE22281CBCE1D30034E463 /* CreateRequestViewController.m */,
+				902ECC511CD3FF54001D7A0C /* RequestItemDetailViewController.h */,
+				902ECC521CD3FF54001D7A0C /* RequestItemDetailViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -181,6 +192,10 @@
 				90CE22221CBC15070034E463 /* User.m */,
 				902ECC4E1CCEB68F001D7A0C /* InventoryItem.h */,
 				902ECC4F1CCEB68F001D7A0C /* InventoryItem.m */,
+				902ECC541CD5A279001D7A0C /* CartSingleton.h */,
+				902ECC551CD5A279001D7A0C /* CartSingleton.m */,
+				902ECC571CD66A55001D7A0C /* RequestItem.h */,
+				902ECC581CD66A55001D7A0C /* RequestItem.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -470,10 +485,13 @@
 				908C689B1CA9BC34002A5C39 /* RequestDetailViewController.m in Sources */,
 				90E4C8571C6A6F0600E632E9 /* NetworkingController.m in Sources */,
 				908C68A11CA9D35B002A5C39 /* ViewReportsViewController.m in Sources */,
+				902ECC591CD66A55001D7A0C /* RequestItem.m in Sources */,
 				90E4C8211C6A3F2300E632E9 /* main.m in Sources */,
 				90CE22291CBCE1D30034E463 /* CreateRequestViewController.m in Sources */,
 				90CE22091CB2F8BF0034E463 /* RequestsToApproveViewController.m in Sources */,
 				904B91481C7F5BC0008FD32B /* SearchViewController.m in Sources */,
+				902ECC561CD5A279001D7A0C /* CartSingleton.m in Sources */,
+				902ECC531CD3FF55001D7A0C /* RequestItemDetailViewController.m in Sources */,
 				908C68901CA91D0D002A5C39 /* NavButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

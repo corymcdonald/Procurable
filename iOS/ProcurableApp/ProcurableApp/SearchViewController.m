@@ -21,7 +21,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *items;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) Item *selectedItem;
+@property (strong, nonatomic) InventoryItem *selectedItem;
 @end
 
 @implementation SearchViewController
@@ -46,11 +46,10 @@
 //    [self.navigationItem.titleView setFrame:CGRectMake(0, 0, 40, 34)];
 }
 
--(void) viewWillAppear:(BOOL)inAnimated {
-    NSIndexPath *selected = [self.tableView indexPathForSelectedRow];
-    if (selected) {
-        [self.tableView deselectRowAtIndexPath:selected animated:NO];
-    }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -107,10 +106,10 @@
     Item *item = (Item *)[self.items objectAtIndex:indexPath.row];
     [mainLabel setText:[item name]];
     [idLabel setText:[[item idNumber] stringValue]];
-    [availabilityLabel setText:@"No"];
-    if (item.inInventory) {
-        [availabilityLabel setText:@"Yes"];
-    }
+//    [availabilityLabel setText:@"No"];
+//    if (item.inInventory) {
+//        [availabilityLabel setText:@"Yes"];
+//    }
 //    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 //    [dateFormat setDateFormat:@"MMMM d, YYYY"];
 //    NSString *dateString = [dateFormat stringFromDate:[item createdDate]];
@@ -130,12 +129,12 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedItem = (Item *)[self.items objectAtIndex:indexPath.row];
+    self.selectedItem = (InventoryItem *)[self.items objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"ItemDetailSegue" sender:self];
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    self.selectedItem = (Item *)[self.items objectAtIndex:indexPath.row];
+    self.selectedItem = (InventoryItem *)[self.items objectAtIndex:indexPath.row];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
@@ -156,8 +155,7 @@
     if ([[segue identifier] isEqualToString:@"ItemDetailSegue"])
     {
         ItemDetailViewController *vc = [segue destinationViewController];
-        [vc setItem:self.selectedItem];
-        [vc setIsRequestItem:NO];
+        [vc setInventoryItem:self.selectedItem];
     }
 }
 

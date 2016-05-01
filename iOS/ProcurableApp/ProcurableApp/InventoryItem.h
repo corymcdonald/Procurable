@@ -9,12 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface InventoryItem : NSObject
+@property (strong, nonatomic) NSNumber *count;
 @property (strong, nonatomic) NSNumber *idNumber;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *comments;
 @property (strong, nonatomic) NSString *partNumber;
 @property (strong, nonatomic) NSNumber *price;
-@property (assign, nonatomic) BOOL status;
+@property (assign, nonatomic) NSNumber *status;
 @property (strong, nonatomic) NSString *vendorName;
 @property (strong, nonatomic) NSString *vendorWebsite;
 @property (strong, nonatomic) NSNumber *vendorId;

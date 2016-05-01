@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Item.h"
+#import "InventoryItem.h"
 
 @interface ItemDetailViewController : UIViewController
-@property (strong, nonatomic) Item *item;
-@property (assign, nonatomic) BOOL isRequestItem;
+@property (strong, nonatomic) InventoryItem *inventoryItem;
 
 @end
+

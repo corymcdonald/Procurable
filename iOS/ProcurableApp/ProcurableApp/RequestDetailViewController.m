@@ -10,7 +10,7 @@
 #import "MBProgressHUD.h"
 #import "NetworkingController.h"
 #import "Item.h"
-#import "ItemDetailViewController.h"
+#import "RequestItemDetailViewController.h"
 
 @interface RequestDetailViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -54,6 +54,12 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -67,6 +73,7 @@
     [self.networkingController updateRequestStatus:self.request.idNumber withValue:@2 withCompletion:^(BOOL value, NSError * __nullable error) {
         if (value && !error)
         {
+            [self.navigationController popViewControllerAnimated:YES];
             NSLog(@"Approved");
         } else {
             NSLog(error.domain);
@@ -83,6 +90,7 @@
         if (value && !error)
         {
             NSLog(@"Denied");
+            [self.navigationController popViewControllerAnimated:YES];
         } else {
             NSLog(error.domain);
         }
@@ -143,9 +151,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"RequestItemDetailSegue"])
     {
-        ItemDetailViewController *vc = [segue destinationViewController];
+        RequestItemDetailViewController *vc = [segue destinationViewController];
         [vc setItem:self.selectedItem];
-        [vc setIsRequestItem:NO];
     }
 }
 
