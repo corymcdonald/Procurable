@@ -193,12 +193,30 @@ namespace Procurable.Models
             base.Dispose(disposing);
         }
 
+        public List<InventoryItem> SearchForRequest(string query)
+        {            
+            var asResult = new List<InventoryItem>();
+            if (!String.IsNullOrEmpty(query))
+            {
+                query = query.ToUpper().Trim();
+                var temp = from a in db.InventoryItems
+                           where (a.Name.Trim().ToUpper().Contains(query)
+                           || a.PartNumber.Trim().ToUpper().Contains(query)
+                           || a.Vendor.Name.Trim().ToUpper().Contains(query)
+                           || a.Location.Trim().ToUpper().Contains(query))
+                           && a.Status == InventoryStatus.Unallocated
+                           select a;
+               
+                asResult = temp.ToList();
+            }
+            return asResult;
+        }
         public List<InventoryItemIndex> SearchInternal(string query)
         {
-            query = query.ToUpper().Trim();
             var asResult = new List<InventoryItemIndex>();
-            if (query != null)
+            if (!string.IsNullOrEmpty(query))
             {
+            query = query.ToUpper().Trim();
                 var temp = from a in db.InventoryItems
                            where a.Name.Trim().ToUpper().Contains(query) 
                            || a.PartNumber.Trim().ToUpper().Contains(query)
@@ -215,6 +233,23 @@ namespace Procurable.Models
             if (Request.AcceptTypes.Contains("application/json"))
                 return Json(SearchInternal(query), JsonRequestBehavior.AllowGet);
             return PartialView("Search", SearchInternal(query));
+        }
+
+        public ActionResult RequestSearch(string query)
+        {
+
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                var list = JsonConvert.SerializeObject(SearchForRequest(query),
+                Formatting.None,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return Content(list, "application/json");
+
+            }
+            return PartialView("RequestSearch", SearchForRequest(query));
         }
     }
 }

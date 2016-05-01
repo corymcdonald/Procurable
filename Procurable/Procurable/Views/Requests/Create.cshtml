@@ -76,12 +76,12 @@
             </div>
 
             <div class="col-md-4 form-inline">
-               
-                <input class="form-control" id="itemSearchBox" placeholder="Search Inventory">
-                <button type="button" id="searchButton" class="btn">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
-                </button>
-                
+                <form>
+                    <input class="form-control" id="itemSearchBox" placeholder="Search Inventory">
+                    <button type="button" id="searchButton" class="btn">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -106,9 +106,6 @@
                         </th>
                         <th>
                             Part Number
-                        </th>
-                        <th>
-                            Location
                         </th>
                         <th>
                             Inventory Status
@@ -240,10 +237,15 @@
  
     });
 
+    $("#itemSearchBox").keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("#searchButton").click();
+        }
+    });
     //SEARCH INVENTORY
     $("#searchButton").on("click", function () {
         var $searchValue = $("#itemSearchBox").val();
-        var $searchQuery = "/InventoryItems/Search?query=" + $searchValue;
+        var $searchQuery = "/InventoryItems/RequestSearch?query=" + $searchValue;
 
         $("#inventoryList > tr").remove();
 
@@ -267,11 +269,10 @@
                         $price = value.Price;
                         $comment = value.Comments;
                         $part = value.PartNumber;
-                        $loc = value.Location;
                         $status = value.StatusDisplay;
 
 
-                        $('#inventoryList').append("<tr><td>" + $vendor + "</td><td class='inventoryName'>" + $name + "</td><td>" + $price + "</td><td class='inventoryComment'>" + $comment + "</td><td>" + $part + "</td><td>" + $loc + "</td><td>" + $status + "</td><td>"
+                        $('#inventoryList').append("<tr><td>" + $vendor + "</td><td class='inventoryName'>" + $name + "</td><td>" + $price + "</td><td class='inventoryComment'>" + $comment + "</td><td>" + $part + "</td><td>" + $status + "</td><td>"
                             + "<button type='button' class='btn btn-xs addExistingRow'>"
                             + " <span class='glyphicon glyphicon-plus' aria-hidden='true'></span> Add"
                             + "</button>"

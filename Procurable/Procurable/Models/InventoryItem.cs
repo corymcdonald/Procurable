@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,6 +27,7 @@ namespace Procurable.Models
 
         [Display(Name = "Part Number")]
         public string PartNumber { get; set; }
+        [JsonProperty(PropertyName = "email", DefaultValueHandling = DefaultValueHandling.Populate)]
         public string Location { get; set; }
 
         [Display(Name = "Inventory Status")]
