@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Procurable.Models;
 using Microsoft.AspNet.Identity;
 using System.Web.Script.Serialization;
+using Newtonsoft.Json;
 
 namespace Procurable.Controllers
 {
@@ -167,12 +168,47 @@ namespace Procurable.Controllers
                     request.CreatedDate = DateTime.Now;
                     request.LastModified = DateTime.Now;
 
-
                     ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
                     request.RequestedBy = currentUser;
-
                     //System.Diagnostics.Debug.WriteLine(currentUser);
 
+                    dynamic RequestItemsJSON= JsonConvert.DeserializeObject(Request.Form.Get("RequestItems"));
+                 
+
+                    if (RequestItemsJSON != null)
+                    {
+                        foreach (var item in RequestItemsJSON)
+                        {
+                            if (!String.IsNullOrEmpty(item["Name"].ToString()))
+                            {
+                                
+                                var requestedItem = new RequestedItem()
+                                {
+                                    Name = item["Name"],
+                                    Comments = item["Comments"],
+                                    URL = item["URL"],
+                                };
+
+                                List<InventoryItem> results = new InventoryItemsController().SearchInternal(item["Name"].ToString());
+                                if (results.Any())
+                                {
+                                    foreach (var invenItem in results)
+                                    {
+                                        if (invenItem.Status == InventoryStatus.Unallocated)
+                                        {
+                                            requestedItem.ItemID = invenItem.ID;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                db.RequestedItems.Add(requestedItem);
+                                db.SaveChanges();
+                                requestedItems.Add(requestedItem);
+                            }
+                        }
+                    }
+                    request.Items = requestedItems;
 
                     db.Requests.Add(request);
                     db.SaveChanges();

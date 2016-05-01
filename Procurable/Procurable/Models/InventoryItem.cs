@@ -30,6 +30,13 @@ namespace Procurable.Models
 
         [Display(Name = "Inventory Status")]
         public InventoryStatus Status { get; set; }
+        public string StatusDisplay
+        {
+            get
+            {
+                return Status.ToString();
+            }
+        }
 
         private decimal MonthToDay = 30.4167M;
 

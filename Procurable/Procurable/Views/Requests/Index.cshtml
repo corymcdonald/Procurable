@@ -44,20 +44,20 @@
 @foreach (var item in Model)
 {
     var newID = item.ID * 500000;
-    <tr data-toggle="collapse" data-target="#@newID " class="accordion-toggle pointer" >
-        <td>
+    <tr  >
+        <td data-toggle="collapse" data-target="#@newID " class="accordion-toggle pointer">
             @Html.DisplayFor(modelItem => item.ID)
         </td>
-        <td>
+        <td data-toggle="collapse" data-target="#@newID " class="accordion-toggle pointer">
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td>
+        <td data-toggle="collapse" data-target="#@newID " class="accordion-toggle pointer">
             @Html.DisplayFor(modelItem => item.Comments)
         </td>
-        <td>
+        <td data-toggle="collapse" data-target="#@newID " class="accordion-toggle pointer">
             @Html.DisplayFor(modelItem => item.RequestedFor)
         </td>
-        <td>
+        <td data-toggle="collapse" data-target="#@newID " class="accordion-toggle pointer">
             @if (item.StatusDisplay == "Opened")
             {
                 <span class="label label-primary">
@@ -81,8 +81,8 @@
         <td>
 
 
-            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default  btn-sm" })
-            @Html.ActionLink("Close", "Delete", new { id = item.ID }, new { @class = "btn btn-danger  btn-sm" })
+            @Html.ActionLink("Edit", "Edit", new { id = item.ID }, new { @class = "btn btn-default   btn-xs" })
+            @Html.ActionLink("Close", "Delete", new { id = item.ID }, new { @class = "btn btn-danger   btn-xs" })
 
 
         </td>
