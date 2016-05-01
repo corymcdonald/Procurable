@@ -49,11 +49,11 @@ namespace Procurable.Models
             get
             {
                 TimeSpan t = new TimeSpan();
-                if(Depreciation.HasValue)
+                if (Depreciation.HasValue)
                 {
-                    t = new TimeSpan((int)Math.Ceiling((Price / Depreciation.Value) * MonthToDay), 0,0,0);
+                    t = new TimeSpan((int)Math.Ceiling((Price / Depreciation.Value) * MonthToDay), 0, 0, 0);
                 }
-                return t;  
+                return t;
             }
         }
     }
