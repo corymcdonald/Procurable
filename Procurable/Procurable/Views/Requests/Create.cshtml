@@ -4,53 +4,259 @@
     ViewBag.Title = "Create";
 }
 
-<h2>Create</h2>
+<br />
 
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Request</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    <div class="row">
+
+        <div class="form-horizontal">
+
+
+            <h2>New Request</h2>
+            <br />
+            <div class="col-lg-4">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RequestedFor, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.RequestedFor, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.RequestedFor, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <label class="control-label col-md-2">Items</label>
+                <div class="col-md-10 roundBox">
+                    <table class="table" id="itemList">
+                        <tr>
+
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Comments
+                            </th>
+                            <th>
+                                URL
+                            </th>
+                            <th></th>
+                        </tr> 
+                    </table>
+                </div>
+
+
+            </div>
+        </div>
+        </div>
+        <hr class="darkLine">
+        <div class="row">
+            <div class="col-md-8" style="padding-left: 0px">
+                <h2 style="margin-top: 0px">Add Inventory Item</h2>
+            </div>
+
+            <div class="col-md-4 form-inline">
+               
+                <input class="form-control" id="itemSearchBox" placeholder="Search Inventory">
+                <button type="button" id="searchButton" class="btn">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search
+                </button>
+                
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Comments, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+        <br />
+
+        <div class="row">
+            <table class="table" >
+                <thead>
+                    <tr>
+
+                        <th>
+                            Vendor Name
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Comments
+                        </th>
+                        <th>
+                            Part Number
+                        </th>
+                        <th>
+                            Location
+                        </th>
+                        <th>
+                            Inventory Status
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryList">
+                    <tr>
+
+                        <td>
+                            yay
+                        </td>
+                        <td class="inventoryName">
+                            item 1
+                        </td>
+                        <td class="inventoryComment">
+                            this is a comment
+                        </td>
+                        <td>
+                            www.amazon.com
+                        </td>
+                        <td>
+                            yay
+                        </td>
+                        <td>
+                            this is a comment
+                        </td>
+                        <td>
+                            www.amazon.com
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-xs addExistingRow">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            yay
+                        </td>
+                        <td class="inventoryName">
+                            Item 2
+                        </td>
+                        <td class="inventoryComment">
+                            this is a comment
+                        </td>
+                        <td>
+                            www.amazon.com
+                        </td>
+                        <td>
+                            yay
+                        </td>
+                        <td>
+                            this is a comment
+                        </td>
+                        <td>
+                            www.amazon.com
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-xs addExistingRow">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>
+                            yay
+                        </td>
+                        <td class="inventoryName">
+                            Item 3
+                        </td>
+                        <td class="inventoryComment">
+                            this is a comment
+                        </td>
+                        <td>
+                            www.amazon.com
+                        </td>
+                        <td>
+                            yay
+                        </td>
+                        <td>
+                            this is a comment
+                        </td>
+                        <td>
+                            www.amazon.com
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-xs addExistingRow">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                            </button>
+                        </td>
+
+                    </tr>
+                </tbody>
+
+</table>
+
+        </div>
+        <hr class="darkLine">
+
+        <div class="row">
+            <div class="col-md-9" style="padding-left: 0px">
+                <h2 style="margin-top: 0px">Custom Item</h2>
             </div>
         </div>
+        <br />
+        <div class="row">
 
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.RequestedFor, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.RequestedFor, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RequestedFor, "", new { @class = "text-danger" })
+            <div class="col-md-3">
+                <input class="form-control" placeholder="Name" id="nameinput">
             </div>
-        </div>
-        <div class="form-group ">
-            <label class="control-label col-md-2">Items</label>
-            @Html.EditorFor(model => model.Items)
-        </div>
+            <div class="col-md-5"> 
+                <input class="form-control" placeholder="Comments" id="commentsinput">
+            </div>
+            <div class="col-md-3">
+                <input class="form-control" placeholder="Url" id="urlinput">
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn addNewRow">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+                </button>
+            </div>
 
 
+
+        </div>
+
+        <hr class="darkLine" />
+
+
+        <div class="row">
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create" class="btn btn-default" />
+                <div class="col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-default" />
                 </div>
             </div>
         </div>
+
+
 }
 
 <div>
@@ -60,3 +266,87 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
+<script>
+
+    $("#itemList").on("click", '.deleteRow', function () {
+        var $killrow = $(this).parent('td').parent('tr');
+        $killrow.addClass("danger");
+        $killrow.fadeOut(300, function () {
+            $(this).remove();
+        });
+    });
+
+    $("#searchButton").on("click", function () {
+        var $searchValue = $("#itemSearchBox").val();
+        var $searchQuery = "/InventoryItems/Search?query=" + $searchValue;
+
+        $("#inventoryList > tr").remove();
+
+        $('#loading-image').bind('ajaxStart', function () {
+            $(this).show();
+        }).bind('ajaxStop', function () {
+            $(this).hide();
+        });
+
+        $.ajax({
+            url: $searchQuery,
+            method: 'GET',
+            headers: {
+                Accept: "application/json"
+            },
+            success: function (result) {
+                $.each(result, function (index, value) {
+                    console.log(value.Vendor.Name);
+                    console.log(value.name);
+                    console.log(value.Price);
+                    console.log(value.Comments);
+                    console.log(value.PartNumber);
+                    console.log(value.Location);
+                    console.log(value.StatusDisplay);
+                   
+                });
+                          
+            }
+        });
+
+        $("#itemSearchBox").val('');       
+
+    });
+
+    $(".addExistingRow").on("click", function () {
+        var $parentRow = $(this).parent('td').parent('tr');
+        $name = $parentRow.find(".inventoryName").html();
+        $comment = $parentRow.find(".inventoryComment").html();
+        $url = '';
+
+        $('#itemList tr:last').after("<tr><td>" + $name + "</td><td>" + $comment + "</td><td>" + $url + "</td><td>"
+             + "<button type='button' class='btn btn-xs deleteRow'>"
+             + " <span class='glyphicon glyphicon-remove ' aria-hidden='true'></span> Remove"
+             + "</button>"
+             + "</td></tr>");
+       
+    });
+
+    $(".addNewRow").on("click", function () {
+        $name = $("#nameinput").val();
+        $comment = $("#commentsinput").val();
+        $url = $("#urlinput").val();
+
+     
+        $('#itemList tr:last').after("<tr><td>" + $name + "</td><td>" + $comment + "</td><td>" + $url + "</td><td>"
+            + "<button type='button' class='btn btn-xs deleteRow'>" 
+            + " <span class='glyphicon glyphicon-remove ' aria-hidden='true'></span> Remove"
+            + "</button>"
+            + "</td></tr>");    
+
+        $("#nameinput").val('');
+        $("#commentsinput").val('');
+        $("#urlinput").val('');
+    });
+
+    
+
+
+</script>

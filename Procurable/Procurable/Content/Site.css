@@ -36,6 +36,15 @@ body {
 .table-hover > tbody > tr:hover {
   background-color: #121314 !important; }
 
+.roundBox {
+  padding: 15px;
+  background: #FFFFFF;
+  border: 1px solid #ccc;
+  border-radius: 4px; }
+
+.darkLine {
+  border-top: 1px solid #121314; }
+
 .account {
   /*
    * Card component
