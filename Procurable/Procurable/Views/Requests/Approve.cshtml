@@ -81,9 +81,11 @@
            
         </td>
        
-        <td>
-            @Html.DropDownListFor(modelItem => item.Status, new SelectList(Enum.GetValues(typeof(Procurable.Models.RequestStatus))))
-          
+        <td style="padding: 5px;">
+            <div class="form-group-sm">
+                @Html.DropDownListFor(modelItem => item.Status, new SelectList(Enum.GetValues(typeof(Procurable.Models.RequestStatus))), new { @class = "form-control" })
+            </div>
+
         </td>
     </tr>
     <tr style="background: #CECECE">

@@ -23,14 +23,14 @@
     return self;
 }
 
-- (instancetype)initWithName:(NSString *)name comments:(NSString *)comments url:(NSString *)url count:(NSNumber *)count {
+- (instancetype)initWithName:(NSString *)name comments:(NSString *)comments url:(NSString *)url count:(NSInteger)count {
     self = [super init];
     if (self)
     {
         _name = name;
         _comments = comments;
         _url = url;
-        _count = count;
+        _count = [[NSNumber alloc] initWithInteger:count];
     }
     return self;
 }

@@ -24,7 +24,7 @@ namespace Procurable.Models
         [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 
-        [Display(Name = "Part Order")]
+        [Display(Name = "Part Number")]
         public string PartNumber { get; set; }
         public string Location { get; set; }
 

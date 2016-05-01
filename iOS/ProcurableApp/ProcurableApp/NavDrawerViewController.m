@@ -9,6 +9,7 @@
 #import "NavDrawerViewController.h"
 #import "MMDrawerController.h"
 #import "NavButton.h"
+#import "MBProgressHUD.h"
 #import "MMDrawerBarButtonItem.h"
 #import "UIViewController+MMDrawerController.h"
 
@@ -29,10 +30,24 @@
 }
 
 - (void)logoutPressed {
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    for (NSHTTPCookie *each in cookieStorage.cookies) {
-        [cookieStorage deleteCookie:each];
-    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Logout" message:@"Are you sure you want to logout?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *logout = [UIAlertAction actionWithTitle:@"Logout" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        for (NSHTTPCookie *each in cookieStorage.cookies) {
+            [cookieStorage deleteCookie:each];
+        }
+        [self presentWelcomeInterface];
+    }];
+    [alert addAction:cancel];
+    [alert addAction:logout];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)presentWelcomeInterface {
+    UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"loginScreen"];
+    UINavigationController* navigation = [[UINavigationController alloc] initWithRootViewController:rootController];
+    [[[[UIApplication sharedApplication] delegate] window] setRootViewController:navigation];
 }
 
 - (void)closeDrawer {
