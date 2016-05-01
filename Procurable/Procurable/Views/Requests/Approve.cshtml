@@ -28,20 +28,20 @@
     </tr>
 
 @foreach (var item in Model) {
-    <tr data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
-        <td >
+    <tr >
+        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
             @Html.DisplayFor(modelItem => item.ID)
         </td>
-        <td>
+        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
             @Html.DisplayFor(modelItem => item.Name)
         </td>
-        <td>
+        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
             @Html.DisplayFor(modelItem => item.Comments)
         </td>
-        <td>
+        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
             @Html.DisplayFor(modelItem => item.RequestedFor)
         </td>
-        <td>
+        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
             @if (item.StatusDisplay == "Opened")
             {
                 <span class="label label-primary">
@@ -81,9 +81,11 @@
            
         </td>
        
-        <td>
-            @Html.DropDownListFor(modelItem => item.Status, new SelectList(Enum.GetValues(typeof(Procurable.Models.RequestStatus))))
-          
+        <td style="padding: 5px;">
+            <div class="form-group-sm">
+                @Html.DropDownListFor(modelItem => item.Status, new SelectList(Enum.GetValues(typeof(Procurable.Models.RequestStatus))), new { @class = "form-control" })
+            </div>
+
         </td>
     </tr>
     <tr style="background: #CECECE">

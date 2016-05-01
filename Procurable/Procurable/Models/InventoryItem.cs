@@ -24,12 +24,19 @@ namespace Procurable.Models
         [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 
-        [Display(Name = "Part Order")]
+        [Display(Name = "Part Number")]
         public string PartNumber { get; set; }
         public string Location { get; set; }
 
         [Display(Name = "Inventory Status")]
         public InventoryStatus Status { get; set; }
+        public string StatusDisplay
+        {
+            get
+            {
+                return Status.ToString();
+            }
+        }
 
         private decimal MonthToDay = 30.4167M;
 
