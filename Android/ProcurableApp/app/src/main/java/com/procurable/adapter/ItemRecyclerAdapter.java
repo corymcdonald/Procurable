@@ -75,9 +75,9 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            title       = (TextView)  itemView.findViewById(R.id.tvTitle);
-            price = (TextView)  itemView.findViewById(R.id.tvPrice);
-            comments       = (TextView)  itemView.findViewById(R.id.tvComments);
+            title       = (TextView)  itemView.findViewById(R.id.tvItemTitle);
+            price = (TextView)  itemView.findViewById(R.id.tvItemPrice);
+            comments       = (TextView)  itemView.findViewById(R.id.tvItemComments);
             mRootView = itemView;
         }
 

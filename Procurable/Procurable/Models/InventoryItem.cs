@@ -9,14 +9,16 @@ namespace Procurable.Models
 {
     public class InventoryItem
     {
+
         public int ID { get; set; }
         public string Name { get; set; }
 
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
 
+        public int? PurchaseOrderID { get; set; }
         [Display(Name = "Purchase Order")]
-        public PurchaseOrder PurchaseOrder { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
         public decimal Price { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -31,6 +33,7 @@ namespace Procurable.Models
 
         private decimal MonthToDay = 30.4167M;
 
+        public decimal? DepreciationRemaining { get; set; }
         public decimal? Depreciation { get; set; }
         public TimeSpan DepreciationDate
         {

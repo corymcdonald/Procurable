@@ -209,6 +209,7 @@
     <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\ProjectTasksController.cs" />
     <Compile Include="Controllers\PurchaseOrdersController.cs" />
+    <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RequestedItemsController.cs" />
     <Compile Include="Controllers\RequestsController.cs" />
     <Compile Include="Controllers\VendorsController.cs" />
@@ -251,6 +252,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Controllers\InventoriesController.cs" />
     <Compile Include="Models\Inventory.cs" />
+    <Compile Include="Models\InventoryItemHistory.cs" />
     <Compile Include="Models\InventoryItem.cs" />
     <Compile Include="Controllers\InventoryItemsController.cs" />
     <Compile Include="Models\InventoryItemIndex.cs" />
@@ -534,7 +536,6 @@
     <Content Include="Views\Shared\EditorTemplates\Timespan.cshtml" />
     <Content Include="Views\Shared\_ReorderPartial.cshtml" />
     <Content Include="Views\InventoryItems\Search.cshtml" />
-    <Content Include="Views\Departments\Create.cshtml" />
     <Content Include="Views\Departments\Delete.cshtml" />
     <Content Include="Views\Departments\Details.cshtml" />
     <Content Include="Views\Departments\Edit.cshtml" />
@@ -547,6 +548,11 @@
     <Content Include="Views\Shared\DisplayTemplates\_ProjectStatus.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\_ProjectPriority.cshtml" />
     <Content Include="Views\Shared\TaskIndex.cshtml" />
+    <Content Include="Views\Reports\InventoryItem\Details.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\Department.cshtml" />
+    <Content Include="Views\Reports\InventoryItem\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\InventoryItemStatus.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\InventoryItemsIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

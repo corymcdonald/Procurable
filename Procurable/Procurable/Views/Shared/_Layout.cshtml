@@ -7,16 +7,19 @@
     var RequestedItems = "RequestedItems";
     var Reorders = "Reorders";
     var Requests = "requests";
-    
+
     var ProjectTasks = "ProjectTasks";
+    var Reports = "Reports";
+    var PriceHistory = "InventoryItem";
     var Projects = "Projects";
     var Controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var UrlParams = HttpContext.Current.Request.RequestContext.RouteData.Values;
 
     string[] requestsSub = { RequestedItems, Requests};
     string[] inventorySub = { Inventories, InventoryItems, PurchaseOrder, Reorders};
     string[] projectsSub = {Projects, ProjectTasks};
     string[] administrationSub = { Vendors, Departments};
-    string[] reportingSub = { };
+    string[] reportingSub = { Reports };
 
     bool isRequestsSub = requestsSub.Any(x => x.Contains(Controller));
     bool isinventorySub = inventorySub.Any(x => x.Contains(Controller));
@@ -38,8 +41,7 @@
 
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
-
-
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 
     <meta name="description" content="The description of my page" />
@@ -50,7 +52,7 @@
     <nav class="navbar navbar-fixed-top" role="navigation">
         <div class="container">
             <div class="navbar-header">
-               <img src="@Url.Content("~/Content/Images/ProcurableRed.png")" class="navbar-brand" />
+                <a href="/"><img src="@Url.Content("~/Content/Images/ProcurableRed.png")" class="navbar-brand" /></a>
               
             </div>
 
@@ -97,7 +99,7 @@
                                     <li class="@if (Inventories == Controller) { Write("active"); }">@Html.ActionLink("Inventories", "", "Inventories")</li>
                                     <li class="@if (InventoryItems == Controller) { Write("active"); }">@Html.ActionLink("Inventory Items", "", "InventoryItems")</li>
                                     <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Purchase Order", "", "PurchaseOrders")</li>
-                                    <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Auto Reorder", "", "Reorders")</li>
+                                    <li class="@if (Reorders == Controller) { Write("active"); }">@Html.ActionLink("Auto Reorder", "", "Reorders")</li>
                                 </ul>
                             </div>
                             <!-- projects CONTAINER-->
@@ -117,7 +119,11 @@
                             <!-- reporting CONTAINER-->
                             <div class="tab-pane @if (isReportingSub) { Write("active"); }" id="reportingNav">
                                 <ul class="nav navbar-nav nav-pills">
+                                    <li class="@if (UrlParams.Any(x => x.Value.ToString().Contains(PriceHistory)) && UrlParams.Any(x=>x.Value.ToString().Contains(Reports))) { Write("active"); }">
+                                        @Html.ActionLink("Price History", "", "Reports/InventoryItems")
+                                    </li>
                                 </ul>
+
                             </div>
                         </div>
                     </ul>

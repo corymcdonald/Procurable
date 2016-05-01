@@ -58,6 +58,8 @@ namespace Procurable.Models
 
         public System.Data.Entity.DbSet<Procurable.Models.InventoryItem> InventoryItems { get; set; }
 
+        public System.Data.Entity.DbSet<Procurable.Models.InventoryItemHistory> InventoryItemsHistory { get; set; }
+
         public System.Data.Entity.DbSet<Procurable.Models.Inventory> Inventories { get; set; }
 
         public System.Data.Entity.DbSet<Procurable.Models.PurchaseOrder> PurchaseOrders { get; set; }
@@ -73,5 +75,6 @@ namespace Procurable.Models
         public System.Data.Entity.DbSet<Procurable.Models.Reorder> Reorders { get; set; }
 
         public System.Data.Entity.DbSet<Procurable.Models.Department> Departments { get; set; }
+
     }
 }

@@ -3,10 +3,11 @@ package com.procurable.domain.response;
 /**
  * Created by Matt on 3/23/2016.
  */
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestItem {
+public class RequestItem implements Serializable {
 
     private Integer ID;
     private Boolean InInventory;

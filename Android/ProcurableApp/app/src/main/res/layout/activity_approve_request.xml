@@ -25,7 +25,7 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Large Text"
             android:id="@+id/request_id"
@@ -37,11 +37,10 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Medium Text"
-            android:id="@+id/textView3"
-            android:layout_below="@+id/request_date"
+            android:id="@+id/request_date"
             android:gravity="center"
             android:textSize="25dp"
             android:layout_centerHorizontal="true" />
@@ -49,15 +48,32 @@
                     android:id="@+id/item_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/editText"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:inputType="textMultiLine"/>
+                    android:background="?attr/selectableItemBackground"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.design.widget.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/Approve"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="195dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Approve"
+                        android:textStyle="bold" />
+                    <Button
+                    android:id="@+id/Deny"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="195dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Deny"
+                    android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
         <fragment

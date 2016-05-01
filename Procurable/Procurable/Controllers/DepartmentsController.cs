@@ -17,6 +17,10 @@ namespace Procurable.Controllers
         // GET: Departments
         public ActionResult Index()
         {
+            if (Request.AcceptTypes.Contains("application/json"))
+            {
+                return Json(db.Departments.ToList(), JsonRequestBehavior.AllowGet);
+            }
             return View(db.Departments.ToList());
         }
 

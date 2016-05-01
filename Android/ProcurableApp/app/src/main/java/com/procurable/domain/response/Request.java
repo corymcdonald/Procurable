@@ -13,9 +13,23 @@ import java.util.Map;
 public class Request implements Serializable {
 
     private List<RequestItem> Items = new ArrayList<RequestItem>();
-    private Person RequestedBy;
+    //private Person RequestedBy;
 
-    public Person getRequestedBy() {
+
+   // private Person requestItems;
+    private Integer ID;
+
+
+    private String Name;
+    private String Comments;
+
+    private String CreatedDate;
+    private Date CreatedDateDisplay;
+    private String LastModified;
+    private Date LastModifiedDisplay;
+    private Integer Status;
+    private String StatusDisplay;
+    /*public Person getRequestedBy() {
         return RequestedBy;
     }
 
@@ -29,21 +43,7 @@ public class Request implements Serializable {
 
     public void setRequestedFor(Person requestedFor) {
         requestItems = requestedFor;
-    }
-
-    private Person requestItems;
-    private Integer ID;
-
-
-    private String Name;
-    private String Comments;
-
-    private String CreatedDate;
-    private Date CreatedDateDisplay;
-    private String LastModified;
-    private Date LastModifiedDisplay;
-    private Integer Status;
-    private String StatusDisplay;
+    }*/
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public String getComments() {

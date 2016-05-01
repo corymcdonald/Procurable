@@ -57,6 +57,7 @@ namespace Procurable.Models
             {
                 return Json(inventoryItem, JsonRequestBehavior.AllowGet);
             }
+            ViewData["IsReportAvailable"] = db.InventoryItemsHistory.Count(x => x.InventorySourceID == id.Value) > 0;
             return View(inventoryItem);
         }
 
@@ -113,6 +114,12 @@ namespace Procurable.Models
         {
             if (ModelState.IsValid)
             {
+                var existingItem  = db.InventoryItems.AsNoTracking().FirstOrDefault(x => x.ID == inventoryItem.ID);
+                inventoryItem.PurchaseOrderID = existingItem.PurchaseOrderID;
+
+                var itemHistory = new InventoryItemHistory(db.InventoryItems.AsNoTracking().FirstOrDefault(x=> x.ID==inventoryItem.ID)) { Action = InventoryItemHistory.Actions.Update };
+                db.InventoryItemsHistory.Add(itemHistory);
+
                 db.Entry(inventoryItem).State = EntityState.Modified;
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))
@@ -146,6 +153,7 @@ namespace Procurable.Models
         public ActionResult DeleteConfirmed(int id)
         {
             InventoryItem inventoryItem = db.InventoryItems.Find(id);
+            db.InventoryItemsHistory.Add(new InventoryItemHistory(inventoryItem) { Action = InventoryItemHistory.Actions.Delete });
             db.InventoryItems.Remove(inventoryItem);
             db.SaveChanges();
             if (Request.AcceptTypes.Contains("application/json"))

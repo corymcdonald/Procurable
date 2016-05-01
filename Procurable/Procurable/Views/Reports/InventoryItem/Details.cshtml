@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Procurable.Controllers.InventoryItemsReport>
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2><i class="fa fa-line-chart" aria-hidden="true"></i> @Model.FirstOrDefault().Name Price History Report</h2>
+
+<div id="chart_div"></div>
+<script>
+    google.charts.load('current', { packages: ['corechart', 'line'] });
+    google.charts.setOnLoadCallback(drawBasic);
+
+    function drawBasic() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'X');
+        data.addColumn('number', 'Price');
+
+        data.addRows([
+            @for(int i=0; i<Model.Count(); i++)
+            {
+                var modified = @Model.ElementAt(i).LastModified;
+                <text>[new Date(Date.parse("@modified")), @Model.ElementAt(i).Price]</text>
+                if (i < Model.Count() - 1)
+                {
+                    <text>,</text>
+                }
+            }
+        ]);
+
+        var options = {
+            colors: ['red', '#f44336'],
+            backgroundColor: { fill:'transparent' },
+            hAxis: {
+                title: 'Time'
+            },
+            vAxis: {
+                title: 'Price'
+            }
+        };
+
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+    }
+
+</script>
+<h3>History information</h3>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>Modified Time</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModified)
+            </td>
+        </tr>
+    }
+
+</table>

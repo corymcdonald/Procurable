@@ -11,12 +11,11 @@
 </p>
 <table class="table">
     <tr>
+        <th></th>
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
+    
         <th>
             @Html.DisplayNameFor(model => model.Website)
         </th>
@@ -29,21 +28,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            <img class="img-rounded" src="https://logo.clearbit.com/@item.Website.Replace("http:","").Replace("/","").ToLower()?size=32">
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.ActionLink(item.Name, "Details", new { id = item.ID })
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Website)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Contact)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
         </td>
     </tr>
 }

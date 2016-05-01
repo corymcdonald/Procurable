@@ -1,5 +1,6 @@
 package com.procurable.domain.response;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Map;
 /**
  * Created by Matt on 3/27/2016.
  */
-public class Person {
+public class Person implements Serializable {
     private List<Object> Claims = new ArrayList<Object>();
     private List<Object> Logins = new ArrayList<Object>();
 

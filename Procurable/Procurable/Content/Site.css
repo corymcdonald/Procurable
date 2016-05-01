@@ -1,5 +1,8 @@
 body {
-  background-color: #F4F4F4; }
+  background-color: #F4F4F4;
+  margin: 0;
+  padding: 0;
+  height: 100%; }
 
 #page-wrapper {
   background-color: #F4F4F4; }
@@ -13,17 +16,25 @@ body {
   .navbar a {
     color: #F4F4F4; }
 
-.footer {
+#content {
+  padding-bottom: 40px;
+  /* Height of the footer element */ }
+
+#footer {
   background-color: #121314;
-  position: fixed;
-  bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
+  position: absolute;
+  bottom: 0;
   height: 40px;
   padding-top: 10px; }
 
+#wrapper {
+  min-height: 100%;
+  position: relative; }
+
+.cont
 .table-hover > tbody > tr:hover {
-  background-color: #C7C7C7; }
+  background-color: #121314 !important; }
 
 .account {
   /*

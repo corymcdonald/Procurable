@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Procurable.Models.InventoryItemIndex>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Inventory Items";
 }
 
 <div class="row">
-    <div class="col-lg-7"><h2>Index</h2></div>
+    <div class="col-lg-7"><h2>Inventory Items</h2></div>
     <div class="col-lg-5">
         <br />
         <form action="/InventoryItems/Search">
@@ -25,101 +25,5 @@
         </form>
     </div>
 </div>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table" id="accordion">
-    <tr>
-        <th></th>
-        <th>
-            Vendor
-        </th>
-        <th>
-            Item
-        </th>
-        <th>Count</th>
-        <th>
-            Price
-        </th>
-        <th>
-            Comments
-        </th>
-        <th>
-            Part Number
-        </th>
-        <th>
-            Status
-        </th>
-        <th></th>
-    </tr>
-
-    @for (int i = 0; i < Model.Count(); i++)
-    {
-        var itemIndex = Model.ElementAt(i);
-        if (itemIndex.Count > 1)
-        {
-            <tr data-toggle="collapse" data-target=".row@(i)" data-parent="#accordion" class="accordion-toggle">
-                <td >
-                    <i class="fa fa-lg fa-fw fa-chevron-right"></i>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => itemIndex.Item.First().Vendor.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => itemIndex.Item.First().Name)
-                </td>
-                <td>@itemIndex.Count</td>
-                <td>
-                    $@Math.Round(itemIndex.Item.Average(x => x.Price),2)
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        }
-        foreach (var inventoryItem in itemIndex.Item)
-        {
-            <tr class="@(itemIndex.Count > 1 ? "hiddenRow accordion-body collapse active subLevel row" + i : "" )">
-
-                <td></td>
-                <td>
-                    @Html.DisplayFor(modelItem => inventoryItem.Vendor.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => inventoryItem.Name)
-                </td>
-                <td>1</td>
-                <td>
-                    $@Html.DisplayFor(modelItem => inventoryItem.Price)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => inventoryItem.Comments)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => inventoryItem.PartNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => inventoryItem.Status)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = inventoryItem.ID }) |
-                    @Html.ActionLink("Details", "Details", new { id = inventoryItem.ID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = inventoryItem.ID })
-                </td>
-            </tr>
-        }
-    }
-
-</table>
-<script>
-    function toggleChevron(e) {
-        console.log('yes')
-        $(e.target)
-            .prev('.accordion-toggle')
-            .find("i.fa")
-            .toggleClass('fa-chevron-right fa-chevron-down');
-    }
-    $('#accordion').on('hidden.bs.collapse', toggleChevron);
-    $('#accordion').on('shown.bs.collapse', toggleChevron);
-</script>
+<p>@Html.ActionLink("Create New", "Create")</p>
+@Html.Partial("DisplayTemplates/InventoryItemsIndex", Model);
