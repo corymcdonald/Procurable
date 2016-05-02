@@ -12,8 +12,12 @@
 #import "MBProgressHUD.h"
 #import "MMDrawerBarButtonItem.h"
 #import "UIViewController+MMDrawerController.h"
+#import "CartSingleton.h"
 
 @interface NavDrawerViewController ()
+@property (strong, nonatomic) IBOutlet NavButton *emptyButton;
+@property (strong, nonatomic) IBOutlet NavButton *createButton;
+@property (strong, nonatomic) IBOutlet NavButton *manageButton;
 
 @end
 
@@ -22,6 +26,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CartSingleton *sharedCart = [CartSingleton sharedCart];
+        if (sharedCart.isEmpty) {
+            [self.emptyButton setHidden:YES];
+            [self.createButton setTitle:@"Create Request" forState:UIControlStateNormal];
+        } else {
+            [self.emptyButton setHidden:NO];
+            [self.createButton setTitle:@"Complete Request" forState:UIControlStateNormal];
+        }
+    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,9 +82,9 @@
         case 2:
             return @"MyRequestsViewController";
         case 3:
-            return @"SavedRequestsViewController";
+            return @"CreateRequestViewController";
         case 4:
-            return @"ViewReportsViewController";
+            return @"CreateRequestViewController";
         default:
             break;
     }

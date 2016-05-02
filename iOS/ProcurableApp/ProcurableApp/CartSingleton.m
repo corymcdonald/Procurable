@@ -22,12 +22,23 @@
 - (id)init {
     if (self = [super init]) {
         _cart = [[NSMutableArray alloc] init];
+        _isEmpty = YES;
     }
     return self;
 }
 
 - (void)emptyCart {
+    self.isEmpty = YES;
     [self.cart removeAllObjects];
+}
+
+- (void)addItem:(RequestItem *)item {
+    self.isEmpty = NO;
+    [self.cart addObject:item];
+}
+
+- (NSInteger)count {
+    return [self.cart count];
 }
 
 - (void)dealloc {
