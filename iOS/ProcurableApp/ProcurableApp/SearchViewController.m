@@ -38,6 +38,9 @@
     [self.searchBar setDelegate:self];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideInput)];
+    tapGesture.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGesture];
 //    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 34)];
 //    
 //    [imageView setImage:[UIImage imageNamed:@"ProcurableRed"]];
@@ -46,6 +49,10 @@
 //    [self.navigationItem.titleView addSubview:imageView];
 //    [self.navigationItem setTitleView:imageView];
 //    [self.navigationItem.titleView setFrame:CGRectMake(0, 0, 40, 34)];
+}
+
+- (void)hideInput {
+    [self.searchBar resignFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -161,6 +168,7 @@
 }
 
 - (IBAction)reloadAllItemsButtonTapped:(id)sender {
+    [self.searchBar resignFirstResponder];
     [self getItemsFromSite];
 }
 

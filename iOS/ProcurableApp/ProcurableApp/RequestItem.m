@@ -15,9 +15,9 @@
     self = [super init];
     if (self)
     {
-        _name = nil;
-        _comments = nil;
-        _url = nil;
+        _name = @"";
+        _comments = @"";
+        _url = @"";
         _count = 0;
     }
     return self;

@@ -159,6 +159,7 @@
     [self.networkingController createRequest:request withCompletion:^(BOOL success, NSError * __nullable error) {
         if (success && !error)
         {
+            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
             NSLog(@"Stuff");
         } else {
             //            [weakSelf errorUpdate:error.domain];

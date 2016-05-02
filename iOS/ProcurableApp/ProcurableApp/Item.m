@@ -17,9 +17,9 @@
     {
         _idNumber = nil;
         _inInventory = NO;
-        _name = nil;
-        _comments = nil;
-        _url = nil;
+        _name = @"";
+        _comments = @"";
+        _url = @"";
         _inventoryItem = nil;
     }
     return self;
@@ -33,9 +33,21 @@
         if ([dictionary isKindOfClass:[NSDictionary class]]) {
             _idNumber = [dictionary objectForKey:@"ID"];
             _inInventory = [dictionary objectForKey:@"InInventory"];
-            _name = [dictionary objectForKey:@"Name"];
-            _comments = [dictionary objectForKey:@"Comments"];
-            _url = [dictionary objectForKey:@"URL"];
+            if ([[dictionary objectForKey:@"Name"] class] != [NSNull class]) {
+                _name = [dictionary objectForKey:@"Name"];
+            } else {
+                _name = @"";
+            }
+            if ([[dictionary objectForKey:@"Comments"] class] != [NSNull class]) {
+                _comments = [dictionary objectForKey:@"Comments"];
+            } else {
+                _comments = @"";
+            }
+            if ([[dictionary objectForKey:@"URL"] class] != [NSNull class]) {
+                _url = [dictionary objectForKey:@"URL"];
+            } else {
+                _url = @"";
+            }
             _inventoryItem = nil;
             if ([dictionary objectForKey:@"Item"]) {
                 _inventoryItem = [[InventoryItem alloc] initWithDictionary:(NSDictionary *)[dictionary objectForKey:@"Item"]];
