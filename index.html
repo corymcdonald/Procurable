@@ -61,6 +61,7 @@ function Github()
                 {
                         outputHtml += ' - ' + names[a.assignee.login]
                 }
+                outputHtml += ' - Started '+  Date.parse(a.created_at).toString('MM/dd')
                 if (a.state == "closed")
                     outputHtml += ' - Completed '+  Date.parse(a.closed_at).toString('MM/dd')+ '</span>'
                 else
