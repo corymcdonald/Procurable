@@ -23,6 +23,7 @@
 @property (strong, nonatomic) CartSingleton *sharedCart;
 @property (strong, nonatomic) UIAlertController *alert;
 @property (strong, nonatomic) NetworkingController *networkingController;
+@property (strong, nonatomic) IBOutlet UIButton *createRequestButton;
 
 @end
 
@@ -40,6 +41,7 @@
     [self.view addGestureRecognizer:tapGesture];
     self.automaticallyAdjustsScrollViewInsets = false;
     self.sharedCart = [CartSingleton sharedCart];
+    [self.createRequestButton setEnabled:![self.sharedCart isEmpty]];
     
     
     self.requestItemsTableView.allowsMultipleSelectionDuringEditing = NO;
@@ -48,6 +50,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self.createRequestButton setEnabled:![self.sharedCart isEmpty]];
     [self.requestItemsTableView reloadData];
 }
 
@@ -145,7 +148,7 @@
 }
 
 - (IBAction)createRequestTapped:(id)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self hideInput];
     __weak __typeof(self) weakSelf = self;
     NSMutableArray *arr = [[NSMutableArray alloc] init];
@@ -159,22 +162,29 @@
     [self.networkingController createRequest:request withCompletion:^(BOOL success, NSError * __nullable error) {
         if (success && !error)
         {
-            [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-            NSLog(@"Stuff");
+            [weakSelf.sharedCart emptyCart];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.requestName setText:@""];
+                [weakSelf.requestComments setText:@""];
+                [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+                [weakSelf.requestItemsTableView reloadData];
+            });
         } else {
-            //            [weakSelf errorUpdate:error.domain];
+            [weakSelf errorUpdate:@"Error Creating Request"];
         }
     }];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)errorUpdate:(NSString *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        // Set the annular determinate mode to show task progress.
+        hud.mode = MBProgressHUDModeText;
+        [hud setLabelText:@"Registration Error"];
+        [hud hide:YES afterDelay:2.0f];
+    });
 }
-*/
 
 @end

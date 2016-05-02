@@ -67,41 +67,56 @@
 
 // 2 is approve
 - (IBAction)approvePressed:(id)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //    hud.opacity = 0.0f;
     __weak __typeof(self) weakSelf = self;
     [self.networkingController updateRequestStatus:self.request.idNumber withValue:@2 withCompletion:^(BOOL value, NSError * __nullable error) {
         if (value && !error)
         {
-            [self.navigationController popViewControllerAnimated:YES];
-            NSLog(@"Approved");
+            [weakSelf updateToast:@"Request Approved"];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
         } else {
-            NSLog(error.domain);
+            [weakSelf errorUpdate:@"Request Update Failed"];
         }
     }];
 }
 
 // 3 is deny
 - (IBAction)denyPressed:(id)sender {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //    hud.opacity = 0.0f;
     __weak __typeof(self) weakSelf = self;
     [self.networkingController updateRequestStatus:self.request.idNumber withValue:@3 withCompletion:^(BOOL value, NSError * __nullable error) {
         if (value && !error)
         {
-            NSLog(@"Denied");
-            [self.navigationController popViewControllerAnimated:YES];
+            [weakSelf updateToast:@"Request Denied"];
+            [weakSelf.navigationController popViewControllerAnimated:YES];
         } else {
-            NSLog(error.domain);
+            [weakSelf errorUpdate:@"Request Update Failed"];
         }
     }];
 }
 
-- (void)updateFields {
-//    dispatch_async(dispatch_get_main_queue(), ^{
-////        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-////        [self presentMainInterface];
-//    });
+- (void)errorUpdate:(NSString *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        [hud setLabelText:error];
+        [hud hide:YES afterDelay:2.0f];
+    });
+}
+
+- (void)updateToast:(NSString *)message {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        [hud setLabelText:message];
+        [hud hide:YES afterDelay:2.0f];
+    });
 }
 
 #pragma mark - Table View Delegate and Datasource
@@ -119,15 +134,6 @@
     [nameLabel setText:[(Item *)[self.request.items objectAtIndex:indexPath.row] name]];
     UILabel *commentsLabel = (UILabel *)[cell viewWithTag:101];
     [commentsLabel setText:[(Item *)[self.request.items objectAtIndex:indexPath.row] comments]];
-//    UILabel *progressLabel = (UILabel *)[cell viewWithTag:102];
-//    Request *request = (Request *)[self.requests objectAtIndex:indexPath.row];
-//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//    [dateFormat setDateFormat:@"MMMM d, YYYY"];
-//    NSString *dateString = [dateFormat stringFromDate:[request createdDate]];
-//    NSString *labelText = [[[[[[request idNumber] stringValue] stringByAppendingString:@", "] stringByAppendingString:[request name]] stringByAppendingString:@", "] stringByAppendingString:dateString];
-//    mainLabel.text = labelText;
-//    progressLabel.text = [request statusDisplay];
-//    //    [cell setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
     return cell;
 }
 

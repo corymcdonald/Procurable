@@ -13,13 +13,13 @@
 #import "MMDrawerController.h"
 #import "MMDrawerBarButtonItem.h"
 
-@interface LoginViewController () <UITextFieldDelegate>
+@interface LoginViewController () <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) NetworkingController *networkingController;
-@property (strong, nonatomic) IBOutlet UITextField *emailTextField;
-@property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
+@property (strong, nonatomic) UITextField *emailTextField;
+@property (strong, nonatomic) UITextField *passwordTextField;
 @property (strong, nonatomic) IBOutlet UIButton *submitButton;
 @property (strong, nonatomic) IBOutlet UILabel *errorLabel;
-@property (strong, nonatomic) IBOutlet UIView *bgView;
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -27,23 +27,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.bgView.layer.cornerRadius = 5;
-//    self.bgView.layer.masksToBounds = YES;
-    
-    UIColor *color = [UIColor grayColor];
-    CGColorRef gray = color.CGColor;
-    self.bgView.layer.shadowColor = gray;
-    self.bgView.layer.shadowOffset = CGSizeMake(0, 5);
-    self.bgView.layer.shadowRadius = 2;
-    self.bgView.layer.shadowOpacity = 1;
-    self.bgView.layer.shadowPath = [UIBezierPath bezierPathWithRect:self.bgView.bounds].CGPath;
-    self.bgView.layer.masksToBounds = NO;
     
     
     
-    
-    self.emailTextField.returnKeyType = UIReturnKeyNext;
-    self.passwordTextField.returnKeyType = UIReturnKeyNext;
+    [self.tableView setDataSource:self];
+    [self.tableView setDelegate:self];
     [self.emailTextField setDelegate:self];
     [self.passwordTextField setDelegate:self];
     self.networkingController = [[NetworkingController alloc] init];
@@ -52,12 +40,6 @@
     UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideInput)];
     tapGesture.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapGesture];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)hideInput {
@@ -75,15 +57,32 @@
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    if ([textField returnKeyType] == UIReturnKeyGo) {
+    if (self.emailTextField.text.length > 0 && self.passwordTextField.text.length > 0) {
         [self submitButtonTapped:nil];
-        return YES;
     }
     
     if (textField == self.emailTextField) {
         [self.passwordTextField becomeFirstResponder];
     } else {
-        [self.passwordTextField becomeFirstResponder];
+        [self.passwordTextField resignFirstResponder];
+    }
+    return YES;
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    [self.submitButton setEnabled:NO];
+    if (textField == self.emailTextField) {
+        if (self.passwordTextField.text.length > 0) {
+            if (textField.text.length - range.length + string.length > 0) {
+                [self.submitButton setEnabled:YES];
+            }
+        }
+    } else {
+        if (self.emailTextField.text.length > 0) {
+            if (textField.text.length - range.length + string.length > 0) {
+                [self.submitButton setEnabled:YES];
+            }
+        }
     }
     return YES;
 }
@@ -108,37 +107,24 @@
     });
 }
 
-- (void)resetLabels {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.errorLabel setText:@"An error has occurred"];
-    });
-}
-
 - (void)errorUpdate:(NSString *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self.errorLabel setHidden:NO];
         [self.errorLabel setText:error];
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        // Set the annular determinate mode to show task progress.
+        hud.mode = MBProgressHUDModeText;
+        [hud setLabelText:@"Login Error"];
+        [hud hide:YES afterDelay:2.0f];
     });
-}
-
-- (IBAction)editText:(id)sender {
-    if (self.passwordTextField.text.length > 0 && self.emailTextField.text.length > 0) {
-        [self.submitButton setEnabled:YES];
-        self.emailTextField.returnKeyType = UIReturnKeyGo;
-        self.passwordTextField.returnKeyType = UIReturnKeyGo;
-    } else {
-        [self.submitButton setEnabled:NO];
-        self.emailTextField.returnKeyType = UIReturnKeyNext;
-        self.passwordTextField.returnKeyType = UIReturnKeyNext;
-    }
 }
 
 - (IBAction)submitButtonTapped:(id)sender {
     [self hideInput];
     [self.errorLabel setHidden:YES];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    hud.opacity = 0.0f;
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak __typeof(self) weakSelf = self;
     [self.networkingController loginUser:self.emailTextField.text withPassword:self.passwordTextField.text completion:^(BOOL value, NSError * __nullable error) {
         if (value && !error)
@@ -148,6 +134,57 @@
             [weakSelf errorUpdate:error.domain];
         }
     }];
+}
+
+#pragma mark - Table View Delegate and Datasource
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    static NSString *tableIdentifier = @"LoginCell";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:tableIdentifier];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableIdentifier];
+    }
+    
+    UITextField *textField = (UITextField *)[cell viewWithTag:100];
+    switch (indexPath.row) {
+        case 0:
+            [textField setPlaceholder:@"Email"];
+            [textField setKeyboardType:UIKeyboardTypeEmailAddress];
+            [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
+            [textField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+            [textField setSpellCheckingType:UITextSpellCheckingTypeDefault];
+            [textField setDelegate:self];
+            self.emailTextField = textField;
+            break;
+        case 1:
+            [textField setPlaceholder:@"Password"];
+            [textField setKeyboardType:UIKeyboardTypeDefault];
+            [textField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+            [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
+            [textField setSpellCheckingType:UITextSpellCheckingTypeNo];
+            [textField setSecureTextEntry:YES];
+            [textField setDelegate:self];
+            self.passwordTextField = textField;
+            break;
+        default:
+            [textField setPlaceholder:@"Text"];
+            break;
+    }
+    return cell;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 2;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 44.0;
 }
 
 @end
