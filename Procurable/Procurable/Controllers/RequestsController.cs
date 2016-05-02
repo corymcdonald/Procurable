@@ -138,7 +138,7 @@ namespace Procurable.Controllers
                             Comments = item["Comments"],
                             URL = item["Url"],
                         };
-                        List<InventoryItem> results = new InventoryItemsController().SearchInternal(item["Name"]);
+                        List<InventoryItem> results = new InventoryItemsController().SearchForRequest(item["Name"]);
                         if (results.Any())
                         {
                             foreach(var invenItem in results)
