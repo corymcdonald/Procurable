@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Item.h"
 #import "InventoryItem.h"
+#import "Request.h"
+#import "CreateRequest.h"
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void(^DataControllerCompletionHandler)(NSArray * __nullable values, NSError * __nullable error);
@@ -23,10 +25,9 @@ typedef void(^ItemDetailCompletionHandler)(InventoryItem * __nullable item, NSEr
 @interface NetworkingController : NSObject
 - (void)registerNewUser:(NSString *)user withPassword:(NSString *)password withConfirmPassword:(NSString *)confirmPassword withDepartmentNumber:(NSNumber *)departmentNumber withcompletion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)loginUser:(NSString *)user withPassword:(NSString *)password completion:(NetworkingControllerCompletionHandler)completionHandler;
-- (void)cookieTestWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
+- (void)createRequest:(CreateRequest *)request withCompletion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)listAllRequests:(RequestsCompletionHandler)completionHandler;
 - (void)listAllRequestsToBeApproved:(RequestsCompletionHandler)completionHandler;
-- (void)temporaryCreateItemWithCompletion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)updateRequestStatus:(NSNumber *)idNumber withValue:(NSNumber *)value withCompletion:(NetworkingControllerCompletionHandler)completionHandler;
 - (void)listAllInventoryItems:(ItemsCompletionHandler)completionHandler;
 - (void)searchForItems:(NSString *)string withCompletion:(SearchItemsCompletionHandler)completionHandler;

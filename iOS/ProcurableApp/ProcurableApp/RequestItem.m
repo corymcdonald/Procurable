@@ -35,4 +35,17 @@
     return self;
 }
 
+- (NSArray *)generateItems {
+    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [self.count intValue]; i++) {
+        NSDictionary *dict = @{
+                                @"Name": self.name,
+                                @"Comments": self.comments,
+                                @"Url": self.url
+                                };
+        [arr addObject:dict];
+    }
+    return arr;
+}
+
 @end

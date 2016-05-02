@@ -16,5 +16,7 @@
 + (id)sharedCart;
 - (void)emptyCart;
 - (void)addItem:(RequestItem *)item;
+- (RequestItem *)getItem:(NSInteger)index;
+- (void)removeItem:(NSInteger)index;
 - (NSInteger)count;
 @end
