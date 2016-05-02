@@ -33,14 +33,6 @@
             app:layout="@layout/fragment_navigation_drawer"
             tools:layout="@layout/fragment_navigation_drawer" />
 
-        <ProgressBar
-            android:id="@+id/request_process"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone" />
-
     </android.support.v4.widget.DrawerLayout>
 
 </LinearLayout>

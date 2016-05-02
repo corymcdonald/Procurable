@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.procurable.activity.ApproveRequestActivity;
 import com.procurable.activity.ManageRequest;
@@ -43,7 +42,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 		holder.itemView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(context, ApproveRequestActivity.class);
 				intent.putExtra(Constants.EXTRA_ITEMS,current.getRequest());
 				context.startActivity(intent);

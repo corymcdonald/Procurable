@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:minWidth="300dp">
+
+    <EditText android:layout_width="fill_parent"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:hint="Name of Item"
+        android:id="@+id/name"
+        android:textColor="#000000"
+        android:lines="3" />
+    <EditText android:layout_width="fill_parent"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:hint="Reason for item: "
+        android:id="@+id/comments"
+        android:textColor="#000000"
+        android:lines="3" />
+    <EditText android:layout_width="fill_parent"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:hint="Url to Item"
+        android:id="@+id/url"
+        android:textColor="#000000"
+        android:lines="3" />
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <Button android:id="@+id/ok"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Add"
+            android:layout_weight="1"
+            />
+        <Button android:id="@+id/cancel"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel" />
+    </LinearLayout>
+</LinearLayout>

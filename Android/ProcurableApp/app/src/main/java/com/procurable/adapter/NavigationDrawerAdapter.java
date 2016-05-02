@@ -9,10 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.procurable.activity.LoginActivity;
 import com.procurable.activity.ManageRequest;
+import com.procurable.activity.MyCartActivity;
 import com.procurable.activity.MyRequest;
 import com.procurable.activity.SearchActivity;
 import com.procurable.capstone.R;
@@ -51,7 +51,6 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 	        @Override
 	        public void onClick(View v) {
                 Intent intent;
-                Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
                 if("Manage Requests".equalsIgnoreCase(holder.title.getText().toString()))
                 {
                     intent = new Intent(context, ManageRequest.class);
@@ -68,23 +67,11 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
                 {
                     intent = new Intent(context, LoginActivity.class);
                     context.startActivity(intent);
-                }
-                /*switch (holder.title.getText().toString())
+                } else if("My Cart".equalsIgnoreCase(holder.title.getText().toString()))
                 {
-                    case "Manage Requests" :
-                        intent = new Intent(context, ManageRequest.class);
-                        context.startActivity(intent);
-                    case "Search" :
-                        intent = new Intent(context, SearchActivity.class);
-                        context.startActivity(intent);
-                    case "My Requests" :
-                        intent = new Intent(context, ManageRequest.class);
-                        context.startActivity(intent);
-                    case "Log Out" :
-                        intent = new Intent(context, LoginActivity.class);
-                        context.startActivity(intent);
-                    default: Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
-                }*/
+                    intent = new Intent(context, MyCartActivity.class);
+                    context.startActivity(intent);
+                }
 
 	        }
         });
