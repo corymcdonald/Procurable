@@ -80,6 +80,22 @@
                     android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Department: "/>
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:layout_gravity="center_horizontal"
+                />
+</LinearLayout>
+
             <Button
                 android:id="@+id/email_register_button"
                 style="?android:attr/buttonStyleSmall"

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "InventoryItem.h"
 
 @interface Item : NSObject
 @property (strong, nonatomic) NSNumber *idNumber;
@@ -14,7 +15,7 @@
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *comments;
 @property (strong, nonatomic) NSString *url;
-@property (strong, nonatomic) NSDictionary *itemDict;
+@property (strong, nonatomic) InventoryItem *inventoryItem;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 @end

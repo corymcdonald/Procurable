@@ -1,12 +1,13 @@
 package com.procurable.domain.response;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Matt on 3/27/2016.
  */
-public class Role {
+public class Role implements Serializable {
     private String UserId;
 
     public Map<String, Object> getAdditionalProperties() {

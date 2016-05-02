@@ -36,6 +36,6 @@ namespace Procurable.Models
         [Display(Name = "Last Modified")]
         public DateTime LastModified { get; set; }
         [Display(Name = "Date Needed")]
-        public DateTime? DateNeeded { get; set; }
+        public DateTime DateNeeded { get; set; }
     }
 }

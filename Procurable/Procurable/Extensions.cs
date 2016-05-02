@@ -44,7 +44,7 @@ namespace Procurable
         }
         public static int GetMonths(this TimeSpan timespan)
         {
-            return (int)((double)timespan.Days / 30.436875);
+            return (int)Math.Ceiling((double)timespan.Days / 30.436875);
         }
     }
 }

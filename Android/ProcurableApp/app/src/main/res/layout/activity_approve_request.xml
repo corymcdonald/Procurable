@@ -1,74 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.procurable.activity.ApproveRequestActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.procurable.activity.ApproveRequestActivity">
+
     <include
         android:id="@+id/toolbar"
-        layout="@layout/toolbar"/>
+        layout="@layout/toolbar" />
+
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
             android:id="@+id/approve_form"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <LinearLayout
                 android:id="@+id/linear_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
-            android:id="@+id/request_id"
-            android:layout_below="@+id/toolbar"
-            android:gravity="center"
-            android:textSize="40dp"
-            android:paddingTop="25dp"
-            android:layout_centerHorizontal="true" />
+                <TextView
+                    android:id="@+id/request_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/toolbar"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:paddingTop="25dp"
+                    android:text="Large Text"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textSize="40dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/textView3"
-            android:layout_below="@+id/request_date"
-            android:gravity="center"
-            android:textSize="25dp"
-            android:layout_centerHorizontal="true" />
+                <TextView
+                    android:id="@+id/request_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="Medium Text"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textSize="25dp" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="New Text"
+                    android:textSize="25dp" />
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/item_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="?attr/selectableItemBackground" />
 
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/editText"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:inputType="textMultiLine"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:hint="Comments"
+                        android:imeActionLabel="Comments"
+                        android:inputType="textMultiLine"
+                        android:paddingTop="10dp" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/Approve"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="195dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Approve"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/Deny"
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="195dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Deny"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
         </ScrollView>
+
         <fragment
             android:id="@+id/nav_drwr_fragment"
             android:name="com.procurable.activity.NavigationDrawerFragment"
             android:layout_width="@dimen/nav_drawer_width"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:paddingTop="@dimen/activity_vertical_margin"
             app:layout="@layout/fragment_navigation_drawer"
-            tools:layout="@layout/fragment_navigation_drawer"
-            android:paddingTop="@dimen/activity_vertical_margin"/>
+            tools:layout="@layout/fragment_navigation_drawer" />
 
     </android.support.v4.widget.DrawerLayout>
 

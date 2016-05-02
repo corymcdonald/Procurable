@@ -8,7 +8,8 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
 </head>
 
 <body class="account" style="margin-top: 0px; height: 100%">
@@ -26,9 +27,10 @@
      
             <!-- /.container-fluid -->
        </div>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+
     @RenderSection("scripts", required: false)
+    @Scripts.Render("~/bundles/typeahead")
+
 
 </body>
 

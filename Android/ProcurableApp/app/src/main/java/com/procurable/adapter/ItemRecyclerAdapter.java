@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.procurable.capstone.R;
 import com.procurable.domain.ItemRow;
@@ -41,7 +40,6 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
                 //Intent intent = new Intent(context, ApproveRequestActivity.class);
                 //context.startActivity(intent);
             }
@@ -75,15 +73,15 @@ public class ItemRecyclerAdapter extends RecyclerView.Adapter<ItemRecyclerAdapte
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            title       = (TextView)  itemView.findViewById(R.id.tvTitle);
-            price = (TextView)  itemView.findViewById(R.id.tvPrice);
-            comments       = (TextView)  itemView.findViewById(R.id.tvComments);
+            title       = (TextView)  itemView.findViewById(R.id.tvItemTitle);
+            price = (TextView)  itemView.findViewById(R.id.tvItemPrice);
+            comments       = (TextView)  itemView.findViewById(R.id.tvItemComments);
             mRootView = itemView;
         }
 
         public void setData(ItemRow current, int position) {
             this.title.setText(current.getTitle());
-            this.price.setText(current.getPrice());
+            //this.price.setText(current.getPrice());
             this.comments.setText(current.getComments());
             this.position = position;
             this.current = current;

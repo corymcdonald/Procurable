@@ -41,7 +41,6 @@ public class ManageRequest extends AppCompatActivity {
         setUpToolbar();
         setUpRecyclerView();
         setUpDrawer();
-        showProgress(true);
     }
     private void setUpRecyclerView() {
 
@@ -69,62 +68,26 @@ public class ManageRequest extends AppCompatActivity {
         drawerFragment.setUpDrawer(R.id.nav_drwr_fragment, drawerLayout, toolbar);
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        mRequestView = findViewById(R.id.recyclerView);
-        mProgressView = findViewById(R.id.request_process);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            mRequestView.setVisibility(show ? View.GONE : View.VISIBLE);
-            mRequestView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mRequestView.setVisibility(show ? View.GONE : View.VISIBLE);
-                }
-            });
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mRequestView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
 
     public ArrayList<RequestRow> getData() {
 
         final ArrayList<RequestRow> dataList = new ArrayList<>();
 
         ProcurableService procurableService = Constants.retrofit.create(ProcurableService.class);
-        Call<Request[]> call = procurableService.requests();
+        Call<Request[]> call = procurableService.requestsToApprove();
         call.enqueue(new Callback<Request[]>() {
             @Override
             public void onResponse(Call<Request[]> call, Response<Request[]> response) {
                 for (int i = 0; i < response.body().length; i++) {
 
                     RequestRow landscape = new RequestRow();
-                    landscape.setTitle(response.body()[i].getName());
-                    landscape.setDescription(response.body()[i].getID().toString());
+                    landscape.setTitle("Request Title: " + response.body()[i].getName());
+                    landscape.setDescription("Request ID: " + response.body()[i].getID().toString());
                     landscape.setRequest(response.body()[i]);
                     dataList.add(landscape);
                 }
                 adapter.mData = dataList;
                 recyclerView.setAdapter(adapter);
-                showProgress(false);
             }
 
             @Override

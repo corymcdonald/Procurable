@@ -3,14 +3,17 @@ package com.procurable.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.procurable.activity.LoginActivity;
 import com.procurable.activity.ManageRequest;
+import com.procurable.activity.MyCartActivity;
+import com.procurable.activity.MyRequest;
 import com.procurable.activity.SearchActivity;
 import com.procurable.capstone.R;
 import com.procurable.constants.Constants;
@@ -47,12 +50,27 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         holder.itemView.setOnClickListener(new View.OnClickListener() {
 	        @Override
 	        public void onClick(View v) {
-                switch (holder.title.getText().toString())
+                Intent intent;
+                if("Manage Requests".equalsIgnoreCase(holder.title.getText().toString()))
                 {
-                    case "Manage Requests" :
-                        Intent intent = new Intent(context, ManageRequest.class);
-                        context.startActivity(intent);
-                    default: Toast.makeText(context, holder.title.getText().toString(), Toast.LENGTH_SHORT).show();
+                    intent = new Intent(context, ManageRequest.class);
+                    context.startActivity(intent);
+                } else if("Search".equalsIgnoreCase(holder.title.getText().toString()))
+                {
+                    intent = new Intent(context, SearchActivity.class);
+                    context.startActivity(intent);
+                } else if("My Requests".equalsIgnoreCase(holder.title.getText().toString()))
+                {
+                    intent = new Intent(context, MyRequest.class);
+                    context.startActivity(intent);
+                } else if("Log Out".equalsIgnoreCase(holder.title.getText().toString()))
+                {
+                    intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
+                } else if("My Cart".equalsIgnoreCase(holder.title.getText().toString()))
+                {
+                    intent = new Intent(context, MyCartActivity.class);
+                    context.startActivity(intent);
                 }
 
 	        }

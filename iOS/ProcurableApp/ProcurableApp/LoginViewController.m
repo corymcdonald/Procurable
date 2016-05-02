@@ -13,7 +13,7 @@
 #import "MMDrawerController.h"
 #import "MMDrawerBarButtonItem.h"
 
-@interface LoginViewController ()
+@interface LoginViewController () <UITextFieldDelegate>
 @property (strong, nonatomic) NetworkingController *networkingController;
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
 @property (strong, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -42,7 +42,10 @@
     
     
     
-    
+    self.emailTextField.returnKeyType = UIReturnKeyNext;
+    self.passwordTextField.returnKeyType = UIReturnKeyNext;
+    [self.emailTextField setDelegate:self];
+    [self.passwordTextField setDelegate:self];
     self.networkingController = [[NetworkingController alloc] init];
     [self.errorLabel setHidden:YES];
     [self.submitButton setEnabled:NO];
@@ -69,6 +72,20 @@
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self presentMainInterface];
     });
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if ([textField returnKeyType] == UIReturnKeyGo) {
+        [self submitButtonTapped:nil];
+        return YES;
+    }
+    
+    if (textField == self.emailTextField) {
+        [self.passwordTextField becomeFirstResponder];
+    } else {
+        [self.passwordTextField becomeFirstResponder];
+    }
+    return YES;
 }
 
 - (void)presentMainInterface {
@@ -108,8 +125,12 @@
 - (IBAction)editText:(id)sender {
     if (self.passwordTextField.text.length > 0 && self.emailTextField.text.length > 0) {
         [self.submitButton setEnabled:YES];
+        self.emailTextField.returnKeyType = UIReturnKeyGo;
+        self.passwordTextField.returnKeyType = UIReturnKeyGo;
     } else {
         [self.submitButton setEnabled:NO];
+        self.emailTextField.returnKeyType = UIReturnKeyNext;
+        self.passwordTextField.returnKeyType = UIReturnKeyNext;
     }
 }
 

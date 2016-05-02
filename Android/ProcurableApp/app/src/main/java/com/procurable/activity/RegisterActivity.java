@@ -7,33 +7,33 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.AutoCompleteTextView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.procurable.capstone.R;
 import com.procurable.constants.Constants;
-import com.procurable.domain.request.LoginRequest;
 import com.procurable.domain.request.RegisterRequest;
+import com.procurable.domain.response.Department;
 import com.procurable.domain.response.GenericResponse;
 import com.procurable.service.ProcurableService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -44,6 +44,9 @@ public class RegisterActivity extends AppCompatActivity {
     private Context context = this;
     private TextView mEmailView;
     private Toolbar toolbar;
+    private Spinner spinner;
+    private Integer[] ids;
+    private Integer selectedDepartment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         setUpToolbar();
+        setUpSpinner();
         // Set up the login form.
         mEmailView = (TextView) findViewById(R.id.register_email);
 
@@ -67,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         mRegisterFormView = findViewById(R.id.register_form);
         mProgressView = findViewById(R.id.register_progress);
     }
+
     private void attemptRegister() {
 
         // Reset errors.
@@ -113,25 +118,22 @@ public class RegisterActivity extends AppCompatActivity {
             // perform the user login attempt.
             showProgress(true);
             ProcurableService procurableService = Constants.retrofit.create(ProcurableService.class);
-            RegisterRequest registerRequest = new RegisterRequest(email,password,confirmPassword);
+            RegisterRequest registerRequest = new RegisterRequest(email, password, confirmPassword, selectedDepartment);
             Call<GenericResponse> call = procurableService.register(registerRequest);
             call.enqueue(new Callback<GenericResponse>() {
                 @Override
                 public void onResponse(Call<GenericResponse> call, Response<GenericResponse> response) {
-                    if(response.body().getSucceeded())
-                    {
+                    if (response.body().getSucceeded()) {
                         Intent intent = new Intent(RegisterActivity.this, SearchActivity.class);
                         startActivity(intent);
-                    }
-                    else
-                    {
+                    } else {
                         showProgress(false);
                         //TODO: Decide if I want this to be a factory
                         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
                                 context);
                         alertDialogBuilder.setTitle("Error ");
                         alertDialogBuilder
-                                .setMessage(response.body().getErrors().length > 0 ? response.body().getErrors()[0]:"Register failed")
+                                .setMessage(response.body().getError())
                                 .setCancelable(false)
                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
@@ -150,6 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
             });
         }
     }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -182,9 +185,52 @@ public class RegisterActivity extends AppCompatActivity {
             mRegisterFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
+
     private void setUpToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Register");
     }
+
+    public void setUpSpinner() {
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        final List<String> list = new ArrayList<String>();
+        ProcurableService procurableService = Constants.retrofit.create(ProcurableService.class);
+        Call<List<Department>> call = procurableService.departments();
+        call.enqueue(new Callback<List<Department>>() {
+            @Override
+            public void onResponse(Call<List<Department>> call, Response<List<Department>> response) {
+                ids = new Integer[response.body().size()];
+                for (int i = 0; i < response.body().size(); i++) {
+                    list.add(response.body().get(i).getName());
+                    ids[i] = response.body().get(i).getID();
+                }
+                ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(RegisterActivity.this,
+                        android.R.layout.simple_spinner_item, list);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        selectedDepartment = ids[position];
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+                spinner.setAdapter(dataAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<List<Department>> call, Throwable t) {
+
+            }
+        });
+
+
+    }
+
+
 }

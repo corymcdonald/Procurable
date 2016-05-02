@@ -26,7 +26,16 @@
         <activity
             android:name="com.procurable.activity.SearchActivity"
             android:label="@string/title_activity_search"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        />
         <activity
             android:name=".RegisterActivity"
             android:label="@string/title_activity_register" />
@@ -35,8 +44,12 @@
             android:label="@string/title_activity_register"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.procurable.activity.ManageRequest" />
+        <activity android:name="com.procurable.activity.MyRequest" />
         <activity android:name="com.procurable.activity.RequestDetails" />
-        <activity android:name="com.procurable.activity.ApproveRequestActivity"></activity>
+        <activity android:name="com.procurable.activity.ApproveRequestActivity" />
+        <activity android:name="com.procurable.activity.ViewRequestActivity" />
+        <activity android:name="com.procurable.activity.ItemDetailsActivity" />
+        <activity android:name="com.procurable.activity.MyCartActivity"></activity>
     </application>
 
 </manifest>

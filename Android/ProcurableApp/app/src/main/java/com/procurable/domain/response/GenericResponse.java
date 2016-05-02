@@ -5,7 +5,7 @@ package com.procurable.domain.response;
  */
 public class GenericResponse {
     Boolean Succeeded;
-    String[] Errors;
+    String Error;
 
     public Boolean getSucceeded() {
         return Succeeded;
@@ -15,11 +15,11 @@ public class GenericResponse {
         Succeeded = succeeded;
     }
 
-    public String[] getErrors() {
-        return Errors;
+    public String getError() {
+        return Error;
     }
 
-    public void setErrors(String[] errors) {
-        Errors = errors;
+    public void setError(String error) {
+        Error = error;
     }
 }

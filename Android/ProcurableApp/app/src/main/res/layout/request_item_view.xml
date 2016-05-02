@@ -37,9 +37,10 @@
                 android:id="@+id/tvDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
                 android:text="@string/price"
                 android:textSize="15sp"
+                android:textStyle="italic"/>
                 android:textStyle="italic"/>
 
         </LinearLayout>
