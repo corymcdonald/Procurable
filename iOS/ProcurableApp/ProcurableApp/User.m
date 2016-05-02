@@ -17,12 +17,12 @@
         _claims = nil;
         _logins = nil;
         _roles = nil;
-        _firstName = nil;
-        _lastName = nil;
-        _email = nil;
-        _idNumber = nil;
-        _userName = nil;
-        _name = nil;
+        _firstName = @"";
+        _lastName = @"";
+        _email = @"";
+        _idNumber = @"";
+        _userName = @"";
+        _name = @"";
     }
     return self;
 }
@@ -36,11 +36,31 @@
             _claims = [dictionary objectForKey:@"Claims"];
             _logins = [dictionary objectForKey:@"Logins"];
             _roles = [dictionary objectForKey:@"Roles"];
-            _firstName = [dictionary objectForKey:@"FirstName"];
-            _lastName = [dictionary objectForKey:@"LastName"];
-            _email = [dictionary objectForKey:@"Email"];
-            _idNumber = [dictionary objectForKey:@"Id"];
-            _userName = [dictionary objectForKey:@"UserName"];
+            if ([[dictionary objectForKey:@"FirstName"] class] != [NSNull class]) {
+                _firstName = [dictionary objectForKey:@"FirstName"];
+            } else {
+                _firstName = @"FirstName";
+            }
+            if ([[dictionary objectForKey:@"LastName"] class] != [NSNull class]) {
+                _lastName = [dictionary objectForKey:@"LastName"];
+            } else {
+                _lastName = @"LastName";
+            }
+            if ([[dictionary objectForKey:@"Email"] class] != [NSNull class]) {
+                _email = [dictionary objectForKey:@"Email"];
+            } else {
+                _email = @"No Email";
+            }
+            if ([[dictionary objectForKey:@"Id"] class] != [NSNull class]) {
+                _idNumber = [dictionary objectForKey:@"Id"];
+            } else {
+                _idNumber = @"No ID";
+            }
+            if ([[dictionary objectForKey:@"UserName"] class] != [NSNull class]) {
+                _userName = [dictionary objectForKey:@"UserName"];
+            } else {
+                _userName = @"No Username";
+            }
             _name = [[_firstName stringByAppendingString:@" "] stringByAppendingString:_lastName];
         }
     }

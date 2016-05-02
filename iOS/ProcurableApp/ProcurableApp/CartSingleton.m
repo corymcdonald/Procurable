@@ -37,6 +37,19 @@
     [self.cart addObject:item];
 }
 
+- (void)removeItem:(NSInteger)index {
+    if (index >= 0 && index < [self.cart count]) {
+        [self.cart removeObjectAtIndex:index];
+    }
+    if ([self.cart count] == 0) {
+        self.isEmpty = YES;
+    }
+}
+
+- (RequestItem *)getItem:(NSInteger)index {
+    return [self.cart objectAtIndex:index];
+}
+
 - (NSInteger)count {
     return [self.cart count];
 }

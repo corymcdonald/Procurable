@@ -38,6 +38,9 @@
     [self.searchBar setDelegate:self];
     [self.tableView setDelegate:self];
     [self.tableView setDataSource:self];
+    UITapGestureRecognizer* tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideInput)];
+    tapGesture.cancelsTouchesInView = NO;
+    [self.view addGestureRecognizer:tapGesture];
 //    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 34)];
 //    
 //    [imageView setImage:[UIImage imageNamed:@"ProcurableRed"]];
@@ -48,15 +51,14 @@
 //    [self.navigationItem.titleView setFrame:CGRectMake(0, 0, 40, 34)];
 }
 
+- (void)hideInput {
+    [self.searchBar resignFirstResponder];
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)resolve {
@@ -65,15 +67,24 @@
         [self.tableView reloadData];
         [self.tableView setHidden:NO];
         [self.noItemsLabel setHidden:YES];
-        if ([self.items count] == 0) {
-            [self.tableView setHidden:YES];
-            [self.noItemsLabel setHidden:NO];
-        }
+    });
+}
+
+- (void)errorUpdate:(NSString *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        [self.tableView setHidden:YES];
+        [self.noItemsLabel setHidden:NO];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        [hud setLabelText:error];
+        [hud hide:YES afterDelay:2.0f];
     });
 }
 
 - (void)getItemsFromSite {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak __typeof(self) weakSelf = self;
     [self.networkingController listAllInventoryItems:^(NSArray *items, NSError * __nullable error) {
         if ([items count] > 0 && !error)
@@ -81,16 +92,9 @@
             weakSelf.items = items;
             [weakSelf resolve];
         } else {
-            //            [weakSelf errorUpdate:error.domain];
+            [weakSelf errorUpdate:@"Failed to retrieve items"];
         }
     }];
-}
-
-- (void)isSuccessful {
-    NSLog(@"Success");
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-    });
 }
 
 - (void)rightPress:(id)stuff {
@@ -114,17 +118,6 @@
     Item *item = (Item *)[self.items objectAtIndex:indexPath.row];
     [mainLabel setText:[item name]];
     [idLabel setText:[[item idNumber] stringValue]];
-//    [availabilityLabel setText:@"No"];
-//    if (item.inInventory) {
-//        [availabilityLabel setText:@"Yes"];
-//    }
-//    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-//    [dateFormat setDateFormat:@"MMMM d, YYYY"];
-//    NSString *dateString = [dateFormat stringFromDate:[item createdDate]];
-//    NSString *labelText = [[[[[[item idNumber] stringValue] stringByAppendingString:@", "] stringByAppendingString:[request name]] stringByAppendingString:@", "] stringByAppendingString:dateString];
-//    mainLabel.text = labelText;
-//    progressLabel.text = [item statusDisplay];
-    //    [cell setAccessoryType:UITableViewCellAccessoryDetailDisclosureButton];
     return cell;
 }
 
@@ -146,7 +139,7 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     [self.searchBar resignFirstResponder];
     __weak __typeof(self) weakSelf = self;
     [self.networkingController searchForItems:[searchBar text] withCompletion:^(BOOL success, NSArray *items, NSError * __nullable error) {
@@ -155,12 +148,13 @@
             weakSelf.items = items;
             [weakSelf resolve];
         } else {
-            //            [weakSelf errorUpdate:error.domain];
+            [weakSelf errorUpdate:@"No items match search"];
         }
     }];
 }
 
 - (IBAction)reloadAllItemsButtonTapped:(id)sender {
+    [self.searchBar resignFirstResponder];
     [self getItemsFromSite];
 }
 

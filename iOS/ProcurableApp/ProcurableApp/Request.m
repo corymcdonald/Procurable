@@ -20,16 +20,16 @@
         _requestedBy = nil;
         _requestedFor = nil;
         _idNumber = nil;
-        _name = nil;
-        _comments = nil;
-        _receivedCreatedDate = nil;
+        _name = @"";
+        _comments = @"";
+        _receivedCreatedDate = @"";
         _createdDate = nil;
-        _createdDateDisplay = nil;
-        _receivedLastModifiedDate = nil;
+        _createdDateDisplay = @"";
+        _receivedLastModifiedDate = @"";
         _lastModifiedDate = nil;
-        _lastModifiedDisplay = nil;
+        _lastModifiedDisplay = @"";
         _status = [NSNumber numberWithInt:-1];
-        _statusDisplay = nil;
+        _statusDisplay = @"";
     }
     return self;
 }
@@ -49,26 +49,48 @@
             _requestedBy = [[User alloc] initWithDictionary:[dictionary objectForKey:@"RequestedBy"]];
             _requestedFor = [[User alloc] initWithDictionary:[dictionary objectForKey:@"RequestedFor"]];
             _idNumber = [dictionary objectForKey:@"ID"];
-            _name = [dictionary objectForKey:@"Name"];
-            _comments = [dictionary objectForKey:@"Comments"];
+            if ([[dictionary objectForKey:@"Name"] class] != [NSNull class]) {
+                _name = [dictionary objectForKey:@"Name"];
+            } else {
+                _name = @"";
+            }
+            if ([[dictionary objectForKey:@"Comments"] class] != [NSNull class]) {
+                _comments = [dictionary objectForKey:@"Comments"];
+            } else {
+                _comments = @"";
+            }
             
             NSDateFormatter *RFC3339DateFormatter = [[NSDateFormatter alloc] init];
             RFC3339DateFormatter.locale = [NSLocale localeWithLocaleIdentifier:@"en_US_POSIX"];
             RFC3339DateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ssZZZZZ";
             RFC3339DateFormatter.timeZone = [NSTimeZone timeZoneForSecondsFromGMT:0];
             
-            NSDate *date = [RFC3339DateFormatter dateFromString:[dictionary objectForKey:@"CreatedDateDisplay"]];
-            _createdDate = date;
-            _createdDateDisplay = [dictionary objectForKey:@"CreatedDateDisplay"];
+            if ([[dictionary objectForKey:@"CreatedDateDisplay"] class] != [NSNull class]) {
+                NSDate *date = [RFC3339DateFormatter dateFromString:[dictionary objectForKey:@"CreatedDateDisplay"]];
+                _createdDate = date;
+                _createdDateDisplay = [dictionary objectForKey:@"CreatedDateDisplay"];
+            } else {
+                _createdDate = nil;
+                _createdDateDisplay = @"Unknown";
+            }
             _receivedCreatedDate = [dictionary objectForKey:@"CreatedDate"];
             
-            date = [RFC3339DateFormatter dateFromString:[dictionary objectForKey:@"LastModifiedDisplay"]];
-            _lastModifiedDate = date;
-            _lastModifiedDisplay = [dictionary objectForKey:@"LastModifiedDisplay"];
-            _receivedCreatedDate = [dictionary objectForKey:@"LastModified"];
+            if ([[dictionary objectForKey:@"LastModifiedDisplay"] class] != [NSNull class]) {
+                NSDate *date = [RFC3339DateFormatter dateFromString:[dictionary objectForKey:@"LastModifiedDisplay"]];
+                _lastModifiedDate = date;
+                _lastModifiedDisplay = [dictionary objectForKey:@"LastModifiedDisplay"];
+            } else {
+                _lastModifiedDate = nil;
+                _lastModifiedDisplay = @"Unknown";
+            }
+            _receivedLastModifiedDate = [dictionary objectForKey:@"LastModified"];
             
             _status = [dictionary objectForKey:@"Status"];
-            _statusDisplay = [dictionary objectForKey:@"StatusDisplay"];
+            if ([[dictionary objectForKey:@"StatusDisplay"] class] != [NSNull class]) {
+                _statusDisplay = [dictionary objectForKey:@"StatusDisplay"];
+            } else {
+                _statusDisplay = @"Unknown";
+            }
         }
     }
     return self;

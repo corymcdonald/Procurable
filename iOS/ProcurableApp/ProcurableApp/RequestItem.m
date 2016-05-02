@@ -15,9 +15,9 @@
     self = [super init];
     if (self)
     {
-        _name = nil;
-        _comments = nil;
-        _url = nil;
+        _name = @"";
+        _comments = @"";
+        _url = @"";
         _count = 0;
     }
     return self;
@@ -33,6 +33,19 @@
         _count = [[NSNumber alloc] initWithInteger:count];
     }
     return self;
+}
+
+- (NSArray *)generateItems {
+    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    for (int i = 0; i < [self.count intValue]; i++) {
+        NSDictionary *dict = @{
+                                @"Name": self.name,
+                                @"Comments": self.comments,
+                                @"Url": self.url
+                                };
+        [arr addObject:dict];
+    }
+    return arr;
 }
 
 @end

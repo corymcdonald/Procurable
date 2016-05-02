@@ -25,7 +25,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -41,11 +40,6 @@
             [self.createButton setTitle:@"Complete Request" forState:UIControlStateNormal];
         }
     });
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)logoutPressed {
@@ -84,12 +78,24 @@
         case 3:
             return @"CreateRequestViewController";
         case 4:
-            return @"CreateRequestViewController";
+            [self emptyCart];
+            return nil;
         default:
             break;
     }
     [self logoutPressed];
     return nil;
+}
+
+- (void)emptyCart {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Empty Cart" message:@"Are you sure you want to empty your cart?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *logout = [UIAlertAction actionWithTitle:@"Empty" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        [[CartSingleton sharedCart] emptyCart];
+    }];
+    [alert addAction:cancel];
+    [alert addAction:logout];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (IBAction)navigate:(id)sender {

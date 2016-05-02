@@ -43,11 +43,6 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)resolve {
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
@@ -56,7 +51,7 @@
 }
 
 - (void)getMyRequests {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     __weak __typeof(self) weakSelf = self;
     [self.networkingController listAllRequests:^(NSArray *requests, NSError * __nullable error) {
         if ([requests count] > 0 && !error)
@@ -64,9 +59,20 @@
             weakSelf.requests = requests;
             [weakSelf resolve];
         } else {
-//            [weakSelf errorUpdate:error.domain];
+            [weakSelf errorUpdate:@"No requests were found"];
         }
     }];
+}
+
+- (void)errorUpdate:(NSString *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+        
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeText;
+        [hud setLabelText:error];
+        [hud hide:YES afterDelay:2.0f];
+    });
 }
 
 #pragma mark - Table View Delegate and Datasource
@@ -107,8 +113,6 @@
 }
 
 #pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"RequestDetailSegue"])
     {

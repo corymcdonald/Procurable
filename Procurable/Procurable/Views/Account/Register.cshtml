@@ -16,11 +16,14 @@
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email address" })
                 @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                <hr />
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
                 @Html.EditorFor(m => m.Department);
+                <hr />
                 <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit" value="Register">Register</button>
-                <a class="">Sign In</a>
-
-            }
+                <button class="btn btn-lg btn-primary btn-block btn-signin" onclick="location.href='@Url.Action("Login")'" type="button">Sign In</button>
+             }
         </section>
     </div><!-- /card-container -->
 </div><!-- /container -->

@@ -8,6 +8,7 @@ using Procurable.Models;
 using Microsoft.AspNet.Identity;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using System.Net.Mail;
 
 namespace Procurable.Controllers
 {
@@ -189,7 +190,7 @@ namespace Procurable.Controllers
                                     URL = item["URL"],
                                 };
 
-                                List<InventoryItem> results = new InventoryItemsController().SearchInternal(item["Name"].ToString());
+                                List<InventoryItem> results = new InventoryItemsController().SearchForRequest(item["Name"].ToString());
                                 if (results.Any())
                                 {
                                     foreach (var invenItem in results)
@@ -320,6 +321,11 @@ namespace Procurable.Controllers
             //TODO: check to see if they are in that department
             var dbPost = db.Requests.FirstOrDefault(p => p.ID == id);
 
+            if (dbPost.Status != status)
+            {
+                SendEmail(dbPost, status);
+            }
+
             dbPost.Status = status;
    
             dbPost.LastModified = DateTime.Now;
@@ -334,16 +340,21 @@ namespace Procurable.Controllers
         public ActionResult BatchUpdateStatus()
         {
             dynamic StatusJSON = JsonConvert.DeserializeObject(Request.Form.Get("RequestStatusList"));
-            System.Diagnostics.Debug.WriteLine("I DID A THING");
-            
+          
 
             if (StatusJSON != null)
             {
                 foreach (var item in StatusJSON)
                 {
-                    int id = int.Parse(item["id"].ToString());
-                    var dbPost = db.Requests.FirstOrDefault(p => p.ID == id);
                     
+                    int id = int.Parse(item["id"].ToString());
+                    RequestStatus status = (RequestStatus)item["status"];
+
+                    var dbPost = db.Requests.FirstOrDefault(p => p.ID == id);
+                    if(dbPost.Status != status)
+                    {
+                        SendEmail(dbPost, status);
+                    }
                     dbPost.Status = item["status"];
                     dbPost.LastModified = DateTime.Now;
 
@@ -354,6 +365,51 @@ namespace Procurable.Controllers
 
             return RedirectToAction("Index");
 
+        }
+
+        private void SendEmail(Request request, RequestStatus status)
+        {
+            string APIKey = "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";
+
+            var myMessage = new SendGrid.SendGridMessage();
+
+            
+            string statusString = status.ToString();
+
+            myMessage.AddTo(request.RequestedBy.Email.ToString());
+            //myMessage.AddTo("lucas.dorrough.b@gmail.com");
+            System.Diagnostics.Debug.WriteLine(APIKey);
+            myMessage.From = new MailAddress("Admin@Procurable.com", "Administrator");
+            myMessage.Subject = "[Procurable] Request " + request.ID + "has been updated ";
+            myMessage.Html = string.Format(@"<!doctype html><html><head></head><body>
+                                
+                                <table width = ""100%"" style = "" border-collapse: collapse;"">
+                                  <tr bgcolor = ""#121314"">
+                                    <td width = ""5%""></td>
+                                    <td width = ""95%""><h2 style = ""color:#F44336; font-family: Arial""> Procurable </h2></td>
+                                  </tr>
+                                  <td style = ""line-height:10px;"" colspan = 3> &nbsp;</td>
+                                         <tr>
+                                           <td  width = ""5%""></td>
+                                            <td width = ""95%"" style = ""font-family:Arial;"">
+                                                Howdy! This is an automated email from Procurable.<br /> 
+                                                Your request {0} has been updated to a status of {1} <br />
+                                                <br />
+                                                The following actions triggered this alert: <br />
+                                                {1}
+                                    </td>
+                                  </tr>
+                                </table>
+                                </body>
+                                </html>",
+                        request.ID,
+                        statusString);
+
+
+
+            var transportWeb = new SendGrid.Web(APIKey);
+           
+            transportWeb.DeliverAsync(myMessage);
         }
     }
 }
