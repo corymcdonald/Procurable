@@ -84,9 +84,9 @@
 - (IBAction)didAddItemToCart:(id)sender {
     CartSingleton *sharedCart = [CartSingleton sharedCart];
     if ([self.requestCount.text length]) {
-        [sharedCart.cart addObject:[[RequestItem alloc] initWithName:[self.inventoryItem name] comments:[self.requestComments text] url:[self.inventoryItem vendorWebsite] count:[[self.requestCount text] integerValue]]];
+        [sharedCart addItem:[[RequestItem alloc] initWithName:[self.inventoryItem name] comments:[self.requestComments text] url:[self.inventoryItem vendorWebsite] count:[[self.requestCount text] integerValue]]];
     } else {
-        [sharedCart.cart addObject:[[RequestItem alloc] initWithName:[self.inventoryItem name] comments:[self.requestComments text] url:[self.inventoryItem vendorWebsite] count:1]];
+        [sharedCart addItem:[[RequestItem alloc] initWithName:[self.inventoryItem name] comments:[self.requestComments text] url:[self.inventoryItem vendorWebsite] count:1]];
     }
     [self.navigationController popViewControllerAnimated:YES];
 }

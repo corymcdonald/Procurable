@@ -7,10 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RequestItem.h"
 
 @interface CartSingleton : NSObject
 @property (nonatomic, strong) NSMutableArray *cart;
+@property (nonatomic, assign) BOOL isEmpty;
 
 + (id)sharedCart;
 - (void)emptyCart;
+- (void)addItem:(RequestItem *)item;
+- (NSInteger)count;
 @end
