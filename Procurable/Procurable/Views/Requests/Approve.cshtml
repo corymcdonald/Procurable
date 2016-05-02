@@ -4,102 +4,134 @@
 
 <h2>Pending My Approval</h2>
 
+@using (Html.BeginForm())
+{
 
-
-<table class="table-striped table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.ID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Comments)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.RequestedFor)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
+    <table class="table-striped table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RequestedFor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
        
-        <th></th>
-    </tr>
+            <th></th>
+        </tr>
 
-@foreach (var item in Model) {
-    <tr >
-        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
-            @Html.DisplayFor(modelItem => item.ID)
-        </td>
-        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
-            @Html.DisplayFor(modelItem => item.Comments)
-        </td>
-        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
-            @Html.DisplayFor(modelItem => item.RequestedFor)
-        </td>
-        <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
-            @if (item.StatusDisplay == "Opened")
-            {
-                <span class="label label-primary">
-                    @Html.DisplayFor(modelItem => item.StatusDisplay)
-                </span>
-            }
-            @if (item.StatusDisplay == "Denied")
-            {
-                <span class="label label-danger">
-                    @Html.DisplayFor(modelItem => item.StatusDisplay)
-                </span>
-            }
-            @if (item.StatusDisplay == "Approved")
-            {
-                <span class="label label-success">
-                    @Html.DisplayFor(modelItem => item.StatusDisplay)
-                </span>
-            }
-            @if (item.StatusDisplay == "InProgress")
-            {
-                <span class="label label-info">
-                    @Html.DisplayFor(modelItem => item.StatusDisplay)
-                </span>
-            }
-            @if (item.StatusDisplay == "Reopened")
-            {
-                <span class="label label-info">
-                    @Html.DisplayFor(modelItem => item.StatusDisplay)
-                </span>
-            }
-            @if (item.StatusDisplay == "Completed")
-            {
-                <span class="label label-info">
-                    @Html.DisplayFor(modelItem => item.StatusDisplay)
-                </span>
-            }
+    @foreach (var item in Model)
+    {
+        <tr >
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle RequestID">
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
+                @Html.DisplayFor(modelItem => item.RequestedFor)
+            </td>
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
+                @if (item.StatusDisplay == "Opened")
+                {
+                    <span class="label label-primary">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "Denied")
+                {
+                    <span class="label label-danger">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "Approved")
+                {
+                    <span class="label label-success">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "InProgress")
+                {
+                    <span class="label label-info">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "Reopened")
+                {
+                    <span class="label label-info">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "Completed")
+                {
+                    <span class="label label-info">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
            
-        </td>
+            </td>
        
-        <td style="padding: 5px;">
-            <div class="form-group-sm">
-                @Html.DropDownListFor(modelItem => item.Status, new SelectList(Enum.GetValues(typeof(Procurable.Models.RequestStatus))), new { @class = "form-control" })
-            </div>
+            <td style="padding: 5px;">
+                <div class="form-group-sm">
+                    @Html.DropDownListFor(modelItem => item.Status, new SelectList(Enum.GetValues(typeof(Procurable.Models.RequestStatus)), item.Status), new { @class = "form-control RequestStatus" })
+                    
+                </div>
 
-        </td>
-    </tr>
-    <tr style="background: #CECECE">
-        <td colspan="6" class="Hidden" style="padding: 0 !important;"><div  id="@item.ID" class="panel-collapse collapse out">
-            @Html.DisplayFor(modelItem => item.Items)
-        </div></td>
-    </tr>
+            </td>
+        </tr>
+        <tr style="background: #CECECE">
+            <td colspan="6" class="Hidden" style="padding: 0 !important;"><div  id="@item.ID" class="panel-collapse collapse out">
+                @Html.DisplayFor(modelItem => item.Items)
+            </div></td>
+        </tr>
+    }
+
+    </table>
+
+    @Html.Hidden("RequestStatusList")
+
+    <p>
+        <input type="submit" value="Submit" class="btn btn-default"  formaction='@Url.Action("BatchUpdateStatus")'/>
+             
+    </p>
+    <hr class="darkLine"/>
 }
 
-</table>
+<script>
+    $(document).ready(function () {
+       
+    });
 
-<p>
-    @Html.ActionLink("Apply Changes", "Create", new { }, new { @class = "btn btn-default" })
-</p>
-<hr class="darkLine"/>
+    $(".RequestStatus").change(function () {
+        var statusList = [];
 
+        $(".RequestStatus").each( function () {
+            var row = $(this).parent('div').parent('td').parent('tr');
+            var id = row.find('.RequestID').html().trim();
+            console.log(id);
+            var status = {
+                id: id,
+                status: $(this).val()
+            }
+           statusList.push(status)
+        });
+       
+        console.log(statusList);
 
+        $("#RequestStatusList").val(JSON.stringify(statusList));
+       
+    });
+
+</script>

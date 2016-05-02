@@ -43,12 +43,25 @@ public class ViewRequestActivity extends AppCompatActivity {
     private void setUpPage() {
         Intent intent = getIntent();
         Request request = (Request)intent.getSerializableExtra(Constants.EXTRA_ITEMS);
+        TextView textView = (TextView) findViewById(R.id.textView);
+        if(request.getStatus() == 0)
+            textView.setText("Status: Opened");
+        else if(request.getStatus() == 1)
+            textView.setText("Status: Reopened");
+        else if(request.getStatus() == 2)
+            textView.setText("Status: Approved");
+        else if(request.getStatus() == 3)
+            textView.setText("Status: Denied");
+        else if(request.getStatus() == 4)
+            textView.setText("Status: In Progress");
+        else if(request.getStatus() == 5)
+            textView.setText("Status: Completed");
         TextView requestId = (TextView) findViewById(R.id.request_id);
         TextView requestDate = (TextView) findViewById(R.id.request_date);
-        requestId.setText(request.getID().toString());
+        requestId.setText("Request ID: " + request.getID().toString());
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
         String formattedDate = formatter.format(request.getCreatedDateDisplay());
-        requestDate.setText(formattedDate);
+        requestDate.setText("Request Date: " + formattedDate);
 
     }
 
@@ -77,8 +90,8 @@ public class ViewRequestActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(new WrappingLinearLayoutManager(this));
-        recyclerView.setNestedScrollingEnabled(false);
+        //recyclerView.setLayoutManager(new WrappingLinearLayoutManager(this));
+        //recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setHasFixedSize(false);
     }
     public ArrayList<ItemRow> getData(Request request) {
@@ -88,9 +101,9 @@ public class ViewRequestActivity extends AppCompatActivity {
         for (int i = 0; i < requestItems.size(); i++) {
 
             ItemRow landscape = new ItemRow();
-            landscape.setTitle(requestItems.get(i).getName());
+            landscape.setTitle("Item Name: " + requestItems.get(i).getName());
             //landscape.setPrice(requestItems.get(i).getRequestItem().getPrice().toString());
-            landscape.setComments(requestItems.get(i).getComments());
+            landscape.setComments("Request Reason: " + requestItems.get(i).getComments());
 
             dataList.add(landscape);
         }

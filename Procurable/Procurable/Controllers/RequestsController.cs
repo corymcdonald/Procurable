@@ -138,7 +138,7 @@ namespace Procurable.Controllers
                             Comments = item["Comments"],
                             URL = item["Url"],
                         };
-                        List<InventoryItem> results = new InventoryItemsController().SearchInternal(item["Name"]);
+                        List<InventoryItem> results = new InventoryItemsController().SearchForRequest(item["Name"]);
                         if (results.Any())
                         {
                             foreach(var invenItem in results)
@@ -326,6 +326,34 @@ namespace Procurable.Controllers
 
             db.SaveChanges();
             
+        }
+
+        // POST: Requests/UpdateStatus/
+        [HttpPost]
+        [Authorize]
+        public ActionResult BatchUpdateStatus()
+        {
+            dynamic StatusJSON = JsonConvert.DeserializeObject(Request.Form.Get("RequestStatusList"));
+            System.Diagnostics.Debug.WriteLine("I DID A THING");
+            
+
+            if (StatusJSON != null)
+            {
+                foreach (var item in StatusJSON)
+                {
+                    int id = int.Parse(item["id"].ToString());
+                    var dbPost = db.Requests.FirstOrDefault(p => p.ID == id);
+                    
+                    dbPost.Status = item["status"];
+                    dbPost.LastModified = DateTime.Now;
+
+                    db.SaveChanges();
+                }
+
+            }
+
+            return RedirectToAction("Index");
+
         }
     }
 }

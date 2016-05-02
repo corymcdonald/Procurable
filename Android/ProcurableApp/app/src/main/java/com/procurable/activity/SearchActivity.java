@@ -18,6 +18,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -53,6 +55,7 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         setUpToolbar();
+        setUpRecyclerView();
         setUpDrawer();
 
     }
@@ -148,7 +151,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void doSearch() {
-        setUpRecyclerView();
+        getSearchData();
     }
 
     @Override
@@ -171,7 +174,11 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-
+        View v = this.getWindow().getCurrentFocus();
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         adapter = new ItemSearchRecyclerAdapter(this, getData());
 
@@ -182,6 +189,43 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLinearLayoutManagerVertical);
 
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    public ArrayList<ItemSearchRow> getSearchData() {
+
+        final ArrayList<ItemSearchRow> dataList = new ArrayList<>();
+
+        ProcurableService procurableService = Constants.retrofit.create(ProcurableService.class);
+        Call<InventoryItem[]> call = procurableService.searchInventoryItems(edtSeach.getText().toString());
+        call.enqueue(new Callback<InventoryItem[]>() {
+            @Override
+            public void onResponse(Call<InventoryItem[]> call, Response<InventoryItem[]> response) {
+                for (int i = 0; i < response.body().length; i++) {
+
+                    ItemSearchRow landscape = new ItemSearchRow();
+                    landscape.setTitle(response.body()[i].getName());
+                    String priceText = "Not found";
+                    Double priceNumber = Double.MAX_VALUE;
+                    for (int j = 0; j < response.body()[i].getItem().size(); j++) {
+                        if (response.body()[i].getItem().get(j).getPrice() != null && response.body()[i].getItem().get(j).getPrice() < priceNumber)
+                            priceNumber = response.body()[i].getItem().get(j).getPrice();
+                    }
+                    if (priceNumber != Double.MAX_VALUE)
+                        priceText = priceNumber.toString();
+                    landscape.setPrice("Price: " + priceText);
+                    landscape.setItem(response.body()[i]);
+                    dataList.add(landscape);
+                }
+                adapter.mData = dataList;
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<InventoryItem[]> call, Throwable t) {
+                System.out.println();
+            }
+        });
+        return dataList;
     }
 
     public ArrayList<ItemSearchRow> getData() {
@@ -197,7 +241,16 @@ public class SearchActivity extends AppCompatActivity {
 
                     ItemSearchRow landscape = new ItemSearchRow();
                     landscape.setTitle(response.body()[i].getName());
-                    landscape.setPrice(response.body()[i].getPrice().toString());
+                    String priceText = "Not found";
+                    Double priceNumber = Double.MAX_VALUE;
+                    for(int j = 0; j < response.body()[i].getItem().size(); j++)
+                    {
+                        if(response.body()[i].getItem().get(j).getPrice() != null && response.body()[i].getItem().get(j).getPrice() < priceNumber)
+                            priceNumber = response.body()[i].getItem().get(j).getPrice();
+                    }
+                    if(priceNumber != Double.MAX_VALUE)
+                        priceText = priceNumber.toString();
+                    landscape.setPrice("Price: " + priceText);
                     landscape.setItem(response.body()[i]);
                     dataList.add(landscape);
                 }

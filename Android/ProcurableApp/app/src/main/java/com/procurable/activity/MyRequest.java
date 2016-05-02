@@ -75,15 +75,15 @@ public class MyRequest extends AppCompatActivity {
         final ArrayList<RequestRow> dataList = new ArrayList<>();
 
         ProcurableService procurableService = Constants.retrofit.create(ProcurableService.class);
-        Call<Request[]> call = procurableService.requests();
+        Call<Request[]> call = procurableService.myRequests();
         call.enqueue(new Callback<Request[]>() {
             @Override
             public void onResponse(Call<Request[]> call, Response<Request[]> response) {
                 for (int i = 0; i < response.body().length; i++) {
 
                     RequestRow landscape = new RequestRow();
-                    landscape.setTitle(response.body()[i].getName());
-                    landscape.setDescription(response.body()[i].getID().toString());
+                    landscape.setTitle("Request Title: " + response.body()[i].getName());
+                    landscape.setDescription("Request ID: " + response.body()[i].getID().toString());
                     landscape.setRequest(response.body()[i]);
                     dataList.add(landscape);
                 }

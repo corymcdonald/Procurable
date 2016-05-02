@@ -11,11 +11,15 @@
     android:focusable="true"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground">
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentLeft="true" >
             <TextView
                 android:id="@+id/tvItemTitle"
                 android:layout_width="wrap_content"
@@ -36,6 +40,16 @@
                 android:textStyle="italic"/>
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/tvItemQuantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="Quantity"
+        android:textSize="15sp"
+        android:textStyle="italic"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>
 
 </android.support.v7.widget.CardView>
 

@@ -48,7 +48,8 @@
         <activity android:name="com.procurable.activity.RequestDetails" />
         <activity android:name="com.procurable.activity.ApproveRequestActivity" />
         <activity android:name="com.procurable.activity.ViewRequestActivity" />
-        <activity android:name="com.procurable.activity.ItemDetailsActivity"></activity>
+        <activity android:name="com.procurable.activity.ItemDetailsActivity" />
+        <activity android:name="com.procurable.activity.MyCartActivity"></activity>
     </application>
 
 </manifest>
