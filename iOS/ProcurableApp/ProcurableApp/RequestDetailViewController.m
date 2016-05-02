@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "NetworkingController.h"
 #import "Item.h"
+#import "RequestItemDetailViewController.h"
 
 @interface RequestDetailViewController ()
 @property (strong, nonatomic) NetworkingController *networkingController;
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *requestIDLabel;
 @property (strong, nonatomic) IBOutlet UIButton *denyRequestButton;
 @property (strong, nonatomic) IBOutlet UIButton *approveRequestButton;
+@property (strong, nonatomic) Item *selectedItem;
 
 @end
 
@@ -52,6 +54,12 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -65,6 +73,7 @@
     [self.networkingController updateRequestStatus:self.request.idNumber withValue:@2 withCompletion:^(BOOL value, NSError * __nullable error) {
         if (value && !error)
         {
+            [self.navigationController popViewControllerAnimated:YES];
             NSLog(@"Approved");
         } else {
             NSLog(error.domain);
@@ -81,6 +90,7 @@
         if (value && !error)
         {
             NSLog(@"Denied");
+            [self.navigationController popViewControllerAnimated:YES];
         } else {
             NSLog(error.domain);
         }
@@ -129,23 +139,21 @@
     return 75.0;
 }
 
-//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    self.selectedRequest = (Request *)[self.requests objectAtIndex:indexPath.row];
-//    [self performSegueWithIdentifier:@"RequestDetailSegue" sender:self];
-//}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedItem = (Item *)[self.request.items objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"RequestItemDetailSegue" sender:self];
+}
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"Accessory!");
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"RequestItemDetailSegue"])
+    {
+        RequestItemDetailViewController *vc = [segue destinationViewController];
+        [vc setItem:self.selectedItem];
+    }
 }
-*/
 
 @end

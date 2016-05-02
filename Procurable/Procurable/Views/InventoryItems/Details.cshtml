@@ -9,7 +9,7 @@
 
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <h2 style="display:inline-block ">@Html.ActionLink(Model.Vendor.Name, "Details", "Vendors", new { id = Model.Vendor.ID }, null) - @Html.DisplayFor(model => model.Name)</h2>
         <div class="projectStatus">
             <h4>
@@ -17,14 +17,15 @@
             </h4>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <br />
         <div class="pull-right">
             @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" })
             @if ((bool)ViewData["IsReportAvailable"] == true)
             {
-                @Html.ActionLink("History Information", "InventoryItem", "Reports", new { id = Model.ID }, new { @class = "btn btn-default" });
+                @Html.ActionLink("History Information", "InventoryItems", "Reports", new { id = Model.ID }, new { @class = "btn btn-default" });
             }
+            @Html.ActionLink("Auto Reorder", "CreateEdit", "Reorders", new { InventoryItemName = Model.Name }, new { @class = "btn btn-default" })
             @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default" })
         </div>
     </div>
@@ -52,6 +53,30 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Depreciation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Depreciation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepreciationRemaining)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DepreciationRemaining)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DepreciationDate)
+        </dt>
+
+        <dd>
+            @Model.DepreciationDate.GetMonths() Month(s) remaining
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Comments)
         </dt>
 
@@ -60,8 +85,4 @@
         </dd>
     </dl>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index") | 
-    @Html.ActionLink("Auto reorder this item", "CreateEdit", "Reorders", new { InventoryItemName = Model.Name }, "");
-</p>
+

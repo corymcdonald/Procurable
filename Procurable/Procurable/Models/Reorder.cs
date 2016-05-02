@@ -22,7 +22,7 @@ namespace Procurable.Models
         [Display(Name = "Quanity To Reorder")]
         public int QuanityToOrder { get; set; }
 
-        [Display(Name = "Reorder frequencly")]
+        [Display(Name = "Reorder Frequency")]
         public int? ReorderFrequencyInDays { get; set; }
 
         [Display(Name = "Last Ordered")]

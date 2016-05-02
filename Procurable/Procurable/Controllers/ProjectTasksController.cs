@@ -106,7 +106,7 @@ namespace Procurable.Controllers
                 {
                     return Json(new { Succeeded = true });
                 }
-                return Redirect(Request.UrlReferrer.AbsolutePath);
+                return Redirect("/Projects/Details/" + projectTask.ProjectID);
             }
 
             return View(projectTask);
@@ -152,7 +152,7 @@ namespace Procurable.Controllers
                 {
                     return Json(new { Succeeded = true });
                 }
-                return View("Details", projectTask);
+                return RedirectToAction("Index");
             }
             return View(projectTask);
         }

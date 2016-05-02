@@ -14,7 +14,7 @@ namespace Procurable.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        [DisplayName("Details")]
+     
         public string Comments { get; set; }
 
         [Display(Name = "Created Modified")]
@@ -38,7 +38,6 @@ namespace Procurable.Models
         [UIHint("ItemList")]
         public virtual ICollection<RequestedItem> Items { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))] //Test to see if this works in a bit
         public RequestStatus Status { get; set; }
         public string StatusDisplay
         {

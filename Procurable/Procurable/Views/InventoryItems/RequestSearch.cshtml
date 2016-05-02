@@ -1,14 +1,16 @@
-﻿@model IEnumerable<Procurable.Models.InventoryItemIndex>
+﻿@model IEnumerable<Procurable.Models.InventoryItem>
 
 @{
-    ViewBag.Title = "Inventory Items";
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
 <div class="row">
-    <div class="col-lg-7"><h2>Inventory Items</h2></div>
+    <div class="col-lg-7"><h2>Search</h2></div>
     <div class="col-lg-5">
         <br />
-        <form action="/InventoryItems/Search">
+        <form action="RequestSearch">
             <div class="input-group">
                 @Html.TextBox("query", Request.Params["query"], new { @id = "searchBox", @placeholder = "Search for...", @class = "form-control" })
                 <span class="input-group-btn">
@@ -25,5 +27,5 @@
         </form>
     </div>
 </div>
-<p>@Html.ActionLink("Create New", "Create")</p>
-@Html.Partial("DisplayTemplates/InventoryItemsIndex", Model);
+
+@Html.Partial("DisplayTemplates/InventoryItemsSearch", Model)

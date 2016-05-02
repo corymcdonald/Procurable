@@ -9,10 +9,15 @@
 #import "NavDrawerViewController.h"
 #import "MMDrawerController.h"
 #import "NavButton.h"
+#import "MBProgressHUD.h"
 #import "MMDrawerBarButtonItem.h"
 #import "UIViewController+MMDrawerController.h"
+#import "CartSingleton.h"
 
 @interface NavDrawerViewController ()
+@property (strong, nonatomic) IBOutlet NavButton *emptyButton;
+@property (strong, nonatomic) IBOutlet NavButton *createButton;
+@property (strong, nonatomic) IBOutlet NavButton *manageButton;
 
 @end
 
@@ -23,16 +28,45 @@
     // Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        CartSingleton *sharedCart = [CartSingleton sharedCart];
+        if (sharedCart.isEmpty) {
+            [self.emptyButton setHidden:YES];
+            [self.createButton setTitle:@"Create Request" forState:UIControlStateNormal];
+        } else {
+            [self.emptyButton setHidden:NO];
+            [self.createButton setTitle:@"Complete Request" forState:UIControlStateNormal];
+        }
+    });
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 - (void)logoutPressed {
-    NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
-    for (NSHTTPCookie *each in cookieStorage.cookies) {
-        [cookieStorage deleteCookie:each];
-    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Logout" message:@"Are you sure you want to logout?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+    UIAlertAction *logout = [UIAlertAction actionWithTitle:@"Logout" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+        NSHTTPCookieStorage *cookieStorage = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+        for (NSHTTPCookie *each in cookieStorage.cookies) {
+            [cookieStorage deleteCookie:each];
+        }
+        [self presentWelcomeInterface];
+    }];
+    [alert addAction:cancel];
+    [alert addAction:logout];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)presentWelcomeInterface {
+    UIViewController* rootController = [[UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]] instantiateViewControllerWithIdentifier:@"loginScreen"];
+    UINavigationController* navigation = [[UINavigationController alloc] initWithRootViewController:rootController];
+    [[[[UIApplication sharedApplication] delegate] window] setRootViewController:navigation];
 }
 
 - (void)closeDrawer {
@@ -48,9 +82,9 @@
         case 2:
             return @"MyRequestsViewController";
         case 3:
-            return @"SavedRequestsViewController";
+            return @"CreateRequestViewController";
         case 4:
-            return @"ViewReportsViewController";
+            return @"CreateRequestViewController";
         default:
             break;
     }

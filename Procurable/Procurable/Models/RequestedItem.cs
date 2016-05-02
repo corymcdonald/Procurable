@@ -19,6 +19,7 @@ namespace Procurable.Models
         
         public int? ItemID { get; set; }
         [ForeignKey("ItemID")]
+        [Display(Name = "Inventory Item")]
         public virtual InventoryItem Item { get; set; }
 
         public bool InInventory {

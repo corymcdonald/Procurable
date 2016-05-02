@@ -16,6 +16,7 @@
     <div class="col-md-2">
         <br />
         <div class="pull-right">
+            @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" })
             @Html.ActionLink("Edit", "Edit", new { id = Model.ID }, new { @class = "btn btn-default" })
         </div>
     </div>

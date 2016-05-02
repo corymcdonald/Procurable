@@ -21,7 +21,7 @@ namespace Procurable.Controllers
     
 
         [Authorize]
-        public ActionResult InventoryItem(int? id)
+        public ActionResult InventoryItems(int? id)
         {
             if (id == null)
             {

@@ -20,7 +20,7 @@
         _name = nil;
         _comments = nil;
         _url = nil;
-        _itemDict = nil;
+        _inventoryItem = nil;
     }
     return self;
 }
@@ -36,7 +36,10 @@
             _name = [dictionary objectForKey:@"Name"];
             _comments = [dictionary objectForKey:@"Comments"];
             _url = [dictionary objectForKey:@"URL"];
-            _itemDict = [dictionary objectForKey:@"Item"];
+            _inventoryItem = nil;
+            if ([dictionary objectForKey:@"Item"]) {
+                _inventoryItem = [[InventoryItem alloc] initWithDictionary:(NSDictionary *)[dictionary objectForKey:@"Item"]];
+            }
         }
     }
     return self;

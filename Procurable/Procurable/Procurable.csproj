@@ -552,6 +552,10 @@
     <Content Include="Views\Reports\InventoryItem\Details.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Department.cshtml" />
     <Content Include="Views\Reports\InventoryItem\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\InventoryItemStatus.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\InventoryItemsIndex.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\InventoryItemsSearch.cshtml" />
+    <Content Include="Views\InventoryItems\RequestSearch.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

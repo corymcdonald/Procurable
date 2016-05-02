@@ -9,6 +9,9 @@ $white: #F4F4F4;
 //MAIN STYLES
 body{
     background-color: $white;
+    margin:0;
+	padding:0;
+	height:100%;
   
 }
 
@@ -28,19 +31,42 @@ body{
     }
 }
 
-.footer {
+#content {
+	padding-bottom:40px; /* Height of the footer element */
+}
+
+#footer {
     background-color: $black;
-    position: fixed;
-    bottom: 0;
     width: 100%;
-    /* Set the fixed height of the footer here */
+    position:absolute;
+    bottom:0;
     height: 40px;
     padding-top: 10px;
     
 }
 
+
+#wrapper {
+    min-height: 100%;
+    position:relative;
+}
+
+.cont
+
 .table-hover > tbody > tr:hover {
-    background-color: $light-grey;
+    background-color: $black !important;
+}
+
+.roundBox {
+    padding:15px;
+    background: #FFFFFF;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+
+}
+
+.darkLine {
+        border-top: 1px solid $black;
 }
 
 //LOGIN TESTING

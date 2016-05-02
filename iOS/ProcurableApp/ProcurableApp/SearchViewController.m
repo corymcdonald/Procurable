@@ -14,13 +14,16 @@
 #import "MMDrawerController.h"
 #import "UIViewController+MMDrawerController.h"
 #import "Item.h"
+#import "ItemDetailViewController.h"
 
 @interface SearchViewController () <UISearchBarDelegate>
 @property (strong, nonatomic) NetworkingController *networkingController;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *items;
 @property (strong, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (strong, nonatomic) Item *selectedItem;
+@property (strong, nonatomic) InventoryItem *selectedItem;
+@property (strong, nonatomic) IBOutlet UIButton *reloadTableButton;
+@property (strong, nonatomic) IBOutlet UILabel *noItemsLabel;
 @end
 
 @implementation SearchViewController
@@ -45,11 +48,10 @@
 //    [self.navigationItem.titleView setFrame:CGRectMake(0, 0, 40, 34)];
 }
 
--(void) viewWillAppear:(BOOL)inAnimated {
-    NSIndexPath *selected = [self.tableView indexPathForSelectedRow];
-    if (selected) {
-        [self.tableView deselectRowAtIndexPath:selected animated:NO];
-    }
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,6 +63,12 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
         [self.tableView reloadData];
+        [self.tableView setHidden:NO];
+        [self.noItemsLabel setHidden:YES];
+        if ([self.items count] == 0) {
+            [self.tableView setHidden:YES];
+            [self.noItemsLabel setHidden:NO];
+        }
     });
 }
 
@@ -106,10 +114,10 @@
     Item *item = (Item *)[self.items objectAtIndex:indexPath.row];
     [mainLabel setText:[item name]];
     [idLabel setText:[[item idNumber] stringValue]];
-    [availabilityLabel setText:@"No"];
-    if (item.inInventory) {
-        [availabilityLabel setText:@"Yes"];
-    }
+//    [availabilityLabel setText:@"No"];
+//    if (item.inInventory) {
+//        [availabilityLabel setText:@"Yes"];
+//    }
 //    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 //    [dateFormat setDateFormat:@"MMMM d, YYYY"];
 //    NSString *dateString = [dateFormat stringFromDate:[item createdDate]];
@@ -129,19 +137,20 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.selectedItem = (Item *)[self.items objectAtIndex:indexPath.row];
-//    [self performSegueWithIdentifier:@"RequestDetailSegue" sender:self];
+    self.selectedItem = (InventoryItem *)[self.items objectAtIndex:indexPath.row];
+    [self performSegueWithIdentifier:@"ItemDetailSegue" sender:self];
 }
 
 -(void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath {
-    self.selectedItem = (Item *)[self.items objectAtIndex:indexPath.row];
+    self.selectedItem = (InventoryItem *)[self.items objectAtIndex:indexPath.row];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    [self.searchBar resignFirstResponder];
     __weak __typeof(self) weakSelf = self;
-    [self.networkingController searchForItems:[searchBar text] withCompletion:^(NSArray *items, NSError * __nullable error) {
-        if ([items count] > 0 && !error)
+    [self.networkingController searchForItems:[searchBar text] withCompletion:^(BOOL success, NSArray *items, NSError * __nullable error) {
+        if (success && !error)
         {
             weakSelf.items = items;
             [weakSelf resolve];
@@ -151,13 +160,16 @@
     }];
 }
 
+- (IBAction)reloadAllItemsButtonTapped:(id)sender {
+    [self getItemsFromSite];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([[segue identifier] isEqualToString:@"RequestDetailSegue"])
-//    {
-//        RequestDetailViewController *vc = [segue destinationViewController];
-//        [vc setRequest:self.selectedRequest];
-//        [vc setIsManagerDetail:NO];
-//    }
+    if ([[segue identifier] isEqualToString:@"ItemDetailSegue"])
+    {
+        ItemDetailViewController *vc = [segue destinationViewController];
+        [vc setInventoryItem:self.selectedItem];
+    }
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "MMDrawerBarButtonItem.h"
+#import "CartSingleton.h"
 
 @interface AppDelegate ()
 
@@ -20,6 +21,7 @@
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
     
+    [CartSingleton sharedCart];
     // Override point for customization after application launch.
     if ([self isLoggedIn]) {
         [self presentMainInterface];
