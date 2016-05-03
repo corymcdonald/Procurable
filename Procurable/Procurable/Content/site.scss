@@ -51,11 +51,14 @@ body{
     position:relative;
 }
 
-.cont
 
-.table-hover > tbody > tr:hover {
-    background-color: $black !important;
+
+.table-hover {
+  > tbody > tr:hover {
+    background-color: #CECECE;
+  }
 }
+
 
 .roundBox {
     padding:15px;

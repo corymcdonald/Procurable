@@ -106,7 +106,7 @@
                             <div class="tab-pane @if (isinventorySub) { Write("active"); }" id="inventoryNav">
                                 <ul class="nav navbar-nav nav-pills">
                                    
-                                    <li class="@if (Inventories == Controller) { Write("active"); }">@Html.ActionLink("Inventories", "", "Inventories")</li>
+                                    <!--<li class="@if (Inventories == Controller) { Write("active"); }">@Html.ActionLink("Inventories", "", "Inventories")</li>-->
                                     <li class="@if (InventoryItems == Controller) { Write("active"); }">@Html.ActionLink("Inventory Items", "", "InventoryItems")</li>
                                     <li class="@if (PurchaseOrder == Controller) { Write("active"); }">@Html.ActionLink("Purchase Order", "", "PurchaseOrders")</li>
                                     <li class="@if (Reorders == Controller) { Write("active"); }">@Html.ActionLink("Auto Reorder", "", "Reorders")</li>

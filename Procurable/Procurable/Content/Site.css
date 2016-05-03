@@ -32,9 +32,8 @@ body {
   min-height: 100%;
   position: relative; }
 
-.cont
 .table-hover > tbody > tr:hover {
-  background-color: #121314 !important; }
+  background-color: #CECECE; }
 
 .roundBox {
   padding: 15px;

@@ -14,7 +14,8 @@ namespace Procurable.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-     
+
+        [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 
         [Display(Name = "Created Modified")]
