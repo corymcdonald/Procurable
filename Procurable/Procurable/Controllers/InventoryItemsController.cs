@@ -232,7 +232,16 @@ namespace Procurable.Models
         public ActionResult Search(string query)
         {
             if (Request.AcceptTypes.Contains("application/json"))
-                return Json(SearchInternal(query), JsonRequestBehavior.AllowGet);
+            {
+                var list = JsonConvert.SerializeObject(SearchInternal(query),
+                Formatting.None,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                });
+                return Content(list, "application/json");
+
+            }
             return PartialView("Search", SearchInternal(query));
         }
 
