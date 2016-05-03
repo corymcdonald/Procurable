@@ -19,10 +19,18 @@ namespace Procurable.Models
         [Authorize]
         public ActionResult Index()
         {
-            var inventoryCount = db.InventoryItems.ToList().GroupBy(x => new { x.Name }).Select(group => new InventoryItemIndex() { Name=group.Key.Name, Item = group.ToList<InventoryItem>(), Count = group.Count() }).ToList();
+            var inventoryCount = db.InventoryItems.ToList().GroupBy(x => new { x.Name }).Select(group => new InventoryItemIndex() { Name = group.Key.Name, Item = group.ToList<InventoryItem>(), Count = group.Count() }).ToList();
             if (Request.AcceptTypes.Contains("application/json"))
             {
-                return Json(inventoryCount, JsonRequestBehavior.AllowGet);
+
+                var list = JsonConvert.SerializeObject(inventoryCount,
+              Formatting.None,
+              new JsonSerializerSettings()
+              {
+                  ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+              });
+                return Content(list, "application/json");
+
             }
             return View(inventoryCount);
         }
@@ -30,7 +38,13 @@ namespace Procurable.Models
         [Authorize]
         public ActionResult GetInventoryItems()
         {
-            return Json(db.InventoryItems.ToList(), JsonRequestBehavior.AllowGet);
+            var list = JsonConvert.SerializeObject(db.InventoryItems.ToList(),
+   Formatting.None,
+   new JsonSerializerSettings()
+   {
+       ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+   });
+            return Content(list, "application/json");
         }
 
         [Authorize]
@@ -69,8 +83,15 @@ namespace Procurable.Models
                 return HttpNotFound();
             }
             if (Request.AcceptTypes.Contains("application/json"))
+
             {
-                return Json(inventoryItem, JsonRequestBehavior.AllowGet);
+                var list = JsonConvert.SerializeObject(inventoryItem,
+   Formatting.None,
+   new JsonSerializerSettings()
+   {
+       ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+   });
+                return Content(list, "application/json");
             }
             ViewData["IsReportAvailable"] = db.InventoryItemsHistory.Count(x => x.InventorySourceID == id.Value) > 0;
             return View(inventoryItem);
@@ -131,15 +152,15 @@ namespace Procurable.Models
         {
             if (ModelState.IsValid)
             {
-                var existingItem  = db.InventoryItems.AsNoTracking().FirstOrDefault(x => x.ID == inventoryItem.ID);
+                var existingItem = db.InventoryItems.AsNoTracking().FirstOrDefault(x => x.ID == inventoryItem.ID);
                 inventoryItem.DepreciationRemaining = existingItem.DepreciationRemaining;
                 inventoryItem.PurchaseOrderID = existingItem.PurchaseOrderID;
-                if(!existingItem.Depreciation.HasValue)
+                if (!existingItem.Depreciation.HasValue)
                 {
                     inventoryItem.DepreciationRemaining = inventoryItem.Price;
                 }
 
-                var itemHistory = new InventoryItemHistory(db.InventoryItems.AsNoTracking().FirstOrDefault(x=> x.ID==inventoryItem.ID)) { Action = InventoryItemHistory.Actions.Update };
+                var itemHistory = new InventoryItemHistory(db.InventoryItems.AsNoTracking().FirstOrDefault(x => x.ID == inventoryItem.ID)) { Action = InventoryItemHistory.Actions.Update };
                 db.InventoryItemsHistory.Add(itemHistory);
 
                 db.Entry(inventoryItem).State = EntityState.Modified;
@@ -195,7 +216,7 @@ namespace Procurable.Models
         }
 
         public List<InventoryItem> SearchForRequest(string query)
-        {            
+        {
             var asResult = new List<InventoryItem>();
             if (!String.IsNullOrEmpty(query))
             {
@@ -207,7 +228,7 @@ namespace Procurable.Models
                            || a.Location.Trim().ToUpper().Contains(query))
                            && a.Status == InventoryStatus.Unallocated
                            select a;
-               
+
                 asResult = temp.ToList();
             }
             return asResult;
@@ -217,11 +238,11 @@ namespace Procurable.Models
             var asResult = new List<InventoryItemIndex>();
             if (!string.IsNullOrEmpty(query))
             {
-            query = query.ToUpper().Trim();
+                query = query.ToUpper().Trim();
                 var temp = from a in db.InventoryItems
-                           where a.Name.Trim().ToUpper().Contains(query) 
+                           where a.Name.Trim().ToUpper().Contains(query)
                            || a.PartNumber.Trim().ToUpper().Contains(query)
-                           || a.Vendor.Name.Trim().ToUpper().Contains(query)                           
+                           || a.Vendor.Name.Trim().ToUpper().Contains(query)
                            || a.Location.Trim().ToUpper().Contains(query)
                            select a;
 
