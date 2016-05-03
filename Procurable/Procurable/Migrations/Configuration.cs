@@ -490,11 +490,11 @@ namespace Procurable.Migrations
             POs.ForEach(s => context.PurchaseOrders.AddOrUpdate(p => p.ID, s));
 
             foreach (var inventoryItem in InventoryItems1)
-                inventoryItem.PurchaseOrder = PO1;
+                inventoryItem.PurchaseOrderID = PO1.ID;
             foreach (var inventoryItem in InventoryItems2)
-                inventoryItem.PurchaseOrder = PO2;
+                inventoryItem.PurchaseOrderID = PO2.ID;
             foreach (var inventoryItem in InventoryItems3)
-                inventoryItem.PurchaseOrder = PO3;
+                inventoryItem.PurchaseOrderID = PO3.ID;
 
             InventoryItems1.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
             InventoryItems2.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
