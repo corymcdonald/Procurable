@@ -126,7 +126,9 @@ namespace Procurable.Controllers
                     
                     ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
                     request.RequestedBy = currentUser;
+                    request.RequestedFor = currentUser;
 
+                    
                     Request.InputStream.Position = 0;
                     System.IO.StreamReader str = new System.IO.StreamReader(Request.InputStream);
                     string rawBody = str.ReadToEnd();
@@ -173,8 +175,20 @@ namespace Procurable.Controllers
                     ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
                     request.RequestedBy = currentUser;
                     //System.Diagnostics.Debug.WriteLine(currentUser);
+                    if(Request.Form.Get("UserID") != null && !String.IsNullOrEmpty(Request.Form.Get("UserID").ToString()))
+                    {
+                        ApplicationUser forUser = db.Users.Find(Request.Form.Get("UserID").ToString());
+                        request.RequestedFor = forUser;
+                    }
+                    else
+                    {
+                        request.RequestedFor = currentUser;
+                    }
+                   
+                
 
-                    dynamic RequestItemsJSON= JsonConvert.DeserializeObject(Request.Form.Get("RequestItems"));
+
+                    dynamic RequestItemsJSON = JsonConvert.DeserializeObject(Request.Form.Get("RequestItems"));
                  
 
                     if (RequestItemsJSON != null)
