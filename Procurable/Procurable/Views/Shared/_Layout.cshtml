@@ -132,9 +132,6 @@
                                     <li class="@if (UrlParams.Any(x => x.Value.ToString().Contains(PriceHistory)) && UrlParams.Any(x=>x.Value.ToString().Contains(Reports))) { Write("active"); }">
                                         @Html.ActionLink("Price History", "", "Reports/InventoryItems")
                                     </li>
-                                    <li class="@if (UrlParams.Any(x => x.Value.ToString().Contains("Depreciation")) && UrlParams.Any(x=>x.Value.ToString().Contains(Reports))) { Write("active"); }">
-                                        @Html.ActionLink("Depreciation", "", "Reports/Depreciation")
-                                    </li>
                                 </ul>
 
                             </div>

@@ -42,12 +42,8 @@ namespace Procurable.Models
 
         private decimal MonthToDay = 30.4167M;
 
-        public DateTime? CreatedDate { get; set; }
-
-        [Display(Name = "Depreciation Remaining")]
         public decimal? DepreciationRemaining { get; set; }
         public decimal? Depreciation { get; set; }
-        [Display(Name = "Fully Depreciated Date")]
         public TimeSpan DepreciationDate
         {
             get
