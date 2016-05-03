@@ -55,7 +55,7 @@ namespace Procurable.Models
                 TimeSpan t = new TimeSpan();
                 if (Depreciation.HasValue)
                 {
-                    t = new TimeSpan((int)Math.Ceiling((Price / Depreciation.Value) * MonthToDay), 0, 0, 0);
+                    t = new TimeSpan((int)Math.Ceiling((DepreciationRemaining.Value / Depreciation.Value) * MonthToDay), 0, 0, 0);
                 }
                 return t;
             }
