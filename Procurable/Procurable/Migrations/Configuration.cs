@@ -36,76 +36,76 @@ namespace Procurable.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             #region Vendors
-            var vendors = new List<Vendor>();
-            vendors.Add(new Vendor() { ID = 0, Name = "Amazon", Description = "An American electronic commerce and cloud computing company with headquarters in Seattle, Washington.", Website = "http://amazon.com/", Contact = "1 (888) 280-4331" });
-            vendors.Add(new Vendor() { ID = 1, Name = "Acer", Description = "Taiwanese multinational hardware and electronics corporation specializing in advanced electronics technology", Website = "http://Acer.com" });
-            vendors.Add(new Vendor() { ID = 2, Name = "Gateway", Description = "American computer hardware company based in South Dakota, that developed, manufactured, supported, and marketed a wide range of personal computers", Website = "http://Gateway.com" });
-            vendors.Add(new Vendor() { ID = 3, Name = "Advent", Description = "", Website = "http://Advent.com" });
-            vendors.Add(new Vendor() { ID = 5, Name = "Aigo", Description = "aigo is the trade name of Chinese consumer electronics company Beijing Huaqi Information Digital Technology Co", Website = "http://Aigo.com" });
-            vendors.Add(new Vendor() { ID = 6, Name = "AMD", Description = "Advanced Micro Devices, Inc. is an American worldwide semiconductor company based in Sunnyvale, California, United States", Website = "http://AMD.com" });
-            vendors.Add(new Vendor() { ID = 9, Name = "AORUS", Description = "", Website = "http://AORUS.com" });
-            vendors.Add(new Vendor() { ID = 10, Name = "AOpen", Description = "", Website = "http://AOpen.com" });
-            vendors.Add(new Vendor() { ID = 11, Name = "Apple", Description = "Apple Inc. is an American multinational technology company headquartered in Cupertino, California, that designs, develops, and sells consumer electronics, computer software, and online services", Website = "http://Apple.com" });
-            vendors.Add(new Vendor() { ID = 12, Name = "ASRock", Description = "", Website = "http://ASRock.com" });
-            vendors.Add(new Vendor() { ID = 13, Name = "Asus", Description = "", Website = "http://Asus.com" });
-            vendors.Add(new Vendor() { ID = 14, Name = "AVADirect", Description = "", Website = "http://AVADirect.com" });
-            vendors.Add(new Vendor() { ID = 19, Name = "Cray", Description = "", Website = "http://Cray.com" });
-            vendors.Add(new Vendor() { ID = 21, Name = "Dell", Description = "", Website = "http://Dell.com" });
-            vendors.Add(new Vendor() { ID = 25, Name = "Everex", Description = "", Website = "http://Everex.com" });
-            vendors.Add(new Vendor() { ID = 26, Name = "EVGA", Description = "", Website = "http://EVGA.com" });
-            vendors.Add(new Vendor() { ID = 28, Name = "Fujitsu", Description = "", Website = "http://Fujitsu.com" });
-            vendors.Add(new Vendor() { ID = 31, Name = "Gigabyte", Description = "Gigabyte Technology Co., Ltd., is an international manufacturer and distributor of computer hardware products", Website = "http://Gigabyte.com" });
-            vendors.Add(new Vendor() { ID = 32, Name = "Gradiente", Description = "", Website = "http://Gradiente.com" });
-            vendors.Add(new Vendor() { ID = 33, Name = "Hasee", Description = "", Website = "http://Hasee.com" });
-            vendors.Add(new Vendor() { ID = 34, Name = "Compaq", Description = "", Website = "http://Compaq.com" });
-            vendors.Add(new Vendor() { ID = 36, Name = "HTC", Description = "HTC Corporation, Full name:, is a Taiwanese multinational manufacturer of smartphones and tablets headquartered in New Taipei City, Taiwan.", Website = "http://HTC.com" });
-            vendors.Add(new Vendor() { ID = 37, Name = "Hyundai", Description = "", Website = "http://Hyundai.com" });
-            vendors.Add(new Vendor() { ID = 38, Name = "IBM", Description = "", Website = "http://IBM.com" });
-            vendors.Add(new Vendor() { ID = 39, Name = "IBuyPower", Description = "", Website = "http://IBuyPower.com" });
-            vendors.Add(new Vendor() { ID = 40, Name = "Intel", Description = "", Website = "http://Intel.com" });
-            vendors.Add(new Vendor() { ID = 41, Name = "Inventec", Description = "", Website = "http://Inventec.com" });
-            vendors.Add(new Vendor() { ID = 46, Name = "Lanix", Description = "", Website = "http://Lanix.com" });
-            vendors.Add(new Vendor() { ID = 47, Name = "Lenovo", Description = "", Website = "http://Lenovo.com" });
-            vendors.Add(new Vendor() { ID = 48, Name = "Medion", Description = "", Website = "http://Medion.com" });
-            vendors.Add(new Vendor() { ID = 49, Name = "LG", Description = "", Website = "http://LG.com" });
-            vendors.Add(new Vendor() { ID = 50, Name = "LiteOn", Description = "", Website = "http://LiteOn.com" });
-            vendors.Add(new Vendor() { ID = 51, Name = "Maingear", Description = "", Website = "http://Maingear.com" });
-            vendors.Add(new Vendor() { ID = 53, Name = "Micron", Description = "", Website = "http://Micron.com" });
-            vendors.Add(new Vendor() { ID = 54, Name = "Microsoft", Description = "", Website = "http://Microsoft.com" });
-            vendors.Add(new Vendor() { ID = 55, Name = "MiTAC", Description = "", Website = "http://MiTAC.com" });
-            vendors.Add(new Vendor() { ID = 56, Name = "Motorola", Description = "", Website = "http://Motorola.com" });
-            vendors.Add(new Vendor() { ID = 57, Name = "NComputing", Description = "", Website = "http://NComputing.com" });
-            vendors.Add(new Vendor() { ID = 58, Name = "NCR", Description = "", Website = "http://NCR.com" });
-            vendors.Add(new Vendor() { ID = 59, Name = "NEC", Description = "", Website = "http://NEC.com" });
-            vendors.Add(new Vendor() { ID = 61, Name = "NZXT", Description = "", Website = "http://NZXT.com" });
-            vendors.Add(new Vendor() { ID = 62, Name = "Olidata", Description = "", Website = "http://Olidata.com" });
-            vendors.Add(new Vendor() { ID = 63, Name = "Olivetti", Description = "", Website = "http://Olivetti.com" });
-            vendors.Add(new Vendor() { ID = 64, Name = "Oracle", Description = "", Website = "http://Oracle.com" });
-            vendors.Add(new Vendor() { ID = 65, Name = "Panasonic", Description = "", Website = "http://Panasonic.com" });
-            vendors.Add(new Vendor() { ID = 66, Name = "Psychsoftpc", Description = "", Website = "http://Psychsoftpc.com" });
-            vendors.Add(new Vendor() { ID = 69, Name = "RoseWill", Description = "", Website = "http://RoseWill.com" });
-            vendors.Add(new Vendor() { ID = 70, Name = "Samsung", Description = "", Website = "http://Samsung.com" });
-            vendors.Add(new Vendor() { ID = 71, Name = "Shuttle", Description = "", Website = "http://Shuttle.com" });
-            vendors.Add(new Vendor() { ID = 72, Name = "SGI", Description = "", Website = "http://SGI.com" });
-            vendors.Add(new Vendor() { ID = 73, Name = "Síragon", Description = "", Website = "http://Siragon.com" });
-            vendors.Add(new Vendor() { ID = 74, Name = "Sony", Description = "", Website = "http://Sony.com" });
-            vendors.Add(new Vendor() { ID = 75, Name = "StealthMachines", Description = "", Website = "http://StealthMachines.com" });
-            vendors.Add(new Vendor() { ID = 76, Name = "Supermicro", Description = "", Website = "http://Supermicro.com" });
-            vendors.Add(new Vendor() { ID = 77, Name = "Systemax", Description = "", Website = "http://Systemax.com" });
-            vendors.Add(new Vendor() { ID = 78, Name = "System76", Description = "", Website = "http://System76.com" });
-            vendors.Add(new Vendor() { ID = 80, Name = "TabletKiosk", Description = "", Website = "http://TabletKiosk.com" });
-            vendors.Add(new Vendor() { ID = 81, Name = "Tatung", Description = "", Website = "http://Tatung.com" });
-            vendors.Add(new Vendor() { ID = 82, Name = "Toshiba", Description = "", Website = "http://Toshiba.com" });
-            vendors.Add(new Vendor() { ID = 83, Name = "Tyan", Description = "", Website = "http://Tyan.com" });
-            vendors.Add(new Vendor() { ID = 84, Name = "Unisys", Description = "", Website = "http://Unisys.com" });
-            vendors.Add(new Vendor() { ID = 85, Name = "Vestel", Description = "", Website = "http://Vestel.com" });
-            vendors.Add(new Vendor() { ID = 87, Name = "ViewSonic", Description = "", Website = "http://ViewSonic.com" });
-            vendors.Add(new Vendor() { ID = 89, Name = "Vizio", Description = "", Website = "http://Vizio.com" });
-            vendors.Add(new Vendor() { ID = 92, Name = "Wortmann", Description = "", Website = "http://Wortmann.com" });
-            vendors.Add(new Vendor() { ID = 93, Name = "Xidax", Description = "", Website = "http://Xidax.com" });
-            vendors.Add(new Vendor() { ID = 95, Name = "Zoostorm", Description = "", Website = "http://Zoostorm.com" });
-            vendors.Add(new Vendor() { ID = 96, Name = "Zotac", Description = "", Website = "http://Zotac.com" });
-            vendors.ForEach(s => context.Vendors.AddOrUpdate(p => p.ID, s));
+            var Vendors = new List<Vendor>();
+            Vendors.Add(new Vendor() { ID = 0, Name = "Amazon", Description = "An American electronic commerce and cloud computing company with headquarters in Seattle, Washington.", Website = "http://amazon.com/", Contact = "1 (888) 280-4331" });
+            Vendors.Add(new Vendor() { ID = 1, Name = "Acer", Description = "Taiwanese multinational hardware and electronics corporation specializing in advanced electronics technology", Website = "http://Acer.com" });
+            Vendors.Add(new Vendor() { ID = 2, Name = "Gateway", Description = "American computer hardware company based in South Dakota, that developed, manufactured, supported, and marketed a wide range of personal computers", Website = "http://Gateway.com" });
+            Vendors.Add(new Vendor() { ID = 3, Name = "Advent", Description = "", Website = "http://Advent.com" });
+            Vendors.Add(new Vendor() { ID = 5, Name = "Aigo", Description = "aigo is the trade name of Chinese consumer electronics company Beijing Huaqi Information Digital Technology Co", Website = "http://Aigo.com" });
+            Vendors.Add(new Vendor() { ID = 6, Name = "AMD", Description = "Advanced Micro Devices, Inc. is an American worldwide semiconductor company based in Sunnyvale, California, United States", Website = "http://AMD.com" });
+            Vendors.Add(new Vendor() { ID = 9, Name = "AORUS", Description = "", Website = "http://AORUS.com" });
+            Vendors.Add(new Vendor() { ID = 10, Name = "AOpen", Description = "", Website = "http://AOpen.com" });
+            Vendors.Add(new Vendor() { ID = 11, Name = "Apple", Description = "Apple Inc. is an American multinational technology company headquartered in Cupertino, California, that designs, develops, and sells consumer electronics, computer software, and online services", Website = "http://Apple.com" });
+            Vendors.Add(new Vendor() { ID = 12, Name = "ASRock", Description = "", Website = "http://ASRock.com" });
+            Vendors.Add(new Vendor() { ID = 13, Name = "Asus", Description = "", Website = "http://Asus.com" });
+            Vendors.Add(new Vendor() { ID = 14, Name = "AVADirect", Description = "", Website = "http://AVADirect.com" });
+            Vendors.Add(new Vendor() { ID = 19, Name = "Cray", Description = "", Website = "http://Cray.com" });
+            Vendors.Add(new Vendor() { ID = 21, Name = "Dell", Description = "", Website = "http://Dell.com" });
+            Vendors.Add(new Vendor() { ID = 25, Name = "Everex", Description = "", Website = "http://Everex.com" });
+            Vendors.Add(new Vendor() { ID = 26, Name = "EVGA", Description = "", Website = "http://EVGA.com" });
+            Vendors.Add(new Vendor() { ID = 28, Name = "Fujitsu", Description = "", Website = "http://Fujitsu.com" });
+            Vendors.Add(new Vendor() { ID = 31, Name = "Gigabyte", Description = "Gigabyte Technology Co., Ltd., is an international manufacturer and distributor of computer hardware products", Website = "http://Gigabyte.com" });
+            Vendors.Add(new Vendor() { ID = 32, Name = "Gradiente", Description = "", Website = "http://Gradiente.com" });
+            Vendors.Add(new Vendor() { ID = 33, Name = "Hasee", Description = "", Website = "http://Hasee.com" });
+            Vendors.Add(new Vendor() { ID = 34, Name = "Compaq", Description = "", Website = "http://Compaq.com" });
+            Vendors.Add(new Vendor() { ID = 36, Name = "HTC", Description = "HTC Corporation, Full name:, is a Taiwanese multinational manufacturer of smartphones and tablets headquartered in New Taipei City, Taiwan.", Website = "http://HTC.com" });
+            Vendors.Add(new Vendor() { ID = 37, Name = "Hyundai", Description = "", Website = "http://Hyundai.com" });
+            Vendors.Add(new Vendor() { ID = 38, Name = "IBM", Description = "", Website = "http://IBM.com" });
+            Vendors.Add(new Vendor() { ID = 39, Name = "IBuyPower", Description = "", Website = "http://IBuyPower.com" });
+            Vendors.Add(new Vendor() { ID = 40, Name = "Intel", Description = "", Website = "http://Intel.com" });
+            Vendors.Add(new Vendor() { ID = 41, Name = "Inventec", Description = "", Website = "http://Inventec.com" });
+            Vendors.Add(new Vendor() { ID = 46, Name = "Lanix", Description = "", Website = "http://Lanix.com" });
+            Vendors.Add(new Vendor() { ID = 47, Name = "Lenovo", Description = "", Website = "http://Lenovo.com" });
+            Vendors.Add(new Vendor() { ID = 48, Name = "Medion", Description = "", Website = "http://Medion.com" });
+            Vendors.Add(new Vendor() { ID = 49, Name = "LG", Description = "", Website = "http://LG.com" });
+            Vendors.Add(new Vendor() { ID = 50, Name = "LiteOn", Description = "", Website = "http://LiteOn.com" });
+            Vendors.Add(new Vendor() { ID = 51, Name = "Maingear", Description = "", Website = "http://Maingear.com" });
+            Vendors.Add(new Vendor() { ID = 53, Name = "Micron", Description = "", Website = "http://Micron.com" });
+            Vendors.Add(new Vendor() { ID = 54, Name = "Microsoft", Description = "", Website = "http://Microsoft.com" });
+            Vendors.Add(new Vendor() { ID = 55, Name = "MiTAC", Description = "", Website = "http://MiTAC.com" });
+            Vendors.Add(new Vendor() { ID = 56, Name = "Motorola", Description = "", Website = "http://Motorola.com" });
+            Vendors.Add(new Vendor() { ID = 57, Name = "NComputing", Description = "", Website = "http://NComputing.com" });
+            Vendors.Add(new Vendor() { ID = 58, Name = "NCR", Description = "", Website = "http://NCR.com" });
+            Vendors.Add(new Vendor() { ID = 59, Name = "NEC", Description = "", Website = "http://NEC.com" });
+            Vendors.Add(new Vendor() { ID = 61, Name = "NZXT", Description = "", Website = "http://NZXT.com" });
+            Vendors.Add(new Vendor() { ID = 62, Name = "Olidata", Description = "", Website = "http://Olidata.com" });
+            Vendors.Add(new Vendor() { ID = 63, Name = "Olivetti", Description = "", Website = "http://Olivetti.com" });
+            Vendors.Add(new Vendor() { ID = 64, Name = "Oracle", Description = "", Website = "http://Oracle.com" });
+            Vendors.Add(new Vendor() { ID = 65, Name = "Panasonic", Description = "", Website = "http://Panasonic.com" });
+            Vendors.Add(new Vendor() { ID = 66, Name = "Psychsoftpc", Description = "", Website = "http://Psychsoftpc.com" });
+            Vendors.Add(new Vendor() { ID = 69, Name = "RoseWill", Description = "", Website = "http://RoseWill.com" });
+            Vendors.Add(new Vendor() { ID = 70, Name = "Samsung", Description = "", Website = "http://Samsung.com" });
+            Vendors.Add(new Vendor() { ID = 71, Name = "Shuttle", Description = "", Website = "http://Shuttle.com" });
+            Vendors.Add(new Vendor() { ID = 72, Name = "SGI", Description = "", Website = "http://SGI.com" });
+            Vendors.Add(new Vendor() { ID = 73, Name = "Síragon", Description = "", Website = "http://Siragon.com" });
+            Vendors.Add(new Vendor() { ID = 74, Name = "Sony", Description = "", Website = "http://Sony.com" });
+            Vendors.Add(new Vendor() { ID = 75, Name = "StealthMachines", Description = "", Website = "http://StealthMachines.com" });
+            Vendors.Add(new Vendor() { ID = 76, Name = "Supermicro", Description = "", Website = "http://Supermicro.com" });
+            Vendors.Add(new Vendor() { ID = 77, Name = "Systemax", Description = "", Website = "http://Systemax.com" });
+            Vendors.Add(new Vendor() { ID = 78, Name = "System76", Description = "", Website = "http://System76.com" });
+            Vendors.Add(new Vendor() { ID = 80, Name = "TabletKiosk", Description = "", Website = "http://TabletKiosk.com" });
+            Vendors.Add(new Vendor() { ID = 81, Name = "Tatung", Description = "", Website = "http://Tatung.com" });
+            Vendors.Add(new Vendor() { ID = 82, Name = "Toshiba", Description = "", Website = "http://Toshiba.com" });
+            Vendors.Add(new Vendor() { ID = 83, Name = "Tyan", Description = "", Website = "http://Tyan.com" });
+            Vendors.Add(new Vendor() { ID = 84, Name = "Unisys", Description = "", Website = "http://Unisys.com" });
+            Vendors.Add(new Vendor() { ID = 85, Name = "Vestel", Description = "", Website = "http://Vestel.com" });
+            Vendors.Add(new Vendor() { ID = 87, Name = "ViewSonic", Description = "", Website = "http://ViewSonic.com" });
+            Vendors.Add(new Vendor() { ID = 89, Name = "Vizio", Description = "", Website = "http://Vizio.com" });
+            Vendors.Add(new Vendor() { ID = 92, Name = "Wortmann", Description = "", Website = "http://Wortmann.com" });
+            Vendors.Add(new Vendor() { ID = 93, Name = "Xidax", Description = "", Website = "http://Xidax.com" });
+            Vendors.Add(new Vendor() { ID = 95, Name = "Zoostorm", Description = "", Website = "http://Zoostorm.com" });
+            Vendors.Add(new Vendor() { ID = 96, Name = "Zotac", Description = "", Website = "http://Zotac.com" });
+            Vendors.ForEach(s => context.Vendors.AddOrUpdate(p => p.ID, s));
             #endregion
 
 
@@ -329,7 +329,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 7,
-                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
+                VendorID =Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
                 Name = "iPad Air 2",
                 Comments = "iOS 8.1",
                 Status = InventoryStatus.Allocated,
@@ -342,7 +342,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 8,
-                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
+                VendorID =Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
                 Name = "iPad Air 2",
                 Comments = "iOS 8.1",
                 Status = InventoryStatus.Unallocated,
@@ -355,7 +355,7 @@ namespace Procurable.Migrations
             InventoryItems2.Add(new InventoryItem()
             {
                 ID = 9,
-                VendorID = context.Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
+                VendorID =Vendors.FirstOrDefault(x => x.Name == "Apple").ID,
                 Name = "iPad Air 2",
                 Comments = "iOS 8.1",
                 Status = InventoryStatus.Unallocated,

@@ -19,6 +19,7 @@ namespace Procurable.Models
             this.InventorySourceID = inventoryItem.ID;
             this.Name = inventoryItem.Name;
             this.VendorID = inventoryItem.VendorID;
+            if(inventoryItem.PurchaseOrderID.HasValue)
             this.PurchaseOrderID = inventoryItem.PurchaseOrderID.Value;
             this.Price = inventoryItem.Price;
             this.Comments = inventoryItem.Comments;
@@ -37,7 +38,7 @@ namespace Procurable.Models
         public int VendorID { get; set; }
         public virtual Vendor Vendor { get; set; }
 
-        public int PurchaseOrderID { get; set; }
+        public int? PurchaseOrderID { get; set; }
         [Display(Name = "Purchase Order")]
         public virtual PurchaseOrder PurchaseOrder { get; set; }
         public decimal Price { get; set; }
