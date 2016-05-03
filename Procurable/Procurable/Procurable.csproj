@@ -417,6 +417,7 @@
     <Content Include="App_Readme\Handlebarsjs_README.md" />
     <Content Include="App_Readme\Handlebarsjs_LICENSE" />
     <None Include="Properties\PublishProfiles\Procurable - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\Procurable.pubxml" />
     <None Include="Properties\PublishProfiles\ProcurableDev - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-2.2.2.intellisense.js" />
