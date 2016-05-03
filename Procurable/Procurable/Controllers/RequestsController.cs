@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
 using System.Net.Mail;
+using System.Collections;
 
 namespace Procurable.Controllers
 {
@@ -294,6 +295,17 @@ namespace Procurable.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Request request = db.Requests.Find(id);
+
+            ArrayList RemoveList = new ArrayList();
+            foreach (RequestedItem item in request.Items)
+            {
+                RemoveList.Add(item);
+            }
+            foreach(RequestedItem reitem in RemoveList)
+            {
+                db.RequestedItems.Remove(reitem);
+            }
+
             db.Requests.Remove(request);
             db.SaveChanges();
             if (Request.AcceptTypes.Contains("application/json"))
