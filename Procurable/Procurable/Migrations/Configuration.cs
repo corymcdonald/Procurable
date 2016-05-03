@@ -22,6 +22,8 @@ namespace Procurable.Migrations
         private Random rand = new Random();
         protected override void Seed(Procurable.Models.ApplicationDbContext context)
         {
+            //if (System.Diagnostics.Debugger.IsAttached == false)
+            //    System.Diagnostics.Debugger.Launch();
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
@@ -211,13 +213,18 @@ namespace Procurable.Migrations
             {
                 mattID = UserManager.FindByName("matt@test.com").Id;
             }
-
+            string CoryID = "";
             if (!(context.Users.Any(u => u.UserName == "cory@test.com")))
             {
                
                 var userToInsert = new ApplicationUser { UserName = "cory@test.com", DepartmentID = 4, Email = "cory@corywmcdonald.com ", FirstName = "Cory", LastName = "McDonald" };
                 UserManager.Create(userToInsert, "password");
                 UserManager.AddToRole(userToInsert.Id, "User");
+                CoryID = userToInsert.Id;
+            }
+            else
+            {
+                CoryID = UserManager.FindByName("cory@test.com").Id;
             }
             if (!(context.Users.Any(u => u.UserName == "erin@test.com")))
             {
@@ -500,6 +507,8 @@ namespace Procurable.Migrations
             List<RequestedItem> RequestItems1 = new List<RequestedItem>();
             List<RequestedItem> RequestItems2 = new List<RequestedItem>();
             List<RequestedItem> RequestItems3 = new List<RequestedItem>();
+            List<RequestedItem> RequestItems4 = new List<RequestedItem>();
+            List<RequestedItem> RequestItems5 = new List<RequestedItem>();
 
 
             RequestItems1.Add(new RequestedItem()
@@ -507,7 +516,7 @@ namespace Procurable.Migrations
                 ID = 1,
                 Name = "Paper",
                 Comments = "For the printer",
-                URL = "http://www.amazon.com"
+                URL = "http://www.amazon.com/Hammermill-Paper-Bright-Sheets-150200P/dp/B00U03707S/ref=sr_1_2?s=office-products&ie=UTF8&qid=1462298943&sr=1-2&keywords=paper"
             });
             RequestItems1.Add(new RequestedItem()
             {
@@ -521,14 +530,14 @@ namespace Procurable.Migrations
                 ID = 3,
                 Name = "Antec Cooler",
                 Comments = "My pc is running hot",
-                URL = "http://www.amazon.com"
+                URL = "http://www.amazon.com/Antec-Notebook-Cooler-USB-Powered/dp/B0000BVYTV/ref=sr_1_sc_1?ie=UTF8&qid=1462298988&sr=8-1-spell&keywords=Antec+Coole"
             });
             RequestItems1.Add(new RequestedItem()
             {
                 ID = 4,
                 Name = "Keyboard",
                 Comments = "t'nac epyt",
-                URL = "http://www.amazon.com"
+                URL = ""
             });
 
             RequestItems2.Add(new RequestedItem()
@@ -536,7 +545,7 @@ namespace Procurable.Migrations
                 ID = 5,
                 Name = "24Inch Monitor",
                 Comments = "Cant see",
-                URL = "http://www.amazon.com"
+                URL = ""
             });
             RequestItems2.Add(new RequestedItem()
             {
@@ -561,22 +570,39 @@ namespace Procurable.Migrations
                 URL = "http://www.dell.com"
             });
 
+            RequestItems4.Add(new RequestedItem()
+            {
+                ID = 9,
+                Name = "iPad Air 2 ",
+                Comments = "",
+                URL = "",
+            });
+
+            RequestItems5.Add(new RequestedItem()
+            {
+                ID = 10,
+                Name = "iPad Air 2 ",
+                Comments = "",
+                URL = "",
+            });
 
             RequestItems1.ForEach(s => context.RequestedItems.AddOrUpdate(p => p.ID, s));
             RequestItems2.ForEach(s => context.RequestedItems.AddOrUpdate(p => p.ID, s));
             RequestItems3.ForEach(s => context.RequestedItems.AddOrUpdate(p => p.ID, s));
-
+            RequestItems4.ForEach(s => context.RequestedItems.AddOrUpdate(p => p.ID, s));
+            RequestItems5.ForEach(s => context.RequestedItems.AddOrUpdate(p => p.ID, s));
+            
             List<Request> REQs = new List<Request>();
 
             var Req1 = (new Request()
             {
                 ID = 1,
-                Name = "general Junk",
-                Comments = "this is just stuff I need",
+                Name = "General Items",
+                Comments = "Items I require to do my job",
                 RequestedById = adminID,
                 RequestedForId = adminID,
                 Items = RequestItems1,
-                Status = RequestStatus.Opened,
+                Status = RequestStatus.InProgress,
                 CreatedDate = DateTime.Now,
                 LastModified = DateTime.Now
 
@@ -585,8 +611,8 @@ namespace Procurable.Migrations
             var Req2 = (new Request()
             {
                 ID = 2,
-                Name = "Lucas' Junk",
-                Comments = "I NEED THIS",
+                Name = "Cory's Request",
+                Comments = "Please give me these things. I want them.",
                 RequestedById = lucasID,
                 RequestedForId = lucasID,
                 Items = RequestItems2,
@@ -599,25 +625,128 @@ namespace Procurable.Migrations
             var Req3 = (new Request()
             {
                 ID = 3,
-                Name = "Matts Junk",
-                Comments = "Worth a fortune in some lands",
+                Name = "I don't really need these",
+                Comments = "But I might one day!",
                 RequestedById = mattID,
                 RequestedForId = mattID,
                 Items = RequestItems3,
+                Status = RequestStatus.Reopened,
+                CreatedDate = DateTime.Now,
+                LastModified = DateTime.Now
+            });
+
+            var Req4 = (new Request()
+            {
+                ID = 4,
+                Name = "Requsting iPad for testing purposes",
+                Comments = "In order to test the iOS mobile application I need an iPad Air.",
+                RequestedById = adminID,
+                RequestedForId = mattID,
+                Items = RequestItems4,
                 Status = RequestStatus.Opened,
                 CreatedDate = DateTime.Now,
                 LastModified = DateTime.Now
+            });
 
+            var Req5 = (new Request()
+            {
+                ID = 5,
+                Name = "Requsting iPad for testing purposes",
+                Comments = "In order to test the wireless I would like an iPad.",
+                RequestedById = adminID,
+                RequestedForId = lucasID,
+                Items = RequestItems5,
+                Status = RequestStatus.Completed,
+                CreatedDate = DateTime.Now.AddDays(-7),
+                LastModified = DateTime.Now.AddDays(-3)
             });
 
             REQs.Add(Req1);
             REQs.Add(Req2);
             REQs.Add(Req3);
+            REQs.Add(Req4);
+            REQs.Add(Req5);
 
-            REQs.ForEach(s => context.Requests.AddOrUpdate(p => p.ID, s));
+            foreach(var request in REQs)
+            {
+                context.Requests.AddOrUpdate(x => x.ID, request);
+            }
 
 
+            var Projects = new List<Project>();
+            Projects.Add(new Project()
+            {
+                ProjectID = 1,
+                CreatedByID = adminID,
+                AssignedToID = CoryID,
+                DateNeeded = DateTime.Now.AddDays(7),
+                Comments = "Please make sure all these items are delivered and that the user is satisfied",
+                Status = ProjectStatus.New,
+                RequestID = 1,
+                LastModified = DateTime.Now,
+                CreatedDate = DateTime.Now,
+                Priority = ProjectPriority.Medium,
+            });
+            Projects.Add(new Project()
+            {
+                ProjectID = 2,
+                CreatedByID = adminID,
+                AssignedToID = lucasID,
+                DateNeeded = DateTime.Now.AddDays(-3),
+                Comments = "Please make sure all these items are delivered and that the user is satisfied",
+                Status = ProjectStatus.Completed,
+                RequestID = 5,
+                LastModified = DateTime.Now.AddDays(-2),
+                CreatedDate = DateTime.Now.AddDays(-7),
+                CompletedDate = DateTime.Now.AddDays(-2),
+                Priority = ProjectPriority.Low,
+            });
 
+            Projects.ForEach(s => context.Projects.AddOrUpdate(p => p.ProjectID, s));
+
+            var Tasks = new List<ProjectTask>();
+            Tasks.Add(new ProjectTask()
+            {
+                ID = 1,
+                AssignedToID = lucasID,
+                CreatedByID = adminID,
+                Name = "Delivery Task",
+                ProjectID = 1,
+                CreatedDate = DateTime.Now,
+                Comments = "The user for this sits by the window on the second floor. Please make sure these items get there",
+                Status = ProjectStatus.New,
+                LastModified = DateTime.Now,
+                DateNeeded = DateTime.Now.AddDays(5),
+            });
+            Tasks.Add(new ProjectTask()
+            {
+                ID = 2,
+                AssignedToID = CoryID,
+                CreatedByID = adminID,
+                Name = "Ensure delivery",
+                ProjectID = 1,
+                CreatedDate = DateTime.Now,
+                Comments = "Be sure the other task got completed successfully",
+                Status = ProjectStatus.New,
+                LastModified = DateTime.Now,
+                DateNeeded = DateTime.Now.AddDays(7),
+            });
+            Tasks.Add(new ProjectTask()
+            {
+                ID = 3,
+                AssignedToID = mattID,
+                CreatedByID = adminID,
+                Name = "Ensure delivery",
+                ProjectID = 2,
+                CreatedDate = DateTime.Now.AddDays(-7),
+                Comments = "Ship this out to the user at the following address 323 W 8th St, Kansas City, MO 64105",
+                Status = ProjectStatus.Completed,
+                CompletedDate = DateTime.Now.AddDays(-2),
+                LastModified = DateTime.Now.AddDays(-2),
+                DateNeeded = DateTime.Now.AddDays(-3),
+            });
+
+            Tasks.ForEach(s => context.ProjectTasks.AddOrUpdate(p => p.ID, s));
 
             #endregion
 
