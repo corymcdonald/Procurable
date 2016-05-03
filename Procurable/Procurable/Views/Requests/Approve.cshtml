@@ -50,43 +50,7 @@ else{
                 @Html.DisplayFor(modelItem => item.RequestedFor)
             </td>
             <td data-toggle="modal" data-target="#@item.ID" class="">
-                @if (item.StatusDisplay == "Opened")
-                {
-                    <span class="label label-primary">
-                        @Html.DisplayFor(modelItem => item.StatusDisplay)
-                    </span>
-                }
-                @if (item.StatusDisplay == "Denied")
-                {
-                    <span class="label label-danger">
-                        @Html.DisplayFor(modelItem => item.StatusDisplay)
-                    </span>
-                }
-                @if (item.StatusDisplay == "Approved")
-                {
-                    <span class="label label-success">
-                        @Html.DisplayFor(modelItem => item.StatusDisplay)
-                    </span>
-                }
-                @if (item.StatusDisplay == "InProgress")
-                {
-                    <span class="label label-info">
-                        @Html.DisplayFor(modelItem => item.StatusDisplay)
-                    </span>
-                }
-                @if (item.StatusDisplay == "Reopened")
-                {
-                    <span class="label label-info">
-                        @Html.DisplayFor(modelItem => item.StatusDisplay)
-                    </span>
-                }
-                @if (item.StatusDisplay == "Completed")
-                {
-                    <span class="label label-info">
-                        @Html.DisplayFor(modelItem => item.StatusDisplay)
-                    </span>
-                }
-           
+                @Html.DisplayFor(modelItem => item.Status)           
             </td>
        
             <td style="padding: 5px;">
@@ -105,10 +69,20 @@ else{
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
+                                <h4 class="modal-title">@Html.DisplayFor(modelItem => item.ID) - @Html.DisplayFor(modelItem => item.Name)</h4>
                             </div>
                             <div class="modal-body">
-                                @Html.DisplayFor(modelItem => item.Items)
+                                <div class="row">
+                                    <div class="col-md-12">Created: @Html.DisplayFor(modelItem => item.CreatedDate)</div>
+                                    <div class="col-md-12">Modified: @Html.DisplayFor(modelItem => item.LastModified)</div>
+                                    <div class="col-md-12">Requested By: @Html.DisplayFor(modelItem => item.RequestedBy)</div>
+                                    
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    @Html.DisplayFor(modelItem => item.Items)
+                                </div>
+
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

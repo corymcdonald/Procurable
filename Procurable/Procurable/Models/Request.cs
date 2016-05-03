@@ -39,6 +39,7 @@ namespace Procurable.Models
         [UIHint("ItemList")]
         public virtual ICollection<RequestedItem> Items { get; set; }
 
+        [UIHint("RequestStatus")]
         public RequestStatus Status { get; set; }
         public string StatusDisplay
         {
