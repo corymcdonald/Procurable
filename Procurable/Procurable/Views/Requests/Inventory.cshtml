@@ -12,7 +12,7 @@ else{
 @using (Html.BeginForm())
 {
 
-    <table class="table-hover table">
+    <table class="table-striped table">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ID)
@@ -37,20 +37,56 @@ else{
     {   if (User.IsInRole("Admin") || item.Status == Procurable.Models.RequestStatus.Opened || item.Status == Procurable.Models.RequestStatus.Reopened)
         {
         <tr >
-            <td data-toggle="modal" data-target="#@item.ID" class="RequestID">
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle RequestID">
                 @Html.DisplayFor(modelItem => item.ID)
             </td>
-            <td data-toggle="modal" data-target="#@item.ID" class="">
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
-            <td data-toggle="modal" data-target="#@item.ID" class="">
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
-            <td data-toggle="modal" data-target="#@item.ID" class="">
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
                 @Html.DisplayFor(modelItem => item.RequestedFor)
             </td>
-            <td data-toggle="modal" data-target="#@item.ID" class="">
-                @Html.DisplayFor(modelItem => item.Status)           
+            <td data-toggle="collapse" data-target="#@item.ID" class="accordion-toggle">
+                @if (item.StatusDisplay == "Opened")
+                {
+                    <span class="label label-primary">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "Denied")
+                {
+                    <span class="label label-danger">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "Approved")
+                {
+                    <span class="label label-success">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "InProgress")
+                {
+                    <span class="label label-info">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "Reopened")
+                {
+                    <span class="label label-info">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+                @if (item.StatusDisplay == "Completed")
+                {
+                    <span class="label label-info">
+                        @Html.DisplayFor(modelItem => item.StatusDisplay)
+                    </span>
+                }
+           
             </td>
        
             <td style="padding: 5px;">
@@ -60,48 +96,16 @@ else{
                 </div>
 
             </td>
-            <td>
-                <!-- Modal -->
-                <div id="@item.ID" class="modal" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">@Html.DisplayFor(modelItem => item.ID) - @Html.DisplayFor(modelItem => item.Name)</h4>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-md-12">Created: @Html.DisplayFor(modelItem => item.CreatedDate)</div>
-                                    <div class="col-md-12">Modified: @Html.DisplayFor(modelItem => item.LastModified)</div>
-                                    <div class="col-md-12">Requested By: @Html.DisplayFor(modelItem => item.RequestedBy)</div>
-                                    
-                                </div>
-                                <hr />
-                                <div class="row">
-                                    @Html.DisplayFor(modelItem => item.Items)
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </td>
-           
         </tr>
-       
-
+        <tr style="background: #CECECE">
+            <td colspan="6" class="Hidden" style="padding: 0 !important;"><div  id="@item.ID" class="panel-collapse collapse out">
+                @Html.DisplayFor(modelItem => item.Items)
+            </div></td>
+        </tr>
         }
     }
 
     </table>
-
-    
 
     @Html.Hidden("RequestStatusList")
 

@@ -21,6 +21,8 @@
             {
                 @Html.ActionLink("Create", "SetPassword")
             }
+
+
             ]
         </dd>
         <dt>External Logins:</dt>
@@ -28,6 +30,9 @@
             @Model.Logins.Count [
             @Html.ActionLink("Manage", "ManageLogins") ]
         </dd>
+
+       
+
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
              
@@ -82,3 +87,10 @@
         </dd>
     </dl>
 </div>
+
+@Html.DisplayNameFor(model => model.FirstName)
+@Html.DisplayFor(model => model.FirstName)
+@Html.DisplayNameFor(model => model.LastName)
+@Html.DisplayFor(model => model.FirstName)
+@Model.Department.Name
+@Model.FirstName

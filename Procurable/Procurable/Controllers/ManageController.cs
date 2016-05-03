@@ -64,8 +64,12 @@ namespace Procurable.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            ApplicationUser currentUser = UserManager.FindById(userId);
             var model = new IndexViewModel
             {
+                LastName = currentUser.LastName,
+                FirstName = currentUser.FirstName,
+                Department = currentUser.Department,
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),

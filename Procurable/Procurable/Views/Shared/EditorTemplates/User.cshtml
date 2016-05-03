@@ -1,16 +1,15 @@
 ﻿@model Procurable.Models.ApplicationUser
-
+@Scripts.Render("~/bundles/Handlebars")
 @Scripts.Render("~/bundles/jquery")
 
 
 
-<div id="bloodhound">
-    @Html.TextBox("typeahead", Model == null ? "" : Model.UserName, new { @class = "form-control typeahead", id = "User_query", placeholder = "Search Users", required = "required" })
+<div id="Users">
+    @Html.TextBox("typeahead", Model == null ? "" : Model.UserName, new { @class = "form-control typeahead UserQuery", id = "UserQuery", placeholder = "Search Users", required = "required" })
 </div>
-<input type="hidden" id="UserID" name="UserID"  value="@{ Write(Model == null ? "" : Model.Id.ToString()); } " />
+<input type="hidden" id="UserID" name="UserID" value="@{ Write(Model == null ? "" : Model.Id.ToString()); } " />
 <script>
     $(document).ready(function () {
-
         $.ajax({
             url: '/Account',
             method: 'GET',
@@ -18,28 +17,77 @@
                 Accept: "application/json"
             },
             success: function (result) {
+
+               
+                function defaultUser(q, sync) {
+                    if (q === '') {
+                        sync([result[0], result[1], result[2], result[3]]);
+                    }
+
+                    else {
+                        data.search(q, sync);
+                    }
+                }
+
                 var data = new Bloodhound({
-                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("UserName"),
+                    datumTokenizer: Bloodhound.tokenizers.obj.whitespace("UserName", "FirstName", "LastName"),
                     queryTokenizer: Bloodhound.tokenizers.whitespace,
                     local: result
                 });
+                ayy = data
                 console.log('running typeahead')
-                $('#bloodhound .typeahead').typeahead({
+                $('#Users .typeahead ').typeahead({
                     hint: true,
+                    autoselect: true,
                     highlight: true,
-                    minLength: 1
+                    minLength: 0
                 },
                 {
                     displayKey: 'UserName',
-                    source: data
+                    source: defaultUser,
+                    templates: {
+                        empty: [
+                          '<div style="padding:10px;">',
+                            'Unable to find any User that matches the current query',
+                          '</div>'
+                        ].join('\n'),
+                        suggestion: Handlebars.compile('<div style="width:275px;">' +
+	                                                        '<span style="font-size:1em">' +
+	                                                        '{{FirstName}} {{LastName}}</span>' +
+	                                                        '<br/>' +
+	                                                        '<small>{{UserName}}</small>' +
+                                                        '</div>')
+                    }
                 });
             }
         });
-        $('#User_query').on('typeahead:selected', function (evt, item) {
+        $('#UserQuery').on('typeahead:selected', function (evt, item) {
             $("#UserID").val(item.Id)
         })
 
     })
 
+    dateTimeReviver = function (key, value) {
+        var a;
+        if (typeof value === 'string') {
+            a = /\/Date\((\d*)\)\//.exec(value);
+            if (a) {
+
+                return new Date(+a[1]).toLocaleDateString();
+            }
+        }
+        return value;
+    }
+    Handlebars.registerHelper('truncate', function (str, len) {
+        if (str && str.length > len && str.length > 0) {
+            var new_str = str + " ";
+            new_str = str.substr(0, len);
+            new_str = str.substr(0, new_str.lastIndexOf(" "));
+            new_str = (new_str.length > 0) ? new_str : str.substr(0, len);
+
+            return new Handlebars.SafeString(new_str + '...');
+        }
+        return str;
+    });
 
 </script>

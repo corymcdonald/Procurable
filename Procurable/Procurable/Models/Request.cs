@@ -14,7 +14,8 @@ namespace Procurable.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-     
+
+        [DataType(DataType.MultilineText)]
         public string Comments { get; set; }
 
         [Display(Name = "Created Modified")]
@@ -38,6 +39,7 @@ namespace Procurable.Models
         [UIHint("ItemList")]
         public virtual ICollection<RequestedItem> Items { get; set; }
 
+        [UIHint("RequestStatus")]
         public RequestStatus Status { get; set; }
         public string StatusDisplay
         {

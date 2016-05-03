@@ -8,6 +8,8 @@ using Procurable.Models;
 using Microsoft.AspNet.Identity;
 using System.Web.Script.Serialization;
 using Newtonsoft.Json;
+using System.Net.Mail;
+using System.Collections;
 
 namespace Procurable.Controllers
 {
@@ -124,7 +126,9 @@ namespace Procurable.Controllers
                     
                     ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
                     request.RequestedBy = currentUser;
+                    request.RequestedFor = currentUser;
 
+                    
                     Request.InputStream.Position = 0;
                     System.IO.StreamReader str = new System.IO.StreamReader(Request.InputStream);
                     string rawBody = str.ReadToEnd();
@@ -138,7 +142,7 @@ namespace Procurable.Controllers
                             Comments = item["Comments"],
                             URL = item["Url"],
                         };
-                        List<InventoryItem> results = new InventoryItemsController().SearchInternal(item["Name"]);
+                        List<InventoryItem> results = new InventoryItemsController().SearchForRequest(item["Name"]);
                         if (results.Any())
                         {
                             foreach(var invenItem in results)
@@ -171,8 +175,20 @@ namespace Procurable.Controllers
                     ApplicationUser currentUser = db.Users.Find(User.Identity.GetUserId());
                     request.RequestedBy = currentUser;
                     //System.Diagnostics.Debug.WriteLine(currentUser);
+                    if(Request.Form.Get("UserID") != null && !String.IsNullOrEmpty(Request.Form.Get("UserID").ToString()))
+                    {
+                        ApplicationUser forUser = db.Users.Find(Request.Form.Get("UserID").ToString());
+                        request.RequestedFor = forUser;
+                    }
+                    else
+                    {
+                        request.RequestedFor = currentUser;
+                    }
+                   
+                
 
-                    dynamic RequestItemsJSON= JsonConvert.DeserializeObject(Request.Form.Get("RequestItems"));
+
+                    dynamic RequestItemsJSON = JsonConvert.DeserializeObject(Request.Form.Get("RequestItems"));
                  
 
                     if (RequestItemsJSON != null)
@@ -189,7 +205,7 @@ namespace Procurable.Controllers
                                     URL = item["URL"],
                                 };
 
-                                List<InventoryItem> results = new InventoryItemsController().SearchInternal(item["Name"].ToString());
+                                List<InventoryItem> results = new InventoryItemsController().SearchForRequest(item["Name"].ToString());
                                 if (results.Any())
                                 {
                                     foreach (var invenItem in results)
@@ -293,6 +309,17 @@ namespace Procurable.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             Request request = db.Requests.Find(id);
+
+            ArrayList RemoveList = new ArrayList();
+            foreach (RequestedItem item in request.Items)
+            {
+                RemoveList.Add(item);
+            }
+            foreach(RequestedItem reitem in RemoveList)
+            {
+                db.RequestedItems.Remove(reitem);
+            }
+
             db.Requests.Remove(request);
             db.SaveChanges();
             if (Request.AcceptTypes.Contains("application/json"))
@@ -320,12 +347,95 @@ namespace Procurable.Controllers
             //TODO: check to see if they are in that department
             var dbPost = db.Requests.FirstOrDefault(p => p.ID == id);
 
+            if (dbPost.Status != status)
+            {
+                SendEmail(dbPost, status);
+            }
+
             dbPost.Status = status;
    
             dbPost.LastModified = DateTime.Now;
 
             db.SaveChanges();
             
+        }
+
+        // POST: Requests/UpdateStatus/
+        [HttpPost]
+        [Authorize]
+        public ActionResult BatchUpdateStatus()
+        {
+            dynamic StatusJSON = JsonConvert.DeserializeObject(Request.Form.Get("RequestStatusList"));
+          
+
+            if (StatusJSON != null)
+            {
+                foreach (var item in StatusJSON)
+                {
+                    
+                    int id = int.Parse(item["id"].ToString());
+                    RequestStatus status = (RequestStatus)item["status"];
+
+                    var dbPost = db.Requests.FirstOrDefault(p => p.ID == id);
+                    if(dbPost.Status != status)
+                    {
+                        SendEmail(dbPost, status);
+                    }
+                    dbPost.Status = item["status"];
+                    dbPost.LastModified = DateTime.Now;
+
+                    db.SaveChanges();
+                }
+
+            }
+
+            return RedirectToAction("Index");
+
+        }
+
+        private void SendEmail(Request request, RequestStatus status)
+        {
+            string APIKey = "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";
+
+            var myMessage = new SendGrid.SendGridMessage();
+
+            
+            string statusString = status.ToString();
+
+            myMessage.AddTo(request.RequestedBy.Email.ToString());
+            //myMessage.AddTo("lucas.dorrough.b@gmail.com");
+            System.Diagnostics.Debug.WriteLine(APIKey);
+            myMessage.From = new MailAddress("Admin@Procurable.com", "Administrator");
+            myMessage.Subject = "[Procurable] Request " + request.ID + "has been updated ";
+            myMessage.Html = string.Format(@"<!doctype html><html><head></head><body>
+                                
+                                <table width = ""100%"" style = "" border-collapse: collapse;"">
+                                  <tr bgcolor = ""#121314"">
+                                    <td width = ""5%""></td>
+                                    <td width = ""95%""><h2 style = ""color:#F44336; font-family: Arial""> Procurable </h2></td>
+                                  </tr>
+                                  <td style = ""line-height:10px;"" colspan = 3> &nbsp;</td>
+                                         <tr>
+                                           <td  width = ""5%""></td>
+                                            <td width = ""95%"" style = ""font-family:Arial;"">
+                                                Howdy! This is an automated email from Procurable.<br /> 
+                                                Your request {0} has been updated to a status of {1} <br />
+                                                <br />
+                                                The following actions triggered this alert: <br />
+                                                {1}
+                                    </td>
+                                  </tr>
+                                </table>
+                                </body>
+                                </html>",
+                        request.ID,
+                        statusString);
+
+
+
+            var transportWeb = new SendGrid.Web(APIKey);
+           
+            transportWeb.DeliverAsync(myMessage);
         }
     }
 }
