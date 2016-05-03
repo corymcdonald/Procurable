@@ -148,6 +148,9 @@ body {
   position: fixed;
   top: 50px; }
 
+.navbar {
+  border-top: 1px #121314; }
+
 .divide-nav {
   height: 50px;
   background-color: #3498db; }
@@ -173,6 +176,22 @@ body {
 .nav > li > a:hover, .nav > li > a:focus {
   text-decoration: none;
   background-color: #FF8F86; }
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus, .nav-tabs > li > a:hover {
+  border: none; }
+
+.nav-tabs > li > a:hover {
+  /* border-color: #eee #eee #ddd; */ }
+
+.nav > li > a {
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-bottom: 14px;
+  padding-left: 15px; }
+
+.nav-tabs > li > a {
+  margin: 0px;
+  border: none; }
 
 span.twitter-typeahead .tt-menu,
 span.twitter-typeahead .tt-dropdown-menu {
