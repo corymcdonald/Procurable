@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Procurable.Models.InventoryItem>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Depreciation</h2>
+
+<table class="table">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        
+        <th>
+            @Html.DisplayNameFor(model => model.Depreciation)
+        </th>
+     
+        <th>
+            @Html.DisplayNameFor(model => model.DepreciationRemaining)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DepreciationDate)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.ActionLink(@Html.DisplayFor(modelItem => item.Vendor.Name) + " - " + @Html.DisplayFor(modelItem => item.Name), "Depreciation", new { id = item.ID})
+
+        </td>
+         <td>
+            @Html.DisplayFor(modelItem => item.Status, "InventoryItemStatus")
+        </td>
+        <td>
+            $@Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            $@Html.DisplayFor(modelItem => item.Depreciation)
+        </td>
+        <td>
+            $@Html.DisplayFor(modelItem => item.DepreciationRemaining)
+        </td>
+        <td>
+            @item.DepreciationDate.ToHumanString()
+        </td>
+    </tr>
+}
+
+</table>

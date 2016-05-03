@@ -93,6 +93,7 @@ namespace Procurable.Models
             if (ModelState.IsValid)
             {
                 inventoryItem.DepreciationRemaining = inventoryItem.Price;
+                inventoryItem.CreatedDate = DateTime.Now;
                 db.InventoryItems.Add(inventoryItem);
                 db.SaveChanges();
                 if (Request.AcceptTypes.Contains("application/json"))

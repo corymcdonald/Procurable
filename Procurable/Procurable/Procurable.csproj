@@ -556,10 +556,11 @@
     <Content Include="Views\Shared\DisplayTemplates\InventoryItemsIndex.cshtml" />
     <Content Include="Views\Shared\DisplayTemplates\InventoryItemsSearch.cshtml" />
     <Content Include="Views\InventoryItems\RequestSearch.cshtml" />
+    <Content Include="Views\Reports\Depreciation\Index.cshtml" />
+    <Content Include="Views\Reports\Depreciation\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Reports\Depreciation\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

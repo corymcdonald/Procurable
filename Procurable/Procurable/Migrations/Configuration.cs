@@ -256,7 +256,10 @@ namespace Procurable.Migrations
                 Comments = "Gen 4 i5-4440/ 8GB/ 1TB/ Windows 8.1",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(560.00),
-                PartNumber = "i3847-4616BK"
+                PartNumber = "i3847-4616BK",
+                Depreciation = 30.00M,
+                DepreciationRemaining = 260,
+                CreatedDate = DateTime.Now.AddMonths(-10)
             });
             InventoryItems1.Add(new InventoryItem()
             {
@@ -266,7 +269,10 @@ namespace Procurable.Migrations
                 Comments = "Gen 4 i5-4440/ 8GB/ 1TB/ Windows 8.1",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(560.00),
-                PartNumber = "i3847-4616BK"
+                PartNumber = "i3847-4616BK",
+                  Depreciation = 30.00M,
+                DepreciationRemaining = 260,
+                CreatedDate = DateTime.Now.AddMonths(-10)
             });
             InventoryItems1.Add(new InventoryItem()
             {
@@ -309,6 +315,9 @@ namespace Procurable.Migrations
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(575.00),
                 PartNumber = "MC769LL",
+                Depreciation = 20,
+                CreatedDate = DateTime.Now.AddMonths(-12),
+                DepreciationRemaining = 575 - (20 * 12),
             });
             InventoryItems2.Add(new InventoryItem()
             {
@@ -319,6 +328,9 @@ namespace Procurable.Migrations
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(575.00),
                 PartNumber = "MC769LL",
+                Depreciation = 20,
+                CreatedDate = DateTime.Now.AddMonths(-12),
+                DepreciationRemaining = 575 - (20 * 12),
             });
             InventoryItems2.Add(new InventoryItem()
             {
@@ -329,6 +341,9 @@ namespace Procurable.Migrations
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(575.00),
                 PartNumber = "MC769LL",
+                Depreciation = 20,
+                CreatedDate = DateTime.Now.AddMonths(-14),
+                DepreciationRemaining = 575 - (20 * 14),
             });
             InventoryItems2.Add(new InventoryItem()
             {
@@ -339,6 +354,7 @@ namespace Procurable.Migrations
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(575.00),
                 PartNumber = "MC769LL",
+                CreatedDate = DateTime.Now.AddMonths(-5),
             });
             InventoryItems2.Add(new InventoryItem()
             {
@@ -347,6 +363,7 @@ namespace Procurable.Migrations
                 Name = "One",
                 Comments = "145.75 x 70.8. x 7.26 mm",
                 Status = InventoryStatus.Unallocated,
+                CreatedDate = DateTime.Now.AddMonths(-5),
                 Price = new decimal(599.99),
                 PartNumber = "A9"
             });
@@ -358,7 +375,8 @@ namespace Procurable.Migrations
                 Name = "Digital A6 Color Printer",
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(1300.00),
-                PartNumber = "UPD25MD"
+                PartNumber = "UPD25MD",
+                CreatedDate = DateTime.Now.AddMonths(-5),
             });
             InventoryItems3.Add(new InventoryItem()
             {
@@ -367,6 +385,7 @@ namespace Procurable.Migrations
                 Name = "Microsoft Office Home",
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(124.94),
+                CreatedDate = DateTime.Now.AddMonths(-5),
                 PartNumber = "79G-04368"
             });
             InventoryItems3.Add(new InventoryItem()
@@ -376,6 +395,7 @@ namespace Procurable.Migrations
                 Name = "Microsoft Office Student",
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(94.99),
+                CreatedDate = DateTime.Now.AddMonths(-5),
                 PartNumber = "79G-04332"
             });
 
@@ -386,7 +406,8 @@ namespace Procurable.Migrations
                 Name = "32GB Micro SDHC Card",
                 Status = InventoryStatus.Allocated,
                 Price = new decimal(9.99),
-                PartNumber = "MB-MP32DA/AM"
+                PartNumber = "MB-MP32DA/AM",
+                CreatedDate = DateTime.Now.AddMonths(-5),
             });
             InventoryItems3.Add(new InventoryItem()
             {
@@ -395,7 +416,8 @@ namespace Procurable.Migrations
                 Name = "32GB Micro SDHC Card",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(9.99),
-                PartNumber = "MB-MP32DA/AM"
+                PartNumber = "MB-MP32DA/AM",
+                CreatedDate = DateTime.Now.AddMonths(-5),
             });
             InventoryItems3.Add(new InventoryItem()
             {
@@ -413,7 +435,7 @@ namespace Procurable.Migrations
                 Name = "Aspire",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(465.00),
-                PartNumber = "B0197Z2MN6"
+                PartNumber = "B0197Z2MN6",
             });
             InventoryItems3.Add(new InventoryItem()
             {
@@ -422,7 +444,7 @@ namespace Procurable.Migrations
                 Name = "23-Inch Screen LED-Lit Monitor",
                 Status = InventoryStatus.Unallocated,
                 Price = new decimal(110.48),
-                PartNumber = "G236HL"
+                PartNumber = "G236HL",
             });
 
             InventoryItems1.ForEach(s => context.InventoryItems.AddOrUpdate(p => p.ID, s));
@@ -609,11 +631,19 @@ namespace Procurable.Migrations
 
                     List<InventoryItemHistory> ItemsToInsert = new List<InventoryItemHistory>();
                     inventoryItemReportItem.Price += rand.Next(-100, 100);
+                    if (inventoryItemReportItem.Price <= 0)
+                        inventoryItemReportItem.Price = rand.Next(5, 30);
                     ItemsToInsert.Add(new InventoryItemHistory(inventoryItemReportItem) { Action = InventoryItemHistory.Actions.Update, ModifiedDate = RandomDay() });
                     inventoryItemReportItem.Price += rand.Next(-100, 100);
+                    if (inventoryItemReportItem.Price <= 0)
+                        inventoryItemReportItem.Price = rand.Next(5, 30);
                     ItemsToInsert.Add(new InventoryItemHistory(inventoryItemReportItem) { Action = InventoryItemHistory.Actions.Update, ModifiedDate = RandomDay() });
                     inventoryItemReportItem.Price += rand.Next(-100, 100);
+                    if (inventoryItemReportItem.Price <= 0)
+                        inventoryItemReportItem.Price = rand.Next(5, 30);
                     ItemsToInsert.Add(new InventoryItemHistory(inventoryItemReportItem) { Action = InventoryItemHistory.Actions.Update, ModifiedDate = RandomDay() });
+                    if (inventoryItemReportItem.Price <= 0)
+                        inventoryItemReportItem.Price = rand.Next(5, 30);
                     inventoryItemReportItem.Price += rand.Next(-100, 100);
                     ItemsToInsert.Add(new InventoryItemHistory(inventoryItemReportItem) { Action = InventoryItemHistory.Actions.Update, ModifiedDate = RandomDay() });
 
